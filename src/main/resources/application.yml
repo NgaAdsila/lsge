@@ -14,3 +14,7 @@ spring:
     password: root
 server:
   port: 18081
+
+app:
+  security:
+    non-auth-api: /api/health/*

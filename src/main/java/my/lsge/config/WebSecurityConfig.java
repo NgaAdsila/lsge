@@ -1,39 +1,62 @@
 package my.lsge.config;
 
+import lombok.extern.slf4j.Slf4j;
+import my.lsge.application.filter.ExceptionHandlerFilter;
+import my.lsge.application.filter.JWTAuthorizationFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-@Configuration
+import java.util.Arrays;
+
+@Slf4j
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Value("${app.security.non-auth-api}")
+    private String[] nonAuthAPIs;
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(nonAuthAPIs);
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.cors()
+                .and()
                 .authorizeRequests()
                         .anyRequest().authenticated()
                         .and()
-                .formLogin()
-                        .permitAll()
+                .csrf()
+                        .disable()
+                        .anonymous()
                         .and()
-                .logout()
-                        .permitAll();
+                .addFilterBefore(new JWTAuthorizationFilter(authenticationManager()), LogoutFilter.class)
+                .addFilterBefore(new ExceptionHandlerFilter(), JWTAuthorizationFilter.class)
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Bean
-    @Override
-    public UserDetailsService userDetailsService() {
-        UserDetails user = User.withDefaultPasswordEncoder()
-                                .username("user")
-                                .password("password")
-                                .roles("USER")
-                                .build();
-        return new InMemoryUserDetailsManager(user);
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS", "PUT"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
