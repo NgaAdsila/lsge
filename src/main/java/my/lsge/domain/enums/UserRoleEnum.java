@@ -1,6 +1,6 @@
 package my.lsge.domain.enums;
 
 public enum UserRoleEnum {
-    ADMIN,
-    USER
+    ROLE_USER,
+    ROLE_ADMIN
 }

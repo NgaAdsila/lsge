@@ -1,27 +1,54 @@
 package my.lsge.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@Entity
 @Data
-public class BaseEntity {
-    @Id
-    private int id;
+@MappedSuperclass
+@EntityListeners({AuditingEntityListener.class})
+@Slf4j(topic = "AUDIT")
+public abstract class BaseEntity implements Serializable {
 
-    @JsonProperty("created_at")
+    @Version
+    private Integer version;
+
+    @CreatedDate
     private LocalDateTime createdAt;
 
-    @JsonProperty("created_by")
+    @CreatedBy
     private int createdBy;
 
-    @JsonProperty("modified_at")
+    @LastModifiedDate
     private LocalDateTime modifiedAt;
 
-    @JsonProperty("modified_by")
+    @LastModifiedBy
     private int modifiedBy;
+
+    private boolean isDeleted = false;
+
+    @PostPersist
+    public void onPostPersist() {
+
+    }
+
+    @PostUpdate
+    public void onPostUpdate() {
+    }
+
+    @PostRemove
+    public void onPostRemove() {
+    }
+
+    @PostLoad
+    public void onPostLoad() {
+    }
 }
