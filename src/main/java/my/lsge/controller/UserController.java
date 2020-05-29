@@ -37,4 +37,9 @@ public class UserController extends BaseController {
     public UserIdentityAvailability checkEmailAvailability(@RequestParam("email") String email) {
         return userLogic.checkEmailAvailability(email);
     }
+
+    @GetMapping("/get-role")
+    public String getRole() {
+        return "USER";
+    }
 }
