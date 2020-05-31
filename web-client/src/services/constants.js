@@ -30,5 +30,7 @@ export function fail(message, code) {
 }
 
 export const API_PATH = {
+    AUTH_LOGIN: '/api/auth/signin',
+    AUTH_SIGNUP: '/api/auth/signup',
     USER_ROLE: '/api/users/get-role'
 };

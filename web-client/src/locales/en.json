@@ -1,3 +1,19 @@
 {
-  "message": "hello i18n !!"
+  "login": {
+    "label": {
+      "title": "SIGN IN",
+      "username": "Username",
+      "password": "Password",
+      "re_password": "Re password",
+      "email": "Email",
+      "submit": "Login"
+    },
+    "placeholder": {
+      "username": "Input username",
+      "password": "Input password",
+      "re_password": "Input re password",
+      "email": "Input email"
+    },
+    "remember_me": "Remember me"
+  }
 }
