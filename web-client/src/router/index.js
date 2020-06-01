@@ -7,6 +7,7 @@ import store from '../store/index'
 import ApiService from '../helper/ApiService'
 import { API_PATH } from '../services/constants'
 import { checkRole } from '../services/role'
+import Home from '../components/HelloWorld'
 
 Vue.use(VueRouter);
 
@@ -15,7 +16,17 @@ const routes = [
     path: '/',
     component: BaseLayout,
     meta: { requiresAuth: true },
-    children: []
+    children: [
+      {
+        path: '/home',
+        name: 'Home',
+        component: Home
+      },
+      {
+        path: '/',
+        redirect: '/home'
+      }
+    ]
   },
   {
     path: '/login',
@@ -26,6 +37,10 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register
+  },
+  {
+    path: '*',
+    redirect: '/'
   }
 ];
 
@@ -37,7 +52,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  console.log('Vao day ', store.getters.isLogin);
   if (to.matched.some(r => r.meta.requiresAuth) && !store.getters.isLogin) {
     next({ path: '/login', query: { redirect: to.fullPath } });
   } else {

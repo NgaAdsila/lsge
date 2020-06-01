@@ -1,12 +1,18 @@
 <template>
-    <div class="register-page">
-        REGISTER PAGE
-    </div>
+    <RegisterComponent
+            @register="register"/>
 </template>
 
 <script>
+    import RegisterComponent from "../components/RegisterComponent";
     export default {
-        name: "Register"
+        name: "Register",
+        components: {RegisterComponent},
+        methods: {
+            register(data = {}) {
+                console.log('DATA: ', data);
+            }
+        }
     }
 </script>
 

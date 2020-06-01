@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
+  <b-container>
     <router-view/>
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -11,5 +11,5 @@
 </script>
 
 <style lang="scss">
-
+@import "assets/style/common.scss";
 </style>

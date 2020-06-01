@@ -1,0 +1,6 @@
+.container, .container-lg, .container-md, .container-sm, .container-xl {
+  @media (min-width: 1360px) {
+    max-width: 90%;
+  }
+  margin: 0px auto;
+}

@@ -5,3 +5,8 @@ export async function login(data = {}) {
     const user = await ApiService.post(API_PATH.AUTH_LOGIN, data, {});
     return user;
 }
+
+export async function register(data = {}) {
+    const user = await ApiService.post(API_PATH.AUTH_SIGNUP, data, {});
+    return user;
+}

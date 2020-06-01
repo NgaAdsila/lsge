@@ -13,11 +13,11 @@ const instance = axios.create({
 });
 
 export default {
-    getAxios: () => {
+    getAxios() {
         instance.defaults.headers.common['Authorization'] = 'Bearer ' + store.getters.jwt;
         return instance;
     },
-    get: async (url, config = {}) => {
+    async get(url, config = {}) {
         try {
             const res = await this.getAxios().get(url, config);
             return success(res.data);
@@ -25,7 +25,7 @@ export default {
             return this.handleError(e);
         }
     },
-    post: async (url, data= {}, config = {}) => {
+    async post(url, data= {}, config = {}) {
         try {
             const res = await this.getAxios().post(url, data, config);
             return success(res.data);
@@ -33,7 +33,7 @@ export default {
             return this.handleError(e);
         }
     },
-    put: async (url, data = {}, config = {}) => {
+    async put(url, data = {}, config = {}) {
         try {
             const res = await this.getAxios().put(url, data, config);
             return success(res.data);
@@ -41,7 +41,7 @@ export default {
             return this.handleError(e);
         }
     },
-    remove: async (url, config = {}) => {
+    async remove(url, config = {}) {
         try {
             const res = await this.getAxios().delete(url, config);
             return success(res.data);
@@ -49,7 +49,7 @@ export default {
             return this.handleError(e);
         }
     },
-    handleError: async (e) => {
+    async handleError(e) {
         if (!e || !e.status || !e.message) {
             return fail('Exception', RESPONSE.CODE.EXCEPTION);
         }

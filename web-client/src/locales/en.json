@@ -1,19 +1,40 @@
 {
+  "common": {
+    "label":{
+      "username": "Username",
+      "password": "Password",
+      "email": "Email",
+      "login": "login",
+      "register": "register"
+    },
+    "validation": {
+      "required": "Field {name} is required.",
+      "min": "Field {name} must be at least {min} characters.",
+      "max": "Field {name} cannot exceed {max} characters.",
+      "min_max": "Field {name} must be at least {min} characters and cannot exceed {max} characters.",
+      "strict_password": "Password must use all of the following.\n・ Lowercase half-width alphabet\n・ Uppercase half-width alphabet\n・ Half-width numbers\n・ Symbols (usable symbols !\"# $% & '() * +,-. / :; <=>? @ [] ^ _` {|} ~)"
+    }
+  },
   "login": {
     "label": {
       "title": "SIGN IN",
-      "username": "Username",
-      "password": "Password",
-      "re_password": "Re password",
-      "email": "Email",
-      "submit": "Login"
+      "username": "Username/Email",
+      "remember_me": "Remember me",
+      "submit": "Login",
+      "register_link": "If you have not account. Please ",
+      "register_link2": " now!"
     },
     "placeholder": {
-      "username": "Input username",
-      "password": "Input password",
-      "re_password": "Input re password",
-      "email": "Input email"
-    },
-    "remember_me": "Remember me"
+      "username": "Input username or email",
+      "password": "Input password"
+    }
+  },
+  "register": {
+    "label": {
+      "title": "REGISTER",
+      "re_password": "Re password",
+      "submit": "Register",
+      "login_link": "Go back "
+    }
   }
 }
