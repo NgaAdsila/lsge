@@ -55,21 +55,5 @@ export default {
             return fail('Exception', RESPONSE.CODE.EXCEPTION);
         }
         return fail(e.message, e.status);
-    },
-    async login(url, data = {}, config = {}) {
-        try {
-            const res = await this.getAxios().post(url, data, config);
-            console.log('RES: ', res);
-            return success({
-                enabled: res.data.enabled,
-                id: res.data.id,
-                name: res.data.name,
-                username: res.data.username,
-                role: res.data.authorities[0].authority,
-                authorization: res.headers.Authorization
-            });
-        } catch (e) {
-            return this.handleError(e);
-        }
     }
 }

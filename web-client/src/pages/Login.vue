@@ -16,13 +16,14 @@
                 try {
                     const res = await login(data);
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
-                        const jwt = res.data.tokenType + ' ' + res.data.accessToken,
-                            currentUser = res.data.currentUser;
-                        this.$store.commit('doLogin', {
-                            name: currentUser.name,
-                            role: currentUser.authorities[0].authority
+                        this.$bvToast.toast(this.$t('login.message.success'), {
+                            title: this.$t('common.toast.title'),
+                            toaster: 'b-toaster-top-center',
+                            solid: true,
+                            appendToast: append,
+                            variant: 'success',
+                            'auto-hide-delay': 2000
                         });
-                        this.$store.commit('saveJwt', jwt);
                         this.$router.push('/');
                     } else {
                         console.log('Login ERROR: ', res.message);

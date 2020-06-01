@@ -16,6 +16,9 @@
       "strict_password": "Password must use all of the following:\n・ Lowercase half-width alphabet\n・ Uppercase half-width alphabet\n・ Half-width numbers\n・ Symbols (usable symbols !\"# $% & '() * +,-. / :; <=>? @ [] ^ _` {|} ~)",
       "strict_username": "{name} must use all of the following:\n・ Only contains alphanumeric characters, underscore and dot\n・ Start with alphanumeric characters",
       "invalid_email": "Email is invalid."
+    },
+    "toast": {
+      "title": "Ge-Lsg Message"
     }
   },
   "login": {
@@ -30,6 +33,9 @@
     "placeholder": {
       "username": "Input username or email",
       "password": "Input password"
+    },
+    "message": {
+      "success": "Login success! Welcome you to Ge-Lsg"
     }
   },
   "register": {
