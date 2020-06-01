@@ -1,16 +1,18 @@
 <template>
     <RegisterComponent
-            @register="register"/>
+            @register="onRegister"/>
 </template>
 
 <script>
     import RegisterComponent from "../components/RegisterComponent";
+    import { register } from '../services/user_service.js';
     export default {
         name: "Register",
         components: {RegisterComponent},
         methods: {
-            register(data = {}) {
-                console.log('DATA: ', data);
+            onRegister(data = {}) {
+                const user = register(data);
+                console.log(user);
             }
         }
     }

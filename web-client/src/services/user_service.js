@@ -2,11 +2,9 @@ import ApiService from '../helper/ApiService';
 import { API_PATH } from './constants';
 
 export async function login(data = {}) {
-    const user = await ApiService.post(API_PATH.AUTH_LOGIN, data, {});
-    return user;
+    return await ApiService.login(API_PATH.AUTH_LOGIN, data, {});
 }
 
 export async function register(data = {}) {
-    const user = await ApiService.post(API_PATH.AUTH_SIGNUP, data, {});
-    return user;
+    return await ApiService.post(API_PATH.AUTH_SIGNUP, data, {});
 }

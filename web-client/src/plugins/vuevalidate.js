@@ -4,4 +4,8 @@ import { helpers } from 'vuelidate/lib/validators';
 
 Vue.use(Vuelidate);
 
-export const strictPassword = helpers.regex('strictPassword', /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!-/:-@[-`{-~])[!-~]{8,40}$/);
+export const strictPassword = helpers.regex('strictPassword', /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!-/:-@[-`{-~])[!-~]{8,100}$/);
+
+export const strictUserName = helpers.regex('strictUserName', /^(?=.{4,40}$)[a-zA-Z]+[a-zA-Z0-9._]+$/);
+
+export const matchPassword = (value, vm) => (value === vm.password);

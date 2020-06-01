@@ -52,6 +52,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  console.log('JWT: ', store.getters.jwt);
   if (to.matched.some(r => r.meta.requiresAuth) && !store.getters.isLogin) {
     next({ path: '/login', query: { redirect: to.fullPath } });
   } else {

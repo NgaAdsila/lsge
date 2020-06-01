@@ -2,5 +2,15 @@
   @media (min-width: 1360px) {
     max-width: 90%;
   }
-  margin: 0px auto;
+  margin: 0 auto;
+}
+
+.red {
+  color: #FF0000;
+}
+
+form {
+  .invalid-feedback {
+    white-space: pre;
+  }
 }

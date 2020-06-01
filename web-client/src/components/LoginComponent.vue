@@ -10,11 +10,14 @@
                               maxlength="40"
                               :state="validateState('usernameOrEmail')"
                               aria-describedby="name-live-feedback"
+                              ref="usernameOrEmail"
                               class="grey-text"></b-form-input>
                 <b-form-invalid-feedback id="name-live-feedback">
                     {{ !$v.usernameOrEmail.required
                         ? $t('common.validation.required', { name: $t('login.label.username') })
-                        : $t('common.validation.min_max', { name: $t('login.label.username'), min: 4, max: 40 }) }}
+                        : (!$v.usernameOrEmail.minLength || !$v.usernameOrEmail.maxLength
+                            ? $t('common.validation.min_max', { name: $t('login.label.username'), min: 4, max: 40 })
+                            : $t('common.validation.strict_username', { name: $t('login.label.username') })) }}
                 </b-form-invalid-feedback>
             </b-form-group>
             <b-form-group label-cols="2" label-cols-lg="2" label-size="sm"
@@ -25,6 +28,7 @@
                               maxlength="100"
                               :state="validateState('password')"
                               aria-describedby="password-live-feedback"
+                              ref="password"
                               class="grey-text"></b-form-input>
                 <b-form-invalid-feedback id="password-live-feedback">
                     {{ !$v.password.required
@@ -49,7 +53,7 @@
 <script>
     import { validationMixin } from 'vuelidate';
     import { required, minLength, maxLength } from 'vuelidate/lib/validators';
-    import { strictPassword } from '../plugins/vuevalidate';
+    import { strictPassword, strictUserName } from '../plugins/vuevalidate';
 
     export default {
         name: "LoginComponent",
@@ -64,7 +68,8 @@
             usernameOrEmail: {
                 required,
                 minLength: minLength(4),
-                maxLength: maxLength(40)
+                maxLength: maxLength(40),
+                strictUserName
             },
             password: {
                 required,
@@ -81,6 +86,7 @@
             onLogin() {
                 this.$v.$touch();
                 if (this.$v.$anyError) {
+                    this.focusFirstError();
                     return;
                 }
 
@@ -88,15 +94,19 @@
                     usernameOrEmail: this.usernameOrEmail,
                     password: this.password
                 })
+            },
+            focusFirstError() {
+                const invalidFields = Object.keys(this.$v.$params)
+                    .filter(fn => this.$v[fn].$invalid);
+                if (invalidFields) {
+                    this.$refs[invalidFields[0]].$el.focus();
+                }
             }
         }
     }
 </script>
 
 <style scoped>
-#password-live-feedback {
-    white-space: pre;
-}
 .login-form {
     margin: 20vh auto;
     max-width: 700px;
