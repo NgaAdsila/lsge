@@ -52,7 +52,7 @@ public class AuthLogic extends BaseLogic {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationRes(jwt));
+        return ResponseEntity.ok(new JwtAuthenticationRes(authentication.getPrincipal(), jwt));
     }
 
     public ResponseEntity<?> registerUser(SignUpReq req) {
