@@ -5,28 +5,31 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    isLogin: false,
+    id: null,
+    name: null,
+    role: null,
     jwt: '',
-    userName: '',
-    role: '',
-    userId: null
+    isLogin: false
   },
   getters: {
     isLogin: state => state.isLogin,
     jwt: state => state.jwt,
-    userName: state => state.userName,
     role: state => state.role,
-    userId: state => state.userId
+    id: state => state.id,
+    name: state => state.name
   },
   mutations: {
+    initialiseStore(state) {
+      if (localStorage.getItem('store')) {
+        this.replaceState(Object.assign(state, JSON.parse(localStorage.getItem('store'))));
+      }
+    },
     doLogin: (state, payload) => {
-      state.userName = payload.name;
       state.role = payload.role;
       state.isLogin = true;
       state.userId = payload.userId;
-    },
-    doLogout: (state) => {
-      state.isLogin = false;
+      state.jwt = payload.jwt;
+      state.name = payload.name;
     },
     saveRole: (state, payload) => {
       state.role = payload.role;
@@ -35,11 +38,11 @@ export default new Vuex.Store({
       state.jwt = payload;
     },
     reset: (state) => {
-      state.userName = '';
-      state.role = '';
+      state.role = null;
       state.isLogin = false;
       state.jwt = '';
       state.userId = null;
+      state.name = null;
     }
   }
 })

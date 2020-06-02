@@ -7,12 +7,12 @@ import my.lsge.application.security.UserPrincipal;
 @Getter
 @Setter
 public class JwtAuthenticationRes {
-    private Object currentUser;
+    private Object user;
     private String accessToken;
     private String tokenType = "Bearer";
 
     public JwtAuthenticationRes(Object currentUser, String accessToken) {
-        this.currentUser = currentUser;
+        this.user = currentUser;
         this.accessToken = accessToken;
     }
 }

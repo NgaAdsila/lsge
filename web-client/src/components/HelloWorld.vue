@@ -35,9 +35,6 @@ export default {
   name: 'HelloWorld',
   props: {
     msg: String
-  },
-  created() {
-    console.log('JWT: ', this.$store.getters.jwt);
   }
 }
 </script>

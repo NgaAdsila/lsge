@@ -1,12 +1,14 @@
 {
   "common": {
     "label":{
+      "site_name": "GE-LSG",
       "name": "Full name",
       "username": "Username",
       "password": "Password",
       "email": "Email",
       "login": "login",
-      "register": "register"
+      "register": "register",
+      "sign_out": "Sign Out"
     },
     "validation": {
       "required": "Field {name} is required.",
@@ -35,7 +37,8 @@
       "password": "Input password"
     },
     "message": {
-      "success": "Login success! Welcome you to Ge-Lsg"
+      "success": "Login success! Welcome you to Ge-Lsg",
+      "error": "Login failed. Please double check the information entered"
     }
   },
   "register": {

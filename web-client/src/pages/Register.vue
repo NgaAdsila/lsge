@@ -1,6 +1,8 @@
 <template>
-    <RegisterComponent
-            @register="onRegister"/>
+    <b-container>
+        <RegisterComponent
+                @register="onRegister"/>
+    </b-container>
 </template>
 
 <script>

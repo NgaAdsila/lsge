@@ -1,6 +1,8 @@
 <template>
-    <LoginComponent
-            @login="login" />
+    <b-container>
+        <LoginComponent
+                @login="login" />
+    </b-container>
 </template>
 
 <script>
@@ -16,21 +18,25 @@
                 try {
                     const res = await login(data);
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
-                        this.$bvToast.toast(this.$t('login.message.success'), {
+                        await this.$bvToast.toast(this.$t('login.message.success'), {
                             title: this.$t('common.toast.title'),
                             toaster: 'b-toaster-top-center',
                             solid: true,
-                            appendToast: append,
                             variant: 'success',
-                            'auto-hide-delay': 2000
+                            autoHideDelay: 2000
                         });
                         this.$router.push('/');
-                    } else {
-                        console.log('Login ERROR: ', res.message);
                     }
                 } catch (e) {
                     console.log('Login ERROR: ', e);
                 }
+                this.$bvToast.toast(this.$t('login.message.error'), {
+                    title: this.$t('common.toast.title'),
+                    toaster: 'b-toaster-top-center',
+                    solid: true,
+                    variant: 'danger',
+                    autoHideDelay: 2000
+                });
             }
         }
     }
