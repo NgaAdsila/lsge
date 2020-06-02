@@ -2,6 +2,7 @@
     <div>
         <Header
                 :user="user"
+                @search="searchHeader"
                 @logout="logout"/>
         <b-container>
             <router-view />
@@ -31,6 +32,13 @@
             async logout() {
                 await signOut();
                 this.$router.push({path: '/login'});
+            },
+            searchHeader(keyword = '') {
+                if (!keyword || keyword === '') {
+                    return;
+                }
+                //TODO: search all
+                console.log('SEARCH HEADER: ', keyword);
             }
         }
     }

@@ -1,14 +1,17 @@
 {
   "common": {
     "label":{
-      "site_name": "GE-LSG",
+      "site_name": "Ge-Lsg",
+      "slogan": "Ge - My site - My life",
       "name": "Full name",
       "username": "Username",
       "password": "Password",
       "email": "Email",
       "login": "login",
       "register": "register",
-      "sign_out": "Sign Out"
+      "sign_out": "Sign Out",
+      "search": "Search",
+      "profile": "Profile"
     },
     "validation": {
       "required": "Field {name} is required.",

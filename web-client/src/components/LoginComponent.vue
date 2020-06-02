@@ -39,7 +39,7 @@
                 </b-form-invalid-feedback>
             </b-form-group>
             <div class="text-center mt-4">
-                <b-button type="submit" variant="primary">{{ $t('login.label.submit') }}</b-button>
+                <b-button type="submit" variant="outline-primary">{{ $t('login.label.submit') }}</b-button>
             </div>
             <div class="text-center mt-4">
                 {{ $t('login.label.register_link') }}
