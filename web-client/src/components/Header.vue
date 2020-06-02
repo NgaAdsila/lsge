@@ -1,5 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <b-navbar toggleable="lg" type="dark" variant="info" fixed="top">
+    <b-navbar toggleable="lg" type="dark" variant="info" fixed="top" class="header-container">
         <b-navbar-brand href="/home">
             <b-img src="../assets/logo.png" height="50" :alt="$t('common.label.slogan')" />
         </b-navbar-brand>

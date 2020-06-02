@@ -4,7 +4,7 @@
                 :user="user"
                 @search="searchHeader"
                 @logout="logout"/>
-        <b-container>
+        <b-container fluid>
             <router-view />
         </b-container>
         <Footer />

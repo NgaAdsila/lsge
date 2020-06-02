@@ -56,5 +56,16 @@
         "not_match": "The Re password field must match the Password field"
       }
     }
+  },
+  "footer": {
+    "label": {
+      "documentation": "Documentation",
+      "community": "Community",
+      "release_note": "Release notes"
+    },
+    "message": {
+      "welcome": "Welcome you visit my site! Wish you have a nice day!",
+      "copy_right": "Currently {version} ~ Ge-Lsg©{year}"
+    }
   }
 }
