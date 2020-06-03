@@ -12,7 +12,7 @@ import java.util.List;
 public class BasePaginationFilterRes<T> {
 
     @JsonIgnore
-    private int count;
+    private long count;
 
     private List<T> responses;
 

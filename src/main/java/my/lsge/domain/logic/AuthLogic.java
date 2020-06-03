@@ -6,11 +6,14 @@ import my.lsge.application.dto.auth.JwtAuthenticationRes;
 import my.lsge.application.dto.auth.LoginReq;
 import my.lsge.application.dto.auth.SignUpReq;
 import my.lsge.application.security.JwtTokenProvider;
+import my.lsge.domain.entity.LoginHistory;
 import my.lsge.domain.entity.Role;
 import my.lsge.domain.entity.User;
 import my.lsge.domain.enums.UserRoleEnum;
+import my.lsge.domain.repository.LoginHistoryRepository;
 import my.lsge.domain.repository.RoleRepository;
-import my.lsge.domain.repository.UserRepository;
+import my.lsge.util.ObjectUtils;
+import my.lsge.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +25,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.InetAddress;
 import java.net.URI;
+import java.net.UnknownHostException;
 import java.util.Collections;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -34,6 +40,9 @@ public class AuthLogic extends BaseLogic {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private LoginHistoryRepository loginHistoryRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -51,8 +60,38 @@ public class AuthLogic extends BaseLogic {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        logSignedInHistory(authentication.getPrincipal());
+
         String jwt = tokenProvider.generateToken(authentication);
         return ResponseEntity.ok(new JwtAuthenticationRes(authentication.getPrincipal(), jwt));
+    }
+
+    private User getCurrentUser(Object principal) {
+        if (Utils.isNullOrEmptyObject(principal)) {
+            return null;
+        }
+        try {
+            Map<String, Object> principalMap = ObjectUtils.getFieldNamesAndValues(principal, false);
+            Long userId = Long.parseLong(principalMap.get("id").toString());
+            return userRepository.getOne(userId);
+        } catch (Exception e) {
+            log.error(String.format("Get user error: %s", e));
+        }
+        return null;
+    }
+
+    private void logSignedInHistory(Object principal) {
+        try {
+            User user = getCurrentUser(principal);
+            if (user == null || user.getId() == null) {
+                return;
+            }
+            InetAddress localMachine = InetAddress.getLocalHost();
+            LoginHistory loginHistory = new LoginHistory(user, localMachine.getHostAddress());
+            loginHistoryRepository.save(loginHistory);
+        } catch (UnknownHostException e) {
+            log.error(String.format("Save login history error: %s", e));
+        }
     }
 
     public ResponseEntity<?> registerUser(SignUpReq req) {

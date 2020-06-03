@@ -14,7 +14,7 @@ public class PagingRes {
 
     private int number;
 
-    private int total;
+    private long total;
 
     @JsonProperty("sort_by")
     private String sortBy;

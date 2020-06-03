@@ -5,9 +5,9 @@ CREATE TABLE IF NOT EXISTS `users` (
     `email` varchar(40) NOT NULL,
     `password` varchar(100) NOT NULL,
     `created_at` DATETIME NOT NULL,
-    `created_by` INT(11) NOT NULL,
+    `created_by` bigint(20) NOT NULL,
     `modified_at` DATETIME NOT NULL,
-    `modified_by` INT(11) NOT NULL,
+    `modified_by` bigint(20) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `uk_users_username` (`username`),
     UNIQUE KEY `uk_users_email` (`email`)

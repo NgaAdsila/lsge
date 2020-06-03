@@ -26,6 +26,7 @@
                         <b-avatar variant="success"></b-avatar> <em>{{ user.name }} </em>
                     </template>
                     <b-dropdown-item href="#">{{ $t('common.label.profile') }}</b-dropdown-item>
+                    <b-dropdown-item href="/login-history">{{ $t('common.label.login_history') }}</b-dropdown-item>
                     <b-dropdown-item @click="logout"><b-icon icon="power"></b-icon> {{ $t('common.label.sign_out') }}</b-dropdown-item>
                 </b-nav-item-dropdown>
             </b-navbar-nav>

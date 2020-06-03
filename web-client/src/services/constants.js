@@ -13,6 +13,11 @@ export const RESPONSE = {
     }
 };
 
+export const PAGINATION = {
+    LIMIT: 10,
+    DEFAULT_PAGE: 1
+};
+
 export function success(data) {
     return {
         status: RESPONSE.STATUS.SUCCESS,
@@ -32,5 +37,6 @@ export function fail(message, code) {
 export const API_PATH = {
     AUTH_LOGIN: '/api/auth/signin',
     AUTH_SIGNUP: '/api/auth/signup',
-    USER_ROLE: '/api/users/get-role'
+    USER_ROLE: '/api/users/get-role',
+    LOGIN_HISTORY_FILTER_BY_USER: '/api/login-histories/filter-by-user'
 };

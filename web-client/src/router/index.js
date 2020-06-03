@@ -8,6 +8,7 @@ import ApiService from '../helper/ApiService'
 import { API_PATH } from '../services/constants'
 import { checkRole } from '../services/role'
 import Home from '../pages/Home'
+import LoginHistory from '../pages/login-history/index';
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
         path: '/home',
         name: 'Home',
         component: Home
+      },
+      {
+        path: '/login-history',
+        name: 'Login history',
+        component: LoginHistory
       },
       {
         path: '/',
@@ -62,13 +68,14 @@ router.beforeEach((to, from, next) => {
     ApiService.getAxios().get(API_PATH.USER_ROLE)
       .then(function (res) {
         if (checkRole(to.path, res.data)) {
+          console.log('PASSS');
           next({ path: '/' })
         }
       })
       .catch(function (e) {
         console.log('Login error: ', e);
       })
-  } else if (store.getters.isLogin && to.path.startsWith('/login')) {
+  } else if (store.getters.isLogin && to.path === '/login') {
     next({ path: '/' });
   }
 });

@@ -11,7 +11,9 @@
       "register": "register",
       "sign_out": "Sign Out",
       "search": "Search",
-      "profile": "Profile"
+      "profile": "Profile",
+      "login_history": "Login histories",
+      "home": "Home"
     },
     "validation": {
       "required": "Field {name} is required.",
@@ -24,6 +26,9 @@
     },
     "toast": {
       "title": "Ge-Lsg Message"
+    },
+    "message": {
+      "no_data": "No data to display!"
     }
   },
   "login": {

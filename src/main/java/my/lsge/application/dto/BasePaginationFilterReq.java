@@ -8,9 +8,6 @@ import my.lsge.domain.enums.SortByEnum;
 import my.lsge.domain.enums.SortTypeEnum;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Getter
 @Setter
 public class BasePaginationFilterReq {
@@ -27,7 +24,7 @@ public class BasePaginationFilterReq {
     public BasePaginationFilterReq() {
         this.page = Const.PAGE_DEFAULT;
         this.limit = Const.LIMIT_DAFAULT;
-        this.sortBy = SortByEnum.created_at.name();
+        this.sortBy = SortByEnum.createdAt.name();
         this.sortType = SortTypeEnum.DESC.name();
     }
 

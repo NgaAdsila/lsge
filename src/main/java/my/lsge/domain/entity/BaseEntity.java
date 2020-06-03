@@ -25,13 +25,13 @@ public abstract class BaseEntity implements Serializable {
     private LocalDateTime createdAt;
 
     @CreatedBy
-    private int createdBy;
+    private Long createdBy;
 
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
     @LastModifiedBy
-    private int modifiedBy;
+    private Long modifiedBy;
 
     private boolean isDeleted = false;
 
