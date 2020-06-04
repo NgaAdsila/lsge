@@ -13,7 +13,8 @@
       "search": "Search",
       "profile": "Profile",
       "login_history": "Login histories",
-      "home": "Home"
+      "home": "Home",
+      "keyword": "Keyword"
     },
     "validation": {
       "required": "Field {name} is required.",
@@ -28,7 +29,11 @@
       "title": "Ge-Lsg Message"
     },
     "message": {
-      "no_data": "No data to display!"
+      "no_data": "No data to display!",
+      "total_record": "Total: {number} records"
+    },
+    "placeholder": {
+      "keyword": "Enter keyword"
     }
   },
   "login": {
@@ -71,6 +76,12 @@
     "message": {
       "welcome": "Welcome you visit my site! Wish you have a nice day!",
       "copy_right": "Currently {version} ~ Ge-Lsg©{year}"
+    }
+  },
+  "login_history": {
+    "label": {
+      "login_time": "Login time",
+      "search_form": "Search Form"
     }
   }
 }

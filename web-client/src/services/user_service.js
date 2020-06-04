@@ -1,9 +1,13 @@
 import ApiService from '../helper/ApiService';
 import {API_PATH, RESPONSE, success, fail} from './constants';
 import store from '../store/index';
+import { getBrowser, getOs } from "../helper/detect_browser";
 
 export async function login(data = {}) {
     try {
+        const browser = getBrowser();
+        const os = getOs();
+        data.browser = browser.name + ' v.' + browser.version + ' (' + os.name + ')';
         const res = await ApiService.post(API_PATH.AUTH_LOGIN, data, {});
         if (res.status === RESPONSE.STATUS.ERROR) {
             return res;

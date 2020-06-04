@@ -67,8 +67,7 @@ router.beforeEach((to, from, next) => {
   if (store.getters.isLogin && to.path !== '/login') {
     ApiService.getAxios().get(API_PATH.USER_ROLE)
       .then(function (res) {
-        if (checkRole(to.path, res.data)) {
-          console.log('PASSS');
+        if (!checkRole(to.path, res.data)) {
           next({ path: '/' })
         }
       })

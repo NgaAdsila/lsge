@@ -7,10 +7,11 @@
                     :items="historyList"
                     :fields="fields"
                     :per-page="paging.limit"
-                    :current-page="paging.page"
                     head-variant='light'
+                    responsive
             ></b-table>
             <b-pagination
+                    v-if="paging.total / paging.limit > 1"
                     v-model="paging.page"
                     :total-rows="paging.total"
                     :per-page="paging.limit"
@@ -19,6 +20,7 @@
                     last-number
                     pills
                     align="center"
+                    @change="changePage"
             ></b-pagination>
         </div>
         <div v-else>
@@ -34,7 +36,15 @@
             'historyList',
             'paging',
             'fields'
-        ]
+        ],
+        methods: {
+            changePage(page) {
+                if (page === this.paging.page) {
+                    return;
+                }
+                this.$emit('changePage', page);
+            }
+        }
     }
 </script>
 

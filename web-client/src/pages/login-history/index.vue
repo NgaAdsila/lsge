@@ -1,15 +1,17 @@
 <template>
     <div class="login-history-page">
         <b-breadcrumb :items="crumbItems"></b-breadcrumb>
-        <div class="d-flex justify-content-center mb-3" v-if="!!isLoading">
-            <b-spinner label="Loading..." variant="primary"></b-spinner>
-        </div>
-        <LoginHistoryHeader v-if="!isLoading" />
-        <LoginHistoryComponent
-                v-if="!isLoading"
-                :historyList="historyList"
-                :fields="fields"
-                :paging="paging"/>
+        <b-overlay :show="isLoading" rounded="sm" spinner-variant="primary">
+            <LoginHistoryHeader
+                    :req="req"
+                    :paging="paging"
+                    @search="search" />
+            <LoginHistoryComponent
+                    :historyList="historyList"
+                    :fields="fields"
+                    :paging="paging"
+                    @changePage="getList"/>
+        </b-overlay>
     </div>
 </template>
 
@@ -28,7 +30,9 @@
                 req: {
                     page: PAGINATION.DEFAULT_PAGE,
                     limit: PAGINATION.LIMIT,
-                    keyword: null
+                    keyword: null,
+                    timeFrom: null,
+                    timeTo: null
                 },
                 paging: {
                     page: PAGINATION.DEFAULT_PAGE,
@@ -47,23 +51,25 @@
                     }
                 ],
                 isLoading: true,
-                fields: ['no', 'loginTime', 'ipAddress']
+                fields: ['no', 'loginTime', 'browser', 'ipAddress']
             }
         },
         async mounted() {
             await this.getList();
         },
         methods: {
-            async getList() {
+            async getList(page = PAGINATION.DEFAULT_PAGE) {
                 try {
-                    const res = await filterByUser(this.req);
+                    this.isLoading = true;
+                    const res = await filterByUser({...this.req, ...{page: page || this.paging.page}});
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         let histories = [];
-                        let index = 1;
+                        let index = (res.data.paging.page - 1) * res.data.paging.limit;
                         for (let item of res.data.responses) {
                             histories.push({
-                                no: (res.data.paging.page - 1) * res.data.paging.limit + index++,
+                                no: ++index,
                                 loginTime: item.createdAt,
+                                browser: item.browser,
                                 ipAddress: item.ipAddress
                             })
                         }
@@ -77,6 +83,10 @@
                 } finally {
                     this.isLoading = false;
                 }
+            },
+            async search(searchReq = {}) {
+                this.req = {...this.req, ...searchReq};
+                await this.getList(PAGINATION.DEFAULT_PAGE);
             }
         }
     }

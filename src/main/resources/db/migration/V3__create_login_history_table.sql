@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS `login_histories` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT,
     `user_id` bigint(20) NOT NULL,
     `ip_address` varchar(32) NOT NULL,
+    `browser` varchar(255) NOT NULL,
     `created_at` DATETIME NOT NULL,
     `created_by` bigint(20) NOT NULL,
     `modified_at` DATETIME NOT NULL,

@@ -23,7 +23,7 @@ public class BasePaginationFilterReq {
 
     public BasePaginationFilterReq() {
         this.page = Const.PAGE_DEFAULT;
-        this.limit = Const.LIMIT_DAFAULT;
+        this.limit = Const.LIMIT_DEFAULT;
         this.sortBy = SortByEnum.createdAt.name();
         this.sortType = SortTypeEnum.DESC.name();
     }

@@ -1,4 +1,4 @@
 export function checkRole(path, role) {
     console.log(path, role);
-    return false;
+    return true;
 }

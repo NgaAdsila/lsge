@@ -1,7 +1,9 @@
 package my.lsge.util;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -12,14 +14,12 @@ import lombok.val;
 
 import my.lsge.application.Common.Const;
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 @Slf4j
 public final class Utils {
     private static final List<? extends DateTimeFormatter> DATE_FORMATS = //
-            Arrays.asList(DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"), DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss"), //
-                    DateTimeFormat.forPattern("yyyy-MM-dd HH:mm"), DateTimeFormat.forPattern("yyyy-MM-dd"));
+            Arrays.asList(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"), //
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
     public static <T> boolean isNullOrEmpty(List<T> t) {
         return t == null || t.isEmpty();
@@ -49,50 +49,25 @@ public final class Utils {
         return cal.getTime();
     }
 
-    public static String getUTCDateTimeString(Date date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return simpleDateFormat.format(date);
-    }
-
-    public static Date addMonths(Date source, int months) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(source);
-        c.add(Calendar.MONTH, months);
-        return c.getTime();
-    }
-
-    public static Date addDate(Date source, int days) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(source);
-        c.add(Calendar.DATE, days);
-        return c.getTime();
-    }
-
-    public static Date getAfterMinutes(Date source, int minutes) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(source);
-        c.add(Calendar.MINUTE, minutes);
-        c.set(Calendar.SECOND, 0);
-        c.set(Calendar.MILLISECOND, 0);
-        return c.getTime();
-    }
-
-    public static String formatDate(Date date, int timezoneOffset, String format) {
+    public static String formatDate(LocalDate date, String format) {
         if (date == null) {
             return "";
         }
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        date = new Date(date.getTime() + (date.getTimezoneOffset() - timezoneOffset) * 60 * 1000);
-        return sdf.format(date);
+        return date.format(DateTimeFormatter.ofPattern(format));
     }
 
-    public static Date convertToDate(String source) {
+    public static String formatDateTime(LocalDateTime source, String format) {
+        if (source == null) {
+            return "";
+        }
+        return source.format(DateTimeFormatter.ofPattern(format));
+    }
+
+    public static LocalDateTime convertToDate(String source) {
         if (!StringUtils.isBlank(source)) {
             for (val fmt : DATE_FORMATS) {
                 try {
-                    val d = fmt.parseLocalDateTime(source);
-                    return d.toDate();
+                    return LocalDateTime.parse(source, fmt);
                 } catch (IllegalArgumentException ignored) {
                 }
             }

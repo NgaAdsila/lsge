@@ -22,12 +22,15 @@ public class LoginHistory extends BaseEntity {
     @NotBlank
     private String ipAddress;
 
+    private String browser;
+
     public LoginHistory() {
 
     }
 
-    public LoginHistory(User user, String ipAddress) {
+    public LoginHistory(User user, String ipAddress, String browser) {
         this.user = user;
         this.ipAddress = ipAddress;
+        this.browser = browser;
     }
 }
