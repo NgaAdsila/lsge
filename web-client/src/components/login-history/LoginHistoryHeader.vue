@@ -2,11 +2,11 @@
     <div class="login-history-header">
         <h4 class="text-center text-uppercase font-weight-bold">{{ ($t('common.label.login_history')) }}</h4>
         <b-row>
-            <b-col class="col-9 font-weight-bold login-history-total-record">
+            <b-col class="col-auto col-sm-6 font-weight-bold login-history-total-record">
                 {{ $t('common.message.total_record', { number: paging.total }) }}
             </b-col>
-            <b-col class="col-3 text-right">
-                <b-input-group>
+            <b-col class="col-auto col-sm-6">
+                <b-input-group class="search-key-word">
                     <b-form-input v-model="req.keyword"
                                   maxlength="100"
                                   :placeholder="$t('common.placeholder.keyword')"
@@ -82,6 +82,19 @@
         margin: 1rem;
         .login-history-total-record {
             line-height: 2.375rem;
+        }
+        .search-key-word {
+            max-width: 22rem;
+
+            @media (min-width: 574px) {
+                float: right!important;
+            }
+
+            input {
+                @media (max-width: 486px) {
+                    display: none;
+                }
+            }
         }
     }
     #sidebar-search {
