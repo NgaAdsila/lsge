@@ -86,6 +86,7 @@
         border-top: 3px solid #dee2e6;
     }
     .bd-footer {
+        margin-top: 3rem;
         padding: 2rem 0;
         text-align: center;
         background-color: #eee;

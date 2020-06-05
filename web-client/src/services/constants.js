@@ -38,5 +38,8 @@ export const API_PATH = {
     AUTH_LOGIN: '/api/auth/signin',
     AUTH_SIGNUP: '/api/auth/signup',
     USER_ROLE: '/api/users/get-role',
+    CURRENT_USER: '/api/users/current-user',
+    USER_UPDATE: '/api/users/update',
+    USER_CHANGE_PASSWORD: '/api/users/change-password',
     LOGIN_HISTORY_FILTER_BY_USER: '/api/login-histories/filter-by-user'
 };

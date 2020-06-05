@@ -43,6 +43,9 @@ export default new Vuex.Store({
       state.jwt = '';
       state.userId = null;
       state.name = null;
+    },
+    saveName: (state, payload) => {
+      state.name = payload.name;
     }
   }
 })

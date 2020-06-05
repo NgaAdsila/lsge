@@ -9,6 +9,7 @@ import { API_PATH } from '../services/constants'
 import { checkRole } from '../services/role'
 import Home from '../pages/Home'
 import LoginHistory from '../pages/login-history/index';
+import Profile from '../pages/profile/index';
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,11 @@ const routes = [
         path: '/login-history',
         name: 'Login history',
         component: LoginHistory
+      },
+      {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile
       },
       {
         path: '/',

@@ -40,3 +40,28 @@ export async function signOut() {
     await store.commit('reset');
     await localStorage.removeItem('store');
 }
+
+export async function getCurrentUser() {
+    return await ApiService.get(API_PATH.CURRENT_USER, {});
+}
+
+export async function update(req = {}) {
+    const res = await ApiService.put(API_PATH.USER_UPDATE, {
+        id: req.id,
+        name: req.name,
+        email: req.email
+    }, {});
+    if (res.status === RESPONSE.STATUS.SUCCESS && store.getters.name !== req.name) {
+        store.commit('saveName', {
+            name: req.name
+        });
+        const userLocal = JSON.parse(localStorage.getItem('store'));
+        userLocal.name = req.name;
+        localStorage.setItem('store', JSON.stringify(userLocal));
+    }
+    return res;
+}
+
+export async function changePassword(req = {}) {
+    return await ApiService.put(API_PATH.USER_CHANGE_PASSWORD, req, {});
+}

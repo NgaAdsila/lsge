@@ -95,6 +95,7 @@ public class AuthLogic extends BaseLogic {
     }
 
     public ResponseEntity<?> registerUser(SignUpReq req) {
+        req.normalize();
         if(userRepository.existsByUsername(req.getUsername())) {
             return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
                     HttpStatus.BAD_REQUEST);

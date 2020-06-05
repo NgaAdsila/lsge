@@ -9,3 +9,5 @@ export const strictPassword = helpers.regex('strictPassword', /^(?=.*[a-z])(?=.*
 export const strictUserName = helpers.regex('strictUserName', /^(?=.{4,40}$)[a-zA-Z]+[a-zA-Z0-9._]+$/);
 
 export const matchPassword = (value, vm) => (value === vm.password);
+
+export const notMatchOldPassword = (value, vm) => (value !== vm.oldPassword);

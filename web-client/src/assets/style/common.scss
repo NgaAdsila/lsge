@@ -29,3 +29,48 @@ form {
     display: none;
   }
 }
+
+/** -------Collapse icon style------- */
+.collapse-icon {
+  position: absolute;
+  right: 0.5rem;
+
+  .b-icon {
+    color: #7952b3;
+  }
+}
+
+.collapsed > .collapse-icon {
+  animation-name: collapse-icon-animation;
+  animation-duration: 0.2s;
+  animation-direction: normal;
+  animation-timing-function: linear;
+  animation-fill-mode:forwards;
+}
+
+:not(.collapsed) > .collapse-icon {
+  animation-name: not-collapse-icon-animation;
+  animation-duration: 0.2s;
+  animation-direction: normal;
+  animation-timing-function: linear;
+  animation-fill-mode:forwards;
+}
+
+@keyframes collapse-icon-animation {
+  0% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes not-collapse-icon-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(90deg);
+  }
+}
+/** -------End collapse icon style------- */

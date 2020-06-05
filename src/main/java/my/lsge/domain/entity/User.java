@@ -41,7 +41,7 @@ public class User extends BaseEntity {
     private String username;
 
     @NotBlank
-    @NaturalId
+    @NaturalId(mutable = true)
     @Size(max = 40)
     @Email
     private String email;

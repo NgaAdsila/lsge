@@ -13,6 +13,10 @@ public class BaseLogic {
 
     void validateUser(Long userId) {
         User user = userRepository.getOne(userId);
+        validateUser(user);
+    }
+
+    void validateUser(User user) {
         if (user == null || user.isDeleted()) {
             throw new ForbiddenException();
         }
