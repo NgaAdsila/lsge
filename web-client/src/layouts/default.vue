@@ -31,7 +31,8 @@
         methods: {
             async logout() {
                 await signOut();
-                this.$router.push({path: '/login'});
+
+                await this.$router.push({path: '/login'});
             },
             searchHeader(keyword = '') {
                 if (!keyword || keyword === '') {

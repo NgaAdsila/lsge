@@ -112,7 +112,7 @@
                             variant: 'success',
                             autoHideDelay: 2000
                         });
-                        this.$router.push({path: '/login'});
+                        await this.$router.push({path: '/login'});
                     } else {
                         this.$bvToast.toast(res.message, {
                             title: this.$t('common.toast.title'),

@@ -20,14 +20,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fef0acaa-8523-4244-a52d-c69d1f481c89" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/messages.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/lsge_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/lsge_war_exploded.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/my/lsge/domain/entity/BaseEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/my/lsge/domain/entity/BaseEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/entity/BaseEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/my/lsge/domain/entity/BaseEntity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web-client/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/public/favicon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web-client/src/assets/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/assets/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lsge.iml" beforeDir="false" afterPath="$PROJECT_DIR$/lsge.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/my/lsge/application/security/ResponseBody.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/my/lsge/application/security/ResponseBody.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/my/lsge/config/WebMvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/my/lsge/config/WebMvcConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/my/lsge/domain/logic/AuthLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/my/lsge/domain/logic/AuthLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/my/lsge/domain/logic/BaseLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/my/lsge/domain/logic/BaseLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/my/lsge/domain/logic/UserLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/my/lsge/domain/logic/UserLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/logic/AuthLogic.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/my/lsge/domain/logic/AuthLogic.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/logic/BaseLogic.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/my/lsge/domain/logic/BaseLogic.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/components/Footer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/components/Footer.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/components/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/components/Header.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/components/RegisterComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/components/RegisterComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/components/login-history/LoginHistoryComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/components/login-history/LoginHistoryComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/components/login-history/LoginHistoryHeader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/components/login-history/LoginHistoryHeader.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/helper/ApiService.js" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/helper/ApiService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/layouts/default.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/layouts/default.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/locales/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/locales/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/pages/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/pages/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/pages/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/pages/Register.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/pages/login-history/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/pages/login-history/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/pages/profile/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/pages/profile/index.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,23 +139,25 @@
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/web-client/src/plugins" />
-      <recent name="$PROJECT_DIR$/web-client/src" />
-    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="my.lsge.application.dto" />
       <recent name="my.lsge.application" />
       <recent name="my.lsge.domain" />
       <recent name="my.lsge.appication" />
     </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Work\code\lsge\web-client\public" />
+      <recent name="D:\Work\code\lsge\web-client\src\assets" />
+      <recent name="$PROJECT_DIR$/src/main/resources/db/migration" />
+      <recent name="$PROJECT_DIR$/web-client/public" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="my.lsge.domain.repository" />
       <recent name="my.lsge.domain.entity" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/db/migration" />
-      <recent name="$PROJECT_DIR$/web-client/public" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/web-client/src/plugins" />
+      <recent name="$PROJECT_DIR$/web-client/src" />
     </key>
   </component>
   <component name="RunManager">
@@ -189,7 +207,9 @@
       <workItem from="1591234451972" duration="22735000" />
       <workItem from="1591321088288" duration="197000" />
       <workItem from="1591321424091" duration="24364000" />
-      <workItem from="1591376025282" duration="780000" />
+      <workItem from="1591376025282" duration="2658000" />
+      <workItem from="1591545063738" duration="134000" />
+      <workItem from="1591545221472" duration="4974000" />
     </task>
     <servers />
   </component>
@@ -243,62 +263,62 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="395" height="466" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1591376365166" />
-    <state x="740" y="261" key="FileChooserDialogImpl" timestamp="1591376393025">
+    <state x="740" y="261" key="FileChooserDialogImpl" timestamp="1591545193175">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="261" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1591376393025" />
-    <state width="1877" height="175" key="GridCell.Tab.0.bottom" timestamp="1591376475866">
+    <state x="740" y="261" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1591545193175" />
+    <state width="1877" height="481" key="GridCell.Tab.0.bottom" timestamp="1591546318375">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="175" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591376475866" />
-    <state width="1877" height="175" key="GridCell.Tab.0.center" timestamp="1591376475865">
+    <state width="1877" height="481" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
+    <state width="1877" height="481" key="GridCell.Tab.0.center" timestamp="1591546318375">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="175" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591376475865" />
-    <state width="1877" height="175" key="GridCell.Tab.0.left" timestamp="1591376475865">
+    <state width="1877" height="481" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
+    <state width="1877" height="481" key="GridCell.Tab.0.left" timestamp="1591546318374">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="175" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591376475865" />
-    <state width="1877" height="175" key="GridCell.Tab.0.right" timestamp="1591376475865">
+    <state width="1877" height="481" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318374" />
+    <state width="1877" height="481" key="GridCell.Tab.0.right" timestamp="1591546318375">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="175" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591376475865" />
-    <state width="1877" height="175" key="GridCell.Tab.1.bottom" timestamp="1591376475866">
+    <state width="1877" height="481" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
+    <state width="1877" height="481" key="GridCell.Tab.1.bottom" timestamp="1591546318375">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="175" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591376475866" />
-    <state width="1877" height="175" key="GridCell.Tab.1.center" timestamp="1591376475866">
+    <state width="1877" height="481" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
+    <state width="1877" height="481" key="GridCell.Tab.1.center" timestamp="1591546318375">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="175" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591376475866" />
-    <state width="1877" height="175" key="GridCell.Tab.1.left" timestamp="1591376475866">
+    <state width="1877" height="481" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
+    <state width="1877" height="481" key="GridCell.Tab.1.left" timestamp="1591546318375">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="175" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591376475866" />
-    <state width="1877" height="175" key="GridCell.Tab.1.right" timestamp="1591376475866">
+    <state width="1877" height="481" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
+    <state width="1877" height="481" key="GridCell.Tab.1.right" timestamp="1591546318375">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="175" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591376475866" />
-    <state width="1877" height="175" key="GridCell.Tab.2.bottom" timestamp="1591376475866">
+    <state width="1877" height="481" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
+    <state width="1877" height="481" key="GridCell.Tab.2.bottom" timestamp="1591546318375">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="175" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591376475866" />
-    <state width="1877" height="175" key="GridCell.Tab.2.center" timestamp="1591376475866">
+    <state width="1877" height="481" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
+    <state width="1877" height="481" key="GridCell.Tab.2.center" timestamp="1591546318375">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="175" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591376475866" />
-    <state width="1877" height="175" key="GridCell.Tab.2.left" timestamp="1591376475866">
+    <state width="1877" height="481" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
+    <state width="1877" height="481" key="GridCell.Tab.2.left" timestamp="1591546318375">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="175" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591376475866" />
-    <state width="1877" height="175" key="GridCell.Tab.2.right" timestamp="1591376475866">
+    <state width="1877" height="481" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
+    <state width="1877" height="481" key="GridCell.Tab.2.right" timestamp="1591546318375">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="175" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591376475866" />
-    <state x="880" y="98" key="SettingsEditor" timestamp="1591376012363">
+    <state width="1877" height="481" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
+    <state x="880" y="98" key="SettingsEditor" timestamp="1591545197437">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="880" y="98" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1591376012363" />
+    <state x="880" y="98" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1591545197437" />
     <state x="1096" y="244" key="run.anything.popup" timestamp="1590914433295">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

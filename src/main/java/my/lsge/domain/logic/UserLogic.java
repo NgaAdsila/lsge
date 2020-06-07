@@ -7,7 +7,6 @@ import my.lsge.application.dto.user.UserIdentityAvailability;
 import my.lsge.application.dto.user.UserSummary;
 import my.lsge.application.exception.ForbiddenException;
 import my.lsge.application.exception.FormValidationException;
-import my.lsge.application.security.UserPrincipal;
 import my.lsge.domain.entity.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +57,7 @@ public class UserLogic extends BaseLogic {
         }
         req.normalize();
         if (!user.getEmail().equalsIgnoreCase(req.getEmail()) && userRepository.existsByEmail(req.getEmail())) {
-            throw new FormValidationException("Email Address already in use!");
+            throw new FormValidationException(language.getString("valid.user.email.is_existed"));
         }
     }
 
@@ -79,7 +78,7 @@ public class UserLogic extends BaseLogic {
     private void validateChangingPasswordReq(ChangingPasswordReq req, User user) {
         if (StringUtils.isBlank(req.getOldPassword()) ||
                 !passwordEncoder.matches(req.getOldPassword(), user.getPassword())) {
-            throw new FormValidationException("Old password is incorrect!");
+            throw new FormValidationException(language.getString("valid.user.change_password.old_password_not_match"));
         }
     }
 }

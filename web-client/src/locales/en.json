@@ -15,7 +15,10 @@
       "login_history": "Login histories",
       "home": "Home",
       "keyword": "Keyword",
-      "save": "Save"
+      "save": "Save",
+      "about_me": "About me",
+      "contact_us": "Contact us",
+      "reset": "Reset"
     },
     "validation": {
       "required": "Field {name} is required.",

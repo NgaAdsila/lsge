@@ -84,7 +84,10 @@
                 </b-form-invalid-feedback>
             </b-form-group>
             <div class="text-center mt-4">
-                <b-button type="submit" variant="outline-primary">{{ $t('register.label.submit') }}</b-button>
+                <b-button type="submit"
+                          :disabled="!!isSubmit"
+                          :readonly="!!isSubmit"
+                          variant="outline-primary">{{ $t('register.label.submit') }}</b-button>
             </div>
             <div class="text-center mt-4">
                 {{ $t('register.label.login_link') }}
@@ -102,6 +105,9 @@
     export default {
         name: "RegisterComponent",
         mixins: [validationMixin],
+        props: [
+            'isSubmit'
+        ],
         data() {
             return {
                 name: '',

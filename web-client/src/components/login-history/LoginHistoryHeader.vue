@@ -21,8 +21,7 @@
                                     <b-form-input id="input-keyword" size="sm"
                                                   v-model="req.keyword"
                                                   :placeholder="$t('common.placeholder.keyword')"
-                                                  maxlength="100"
-                                                  class="grey-text"></b-form-input>
+                                                  maxlength="100"></b-form-input>
                                 </b-form-group>
                                 <b-form-group :label="$t('login_history.label.login_time')"
                                               label-for="input-timeFrom">
@@ -48,8 +47,13 @@
                                                        placeholder="Choose time to"></b-form-datepicker>
                                 </b-form-group>
                                 <hr/>
-                                <div class="text-center mt-4">
+                                <div class="text-center">
+                                    <b-button variant="danger"
+                                              inline
+                                              class="button-reset"
+                                              @click="resetReq">{{ $t('common.label.reset') }}</b-button>
                                     <b-button type="submit"
+                                              inline
                                               v-b-toggle.sidebar-search
                                               variant="outline-primary">{{ $t('common.label.search') }}</b-button>
                                 </div>
@@ -72,6 +76,9 @@
         methods: {
             search() {
                 this.$emit('search', this.req);
+            },
+            resetReq() {
+                this.$emit('resetReq');
             }
         }
     }
@@ -103,6 +110,9 @@
         }
         .search-range-symbol {
             margin-left: 49%;
+        }
+        .button-reset {
+            margin-right: 1rem;
         }
     }
 </style>

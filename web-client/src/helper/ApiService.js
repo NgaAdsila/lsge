@@ -52,10 +52,9 @@ export default {
         }
     },
     async handleError(e) {
-        console.log(e);
-        if (!e || !e.data || !e.data.body) {
+        if (!e || !e.data || !e.data.message) {
             return fail(i18n.t('common.validation.exception'), RESPONSE.CODE.EXCEPTION);
         }
-        return fail(e.data.body, e.status);
+        return fail(e.data.message, e.status);
     }
 }

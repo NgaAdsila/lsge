@@ -75,7 +75,7 @@ public class AuthLogic extends BaseLogic {
             Long userId = Long.parseLong(principalMap.get("id").toString());
             return userRepository.getOne(userId);
         } catch (Exception e) {
-            log.error(String.format("Get user error: %s", e));
+            log.error(String.format(language.getString("login.get_user_error"), e));
         }
         return null;
     }
@@ -90,19 +90,19 @@ public class AuthLogic extends BaseLogic {
             LoginHistory loginHistory = new LoginHistory(user, localMachine.getHostAddress(), browser);
             loginHistoryRepository.save(loginHistory);
         } catch (UnknownHostException e) {
-            log.error(String.format("Save login history error: %s", e));
+            log.error(String.format(language.getString("login.save_history.error"), e));
         }
     }
 
     public ResponseEntity<?> registerUser(SignUpReq req) {
         req.normalize();
         if(userRepository.existsByUsername(req.getUsername())) {
-            return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
+            return new ResponseEntity(new ApiResponse(false, language.getString("valid.user.username.is_existed")),
                     HttpStatus.BAD_REQUEST);
         }
 
         if(userRepository.existsByEmail(req.getEmail())) {
-            return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
+            return new ResponseEntity(new ApiResponse(false, language.getString("valid.user.email.is_existed")),
                     HttpStatus.BAD_REQUEST);
         }
 
@@ -113,7 +113,7 @@ public class AuthLogic extends BaseLogic {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         Role userRole = roleRepository.findByName(UserRoleEnum.ROLE_USER)
-                .orElseThrow(() -> new RuntimeException("User Role not set."));
+                .orElseThrow(() -> new RuntimeException(language.getString("valid.user.role_not_set")));
 
         user.setRoles(Collections.singleton(userRole));
 
@@ -123,6 +123,6 @@ public class AuthLogic extends BaseLogic {
                 .fromCurrentContextPath().path("/users/{username}")
                 .buildAndExpand(result.getUsername()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+        return ResponseEntity.created(location).body(new ApiResponse(true, language.getString("register.message.successfully")));
     }
 }

@@ -5,6 +5,7 @@
             <LoginHistoryHeader
                     :req="req"
                     :paging="paging"
+                    @resetReq="resetReq"
                     @search="search" />
             <LoginHistoryComponent
                     :historyList="historyList"
@@ -87,6 +88,11 @@
             async search(searchReq = {}) {
                 this.req = {...this.req, ...searchReq};
                 await this.getList(PAGINATION.DEFAULT_PAGE);
+            },
+            resetReq() {
+                this.req.keyword = null;
+                this.req.timeFrom = null;
+                this.req.timeTo = null;
             }
         }
     }

@@ -44,15 +44,15 @@
             return {
                 documentList: [
                     {
-                        label: 'Home',
+                        label: this.$t('common.label.home'),
                         link: '/home'
                     },
                     {
-                        label: 'About me',
+                        label: this.$t('common.label.about_me'),
                         link: '#'
                     },
                     {
-                        label: 'Contact us',
+                        label: this.$t('common.label.contact_us'),
                         link: '#'
                     }
                 ],

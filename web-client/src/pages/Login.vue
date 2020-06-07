@@ -18,14 +18,15 @@
                 try {
                     const res = await login(data);
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
-                        await this.$bvToast.toast(this.$t('login.message.success'), {
+                        this.$bvToast.toast(this.$t('login.message.success'), {
                             title: this.$t('common.toast.title'),
                             toaster: 'b-toaster-top-center',
                             solid: true,
                             variant: 'success',
                             autoHideDelay: 2000
                         });
-                        this.$router.push('/');
+                        await this.$router.push('/');
+                        return;
                     }
                 } catch (e) {
                     console.log('Login ERROR: ', e);

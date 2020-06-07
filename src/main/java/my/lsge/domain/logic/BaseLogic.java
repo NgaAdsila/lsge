@@ -6,10 +6,15 @@ import my.lsge.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ResourceBundle;
+
 @Component
 public class BaseLogic {
     @Autowired
     protected UserRepository userRepository;
+
+    @Autowired
+    ResourceBundle language;
 
     void validateUser(Long userId) {
         User user = userRepository.getOne(userId);

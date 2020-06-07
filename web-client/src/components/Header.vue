@@ -23,7 +23,7 @@
                 <b-nav-item-dropdown right>
                     <!-- Using 'button-content' slot -->
                     <template v-slot:button-content>
-                        <b-avatar variant="success"></b-avatar> <em>{{ $store.getters.name }} </em>
+                        <b-avatar variant="success" :text="$store.getters.name.toUpperCase().charAt(0)"></b-avatar> <em>{{ $store.getters.name }} </em>
                     </template>
                     <b-dropdown-item href="/profile">{{ $t('common.label.profile') }}</b-dropdown-item>
                     <b-dropdown-item href="/login-history">{{ $t('common.label.login_history') }}</b-dropdown-item>
