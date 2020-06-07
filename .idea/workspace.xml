@@ -20,30 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fef0acaa-8523-4244-a52d-c69d1f481c89" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/messages.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/lsge_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/lsge_war_exploded.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web-client/src/components/modal/ConfirmModal.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lsge.iml" beforeDir="false" afterPath="$PROJECT_DIR$/lsge.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/my/lsge/application/security/ResponseBody.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/my/lsge/application/security/ResponseBody.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/my/lsge/config/WebMvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/my/lsge/config/WebMvcConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/my/lsge/domain/logic/AuthLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/my/lsge/domain/logic/AuthLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/my/lsge/domain/logic/BaseLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/my/lsge/domain/logic/BaseLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/my/lsge/domain/logic/UserLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/my/lsge/domain/logic/UserLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/logic/AuthLogic.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/my/lsge/domain/logic/AuthLogic.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/logic/BaseLogic.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/my/lsge/domain/logic/BaseLogic.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web-client/src/components/Footer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/components/Footer.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web-client/src/components/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/components/Header.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web-client/src/components/RegisterComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/components/RegisterComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web-client/src/components/login-history/LoginHistoryComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/components/login-history/LoginHistoryComponent.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web-client/src/components/login-history/LoginHistoryHeader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/components/login-history/LoginHistoryHeader.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web-client/src/helper/ApiService.js" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/helper/ApiService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web-client/src/layouts/default.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/layouts/default.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web-client/src/locales/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/locales/en.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web-client/src/pages/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/pages/Login.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web-client/src/pages/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/pages/Register.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web-client/src/pages/login-history/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/pages/login-history/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web-client/src/pages/profile/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/pages/profile/index.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,8 +71,8 @@
         <option value="Enum" />
         <option value="Interface" />
         <option value="JavaScript File" />
-        <option value="Vue Single File Component" />
         <option value="Class" />
+        <option value="Vue Single File Component" />
       </list>
     </option>
   </component>
@@ -209,7 +190,7 @@
       <workItem from="1591321424091" duration="24364000" />
       <workItem from="1591376025282" duration="2658000" />
       <workItem from="1591545063738" duration="134000" />
-      <workItem from="1591545221472" duration="4974000" />
+      <workItem from="1591545221472" duration="7025000" />
     </task>
     <servers />
   </component>
@@ -319,9 +300,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="880" y="98" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1591545197437" />
-    <state x="1096" y="244" key="run.anything.popup" timestamp="1590914433295">
+    <state x="1096" y="244" key="run.anything.popup" timestamp="1591550639696">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="1096" y="244" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1590914433295" />
+    <state x="1096" y="244" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1591550639695" />
   </component>
 </project>

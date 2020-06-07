@@ -25,9 +25,15 @@
                     <template v-slot:button-content>
                         <b-avatar variant="success" :text="$store.getters.name.toUpperCase().charAt(0)"></b-avatar> <em>{{ $store.getters.name }} </em>
                     </template>
-                    <b-dropdown-item href="/profile">{{ $t('common.label.profile') }}</b-dropdown-item>
-                    <b-dropdown-item href="/login-history">{{ $t('common.label.login_history') }}</b-dropdown-item>
-                    <b-dropdown-item @click="logout"><b-icon icon="power"></b-icon> {{ $t('common.label.sign_out') }}</b-dropdown-item>
+                    <b-dropdown-item href="/profile" :active="$route.path === '/profile'">
+                        <b-icon icon="person-square"></b-icon> {{ $t('common.label.profile') }}
+                    </b-dropdown-item>
+                    <b-dropdown-item href="/login-history" :active="$route.path === '/login-history'">
+                        <b-icon icon="arrow-counterclockwise"></b-icon> {{ $t('common.label.login_history') }}
+                    </b-dropdown-item>
+                    <b-dropdown-item @click="logout">
+                        <b-icon icon="power"></b-icon> {{ $t('common.label.sign_out') }}
+                    </b-dropdown-item>
                 </b-nav-item-dropdown>
             </b-navbar-nav>
         </b-collapse>

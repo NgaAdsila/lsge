@@ -33,6 +33,9 @@
     "toast": {
       "title": "Ge-Lsg Message"
     },
+    "modal": {
+      "confirm_title": "Ge-Lsg Confirm Dialog"
+    },
     "message": {
       "no_data": "No data to display!",
       "total_record": "Total: {number} records",
@@ -102,6 +105,11 @@
     },
     "validation": {
       "match_old_password": "The Password field must not match the Old Password field"
+    }
+  },
+  "logout": {
+    "message": {
+      "question": "Are you sure you want to logout?"
     }
   }
 }

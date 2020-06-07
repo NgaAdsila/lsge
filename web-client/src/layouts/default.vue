@@ -8,6 +8,7 @@
             <router-view />
         </b-container>
         <Footer />
+        <ConfirmModal :message="confirmMessage" @onOk="onOk" />
     </div>
 </template>
 
@@ -15,14 +16,16 @@
     import Header from "../components/Header";
     import Footer from "../components/Footer";
     import { signOut } from '../services/user_service';
+    import ConfirmModal from "../components/modal/ConfirmModal";
     export default {
         name: "default",
-        components: {Footer, Header},
+        components: {ConfirmModal, Footer, Header},
         data() {
             return {
                 user: {
                     name: ''
-                }
+                },
+                confirmMessage: ''
             }
         },
         created() {
@@ -30,9 +33,8 @@
         },
         methods: {
             async logout() {
-                await signOut();
-
-                await this.$router.push({path: '/login'});
+                this.confirmMessage = this.$t('logout.message.question');
+                this.$bvModal.show('modal-confirm');
             },
             searchHeader(keyword = '') {
                 if (!keyword || keyword === '') {
@@ -40,6 +42,11 @@
                 }
                 //TODO: search all
                 console.log('SEARCH HEADER: ', keyword);
+            },
+            async onOk() {
+                this.$bvModal.hide('modal-confirm');
+                await signOut();
+                await this.$router.push({path: '/login'});
             }
         }
     }
