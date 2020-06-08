@@ -123,6 +123,8 @@ public class AuthLogic extends BaseLogic {
                 .fromCurrentContextPath().path("/users/{username}")
                 .buildAndExpand(result.getUsername()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, language.getString("register.message.successfully")));
+        return ResponseEntity
+                .created(location)
+                .body(new ApiResponse(true, language.getString("register.message.successfully")));
     }
 }

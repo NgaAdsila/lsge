@@ -3,6 +3,7 @@ package my.lsge.controller;
 import my.lsge.application.dto.auth.LoginReq;
 import my.lsge.application.dto.auth.SignUpReq;
 import my.lsge.domain.logic.AuthLogic;
+import my.lsge.domain.logic.MailLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,9 @@ public class AuthController {
     @Autowired
     private AuthLogic authLogic;
 
+    @Autowired
+    private MailLogic mailLogic;
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginReq req) {
         return authLogic.authenticateUser(req);
@@ -26,6 +30,8 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpReq req) {
-        return authLogic.registerUser(req);
+        ResponseEntity<?> res = authLogic.registerUser(req);
+        mailLogic.sendRegisterMail(req);
+        return res;
     }
 }
