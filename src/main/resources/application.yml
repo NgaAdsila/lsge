@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/lsge?useTimezone=true&serverTimezone=UTC
     username: root
-    password: root
+    password:
   jpa:
     hibernate:
       ddl-auto: update
@@ -11,9 +11,21 @@ spring:
     schemas: lsge
     enabled: true
     user: root
-    password: root
+    password:
+  session:
+    store-type: redis
+    redis:
+      flush-mode: on_save
+      namespace: spring:session
+  redis:
+    host: localhost
+    password: 98rSV6XdF&t7x@4b
+    port: 6379
 server:
   port: 18081
+  servlet:
+    session:
+      timeout: 5m
 
 app:
   security:
