@@ -21,11 +21,26 @@
   <component name="ChangeListManager">
     <list default="true" id="fef0acaa-8523-4244-a52d-c69d1f481c89" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/artifacts/lsge_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/lsge_war_exploded.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web__spring_version_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_5_2_6_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_lettuce_lettuce_core_5_0_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_buffer_4_1_49_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_codec_4_1_49_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_common_4_1_49_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_handler_4_1_49_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_resolver_4_1_49_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_4_1_49_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_projectreactor_reactor_core_3_3_5_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_reactivestreams_reactive_streams_1_0_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_keyvalue_2_3_0_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_redis_2_3_0_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_session_spring_session_core_2_3_0_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_session_spring_session_data_redis_2_3_0_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_oxm_5_2_6_RELEASE.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lsge.iml" beforeDir="false" afterPath="$PROJECT_DIR$/lsge.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/my/lsge/config/HttpSessionConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,29 +140,33 @@
     <property name="project.structure.last.edited" value="Problems" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="reactor" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/web-client/src/plugins" />
+      <recent name="$PROJECT_DIR$/web-client/src" />
+    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="my.lsge.application.dto" />
       <recent name="my.lsge.application" />
       <recent name="my.lsge.domain" />
       <recent name="my.lsge.appication" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Work\code\lsge\web-client\public" />
-      <recent name="D:\Work\code\lsge\web-client\src\assets" />
-      <recent name="$PROJECT_DIR$/src/main/resources/db/migration" />
-      <recent name="$PROJECT_DIR$/web-client/public" />
-    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="my.lsge.domain.repository" />
       <recent name="my.lsge.domain.entity" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/web-client/src/plugins" />
-      <recent name="$PROJECT_DIR$/web-client/src" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Work\code\lsge" />
+      <recent name="D:\Work\code\lsge\web-client\public" />
+      <recent name="D:\Work\code\lsge\web-client\src\assets" />
+      <recent name="$PROJECT_DIR$/src/main/resources/db/migration" />
+      <recent name="$PROJECT_DIR$/web-client/public" />
     </key>
   </component>
   <component name="RunManager">
@@ -202,20 +221,14 @@
       <workItem from="1591545221472" duration="7025000" />
       <workItem from="1591606402061" duration="5533000" />
       <workItem from="1591612750383" duration="107000" />
+      <workItem from="1591707621880" duration="14000" />
+      <workItem from="1591799858210" duration="149000" />
+      <workItem from="1591800020717" duration="1460000" />
     </task>
     <servers />
   </component>
-  <component name="TodoView">
-    <todo-panel id="selected-file">
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-  </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.env" />
@@ -259,58 +272,58 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="261" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1591545193175" />
-    <state width="1877" height="481" key="GridCell.Tab.0.bottom" timestamp="1591546318375">
+    <state width="1877" height="285" key="GridCell.Tab.0.bottom" timestamp="1591804660974">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="481" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
-    <state width="1877" height="481" key="GridCell.Tab.0.center" timestamp="1591546318375">
+    <state width="1877" height="285" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591804660974" />
+    <state width="1877" height="285" key="GridCell.Tab.0.center" timestamp="1591804660974">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="481" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
-    <state width="1877" height="481" key="GridCell.Tab.0.left" timestamp="1591546318374">
+    <state width="1877" height="285" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591804660974" />
+    <state width="1877" height="285" key="GridCell.Tab.0.left" timestamp="1591804660974">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="481" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318374" />
-    <state width="1877" height="481" key="GridCell.Tab.0.right" timestamp="1591546318375">
+    <state width="1877" height="285" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591804660974" />
+    <state width="1877" height="285" key="GridCell.Tab.0.right" timestamp="1591804660974">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="481" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
-    <state width="1877" height="481" key="GridCell.Tab.1.bottom" timestamp="1591546318375">
+    <state width="1877" height="285" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591804660974" />
+    <state width="1877" height="285" key="GridCell.Tab.1.bottom" timestamp="1591804660783">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="481" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
-    <state width="1877" height="481" key="GridCell.Tab.1.center" timestamp="1591546318375">
+    <state width="1877" height="285" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591804660783" />
+    <state width="1877" height="285" key="GridCell.Tab.1.center" timestamp="1591804660783">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="481" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
-    <state width="1877" height="481" key="GridCell.Tab.1.left" timestamp="1591546318375">
+    <state width="1877" height="285" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591804660783" />
+    <state width="1877" height="285" key="GridCell.Tab.1.left" timestamp="1591804660782">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="481" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
-    <state width="1877" height="481" key="GridCell.Tab.1.right" timestamp="1591546318375">
+    <state width="1877" height="285" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591804660782" />
+    <state width="1877" height="285" key="GridCell.Tab.1.right" timestamp="1591804660783">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="481" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
-    <state width="1877" height="481" key="GridCell.Tab.2.bottom" timestamp="1591546318375">
+    <state width="1877" height="285" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591804660783" />
+    <state width="1877" height="285" key="GridCell.Tab.2.bottom" timestamp="1591804660783">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="481" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
-    <state width="1877" height="481" key="GridCell.Tab.2.center" timestamp="1591546318375">
+    <state width="1877" height="285" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591804660783" />
+    <state width="1877" height="285" key="GridCell.Tab.2.center" timestamp="1591804660783">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="481" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
-    <state width="1877" height="481" key="GridCell.Tab.2.left" timestamp="1591546318375">
+    <state width="1877" height="285" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591804660783" />
+    <state width="1877" height="285" key="GridCell.Tab.2.left" timestamp="1591804660783">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="481" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
-    <state width="1877" height="481" key="GridCell.Tab.2.right" timestamp="1591546318375">
+    <state width="1877" height="285" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591804660783" />
+    <state width="1877" height="285" key="GridCell.Tab.2.right" timestamp="1591804660783">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="481" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591546318375" />
-    <state x="880" y="98" key="SettingsEditor" timestamp="1591545197437">
+    <state width="1877" height="285" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591804660783" />
+    <state x="880" y="98" key="SettingsEditor" timestamp="1591799940750">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="880" y="98" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1591545197437" />
+    <state x="880" y="98" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1591799940750" />
     <state x="1096" y="244" key="run.anything.popup" timestamp="1591550639696">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
