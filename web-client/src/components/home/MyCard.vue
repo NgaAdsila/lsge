@@ -1,9 +1,9 @@
 <template>
     <b-row class="home-page">
-        <b-col class="col-5 text-right my-photo">
-            <b-img src="/card/my_photo.jpg" height="600" :alt="$t('common.label.slogan')" />
+        <b-col class="col-lg-5 col-md-4 text-right my-photo">
+            <b-img src="/card/my_photo.jpg" :alt="$t('common.label.slogan')" />
         </b-col>
-        <b-col class="col-7 my-information">
+        <b-col class="col-lg-7 col-md-8 my-information">
             <div class="my-card-name">
                 <h1 class="text-uppercase font-weight-bold">
                     {{ cardInfo.header }}
@@ -16,7 +16,7 @@
                  :key="'content_' + index"
                  class="my-card-content">
                 <h3>{{ content.title }}</h3>
-                <p>{{ content.content }}</p>
+                <span class="text-justify text-color-gray" v-html="content.content"></span>
             </div>
             <div class="my-card-sign">
                 <span>{{ cardInfo.sign.title }}</span>
@@ -43,16 +43,27 @@
 <style lang="scss" scoped>
     .home-page {
         margin: 10% auto;
-        .my-photo img {
-            border-radius: 1rem;
-            box-shadow: 0.5rem 0.5rem 0.5rem lightgray;
+        .my-photo {
+            @media(max-width: 768px) {
+                display: none;
+            }
+
+            img {
+                border-radius: 1rem;
+                max-width: 90%;
+                max-height: 600px;
+                box-shadow: 0.5rem 0.5rem 0.5rem lightgray;
+            }
         }
         .my-information {
             font-family: "Times New Roman",sans-serif;
+
+            .my-card-content {
+                padding: 1rem 1rem;
+            }
+
         }
-        .my-card-content {
-            padding: 1rem 1rem;
-        }
+
         .my-card-sign p {
             font-family: "fantasy", sans-serif !important;
         }

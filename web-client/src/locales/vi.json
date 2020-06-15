@@ -1,0 +1,127 @@
+{
+  "common": {
+    "label":{
+      "site_name": "Ge-Lsg",
+      "slogan": "Ge - True Or Lie",
+      "name": "Họ và tên",
+      "username": "Tên đăng nhập",
+      "password": "Mật khẩu",
+      "email": "Email",
+      "login": "đăng nhập",
+      "register": "đăng ký",
+      "sign_out": "Đăng xuất",
+      "search": "Tìm kiếm",
+      "profile": "Thông tin cá nhân",
+      "login_history": "Lịch sử đăng nhập",
+      "home": "Home",
+      "keyword": "Từ khóa",
+      "save": "Lưu",
+      "about_me": "Giới thiệu",
+      "contact_us": "Liên hệ",
+      "reset": "Thiết lập lại"
+    },
+    "validation": {
+      "required": "Trường {name} bắt buộc nhập.",
+      "min": "Trường {name} phải tối thiểu {min} ký tự.",
+      "max": "Trường {name} tối đa {max} ký tự.",
+      "min_max": "Trường {name} tối thiểu {min} ký tự và tối đa {max} ký tự.",
+      "strict_password": "Mật khẩu phải chứa các điều kiện sau:\n・ Chữ cái viết thường\n・ Chữ cái viết hoa\n・ Chữ số\n・ Ký tự (Cho phép !\"# $% & '() * +,-. / :; <=>? @ [] ^ _` {|} ~)",
+      "strict_username": "{name} phải chứa các điều kiện sau:\n・ Chỉ chứa các ký tự chữ và số, gạch dưới và dấu chấm\n・ Bắt đầu bằng các ký tự chữ hoặc số",
+      "invalid_email": "Email không hợp lệ.",
+      "exception": "Rất tiếc, có lỗi xảy ra. Vui lòng liên hệ Admin để được hỗ trợ"
+    },
+    "toast": {
+      "title": "Ge-Lsg - Thông báo"
+    },
+    "modal": {
+      "confirm_title": "Ge-Lsg - Xác nhận"
+    },
+    "message": {
+      "no_data": "Không tìm thấy dữ liệu để hiển thị!",
+      "total_record": "Tổng: {number} bản ghi",
+      "update_success": "Thông tin đã được cập nhật thành công"
+    },
+    "placeholder": {
+      "keyword": "Nhập từ khóa"
+    }
+  },
+  "login": {
+    "label": {
+      "title": "ĐĂNG NHẬP",
+      "username": "Tên đăng nhập/Email",
+      "remember_me": "Ghi nhớ đăng nhập",
+      "submit": "Đăng nhập",
+      "register_link": "Nếu bạn chưa có tài khoản. Hãy thực hiện ",
+      "register_link2": " để sử dụng hệ thống!"
+    },
+    "placeholder": {
+      "username": "Nhập tên đăng nhập hoặc email",
+      "password": "Nhập mật khẩu"
+    },
+    "message": {
+      "success": "Đăng nhập thành công! Chào mừng bạn đến với Ge-Lsg",
+      "error": "Đăng nhập thất bại. Vui lòng check lại thông tin đã nhập"
+    }
+  },
+  "register": {
+    "label": {
+      "title": "ĐĂNG KÝ",
+      "re_password": "Nhập lại mật khẩu",
+      "submit": "Đăng ký",
+      "login_link": "Quay lại "
+    },
+    "validation": {
+      "re_password": {
+        "not_match": "Trường \"Nhập lại mật khẩu\" phải trùng khớp với trường \"Mật khẩu\""
+      }
+    }
+  },
+  "footer": {
+    "label": {
+      "documentation": "Tài liệu",
+      "community": "Mạng xã hội",
+      "release_note": "Tài liệu phát hành"
+    },
+    "message": {
+      "welcome": "Chào mừng bạn đến với website của chúng tôi! Chúc bạn một ngày mới tốt lành!",
+      "copy_right": "Phiên bản hiện tại {version} ~ Ge-Lsg©{year}"
+    }
+  },
+  "login_history": {
+    "label": {
+      "login_time": "Thời gian đăng nhập",
+      "search_form": "Tìm kiếm"
+    }
+  },
+  "profile": {
+    "label": {
+      "generation": "Thông tin chung",
+      "change_password": "Thay đổi mật khẩu",
+      "old_password": "Mật khẩu cũ",
+      "new_password": "Mật khẩu mới"
+    },
+    "message": {
+      "change_password_success": "Mật khẩu đã được cập nhật thành công. Vui lòng đăng nhập lại"
+    },
+    "validation": {
+      "match_old_password": "Trường \"Mật khẩu\" phải khác mật khẩu cũ"
+    }
+  },
+  "logout": {
+    "message": {
+      "question": "Bạn có chắc chắn đăng xuất không?"
+    }
+  },
+  "home": {
+    "my_card": {
+      "header": "Tôi là Hà Quang Ngà",
+      "content_title1": "Kỹ sư hệ thống thông tin",
+      "content1": "Trường Đại học Bách Khoa Hà Nội - Viện Công nghệ thông tin và truyền thông<br/>・ Niên khóa: 2011-2016 (K56)<br/>・ Tốt nghiệp loại: Giỏi (Tháng 6/2016)",
+      "content_title2": "Mục tiêu cá nhân",
+      "content2": "Học tập, phát triển và mở rộng khả năng bản thân. Tích cực trau dồi kiến thức, tạo dựng một cuộc sống đầy đủ, vui vẻ, hạnh phúc",
+      "sign_title": "Chữ ký,",
+      "sign": "Hà Quang Ngà",
+      "view_detail": "Xem chi tiết"
+    }
+  }
+}
