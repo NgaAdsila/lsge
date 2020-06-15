@@ -20,98 +20,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fef0acaa-8523-4244-a52d-c69d1f481c89" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_lettuce_lettuce_core_5_0_4_RELEASE.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_buffer_4_1_49_Final.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_codec_4_1_49_Final.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_common_4_1_49_Final.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_handler_4_1_49_Final.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_resolver_4_1_49_Final.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_4_1_49_Final.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_projectreactor_reactor_core_3_3_5_RELEASE.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_reactivestreams_reactive_streams_1_0_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_keyvalue_2_3_0_RELEASE.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_redis_2_3_0_RELEASE.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_session_spring_session_core_2_3_0_RELEASE.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_session_spring_session_data_redis_2_3_0_RELEASE.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web__spring_version_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/my/lsge/config/HttpSessionConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web-client/public/card/my_photo.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web-client/src/components/home/MyCard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/artifacts/lsge_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/lsge_war_exploded.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_5_2_6_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_oxm_5_2_6_RELEASE.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_lettuce_lettuce_core_5_0_4_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_buffer_4_1_49_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_codec_4_1_49_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_common_4_1_49_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_handler_4_1_49_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_resolver_4_1_49_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_4_1_49_Final.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_projectreactor_reactor_core_3_3_5_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_reactivestreams_reactive_streams_1_0_3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_keyvalue_2_3_0_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_redis_2_3_0_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_session_spring_session_core_2_3_0_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_session_spring_session_data_redis_2_3_0_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_oxm_5_2_6_RELEASE.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web__spring_version_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/lsge.iml" beforeDir="false" afterPath="$PROJECT_DIR$/lsge.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/LsgeApplication.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/Common/Const.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/dto/ApiResponse.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/dto/BasePaginationFilterReq.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/dto/BasePaginationFilterRes.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/dto/ListObjectRes.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/dto/PagingRes.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/dto/auth/JwtAuthenticationRes.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/dto/auth/LoginReq.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/dto/auth/SignUpReq.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/dto/loginHistory/LoginHistoryFilterItemRes.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/dto/loginHistory/LoginHistoryFilterReq.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/dto/loginHistory/LoginHistoryFilterRes.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/dto/user/ChangingPasswordReq.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/dto/user/UpdatingUserReq.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/dto/user/UserIdentityAvailability.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/dto/user/UserSummary.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/exception/BaseException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/exception/ForbiddenException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/exception/FormValidationException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/exception/NotAcceptableException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/exception/NotFoundException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/exception/ResourceNotFoundException.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/security/CurrentUser.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/security/JwtAuthenticationEntryPoint.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/security/JwtAuthenticationFilter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/security/JwtTokenProvider.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/security/ResponseBody.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/security/UserPrincipal.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/service/ContentBuilder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/service/CustomUserDetailsService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/service/EmailService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/service/contexts/BaseContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/application/service/contexts/RegisterMailContext.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/config/AuditingConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/config/JacksonConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/config/MailConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/config/MappingConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/config/SpringSecurityAuditAwareImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/config/WebMvcConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/config/WebSecurityConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/controller/AuthController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/controller/BaseController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/controller/HealthController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/controller/LoginHistoryController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/controller/RestErrorAdvice.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/controller/UserController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/dao/LoginHistoryDao.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/dao/impl/BaseDaoImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/dao/impl/LoginHistoryDaoImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/entity/BaseEntity.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/entity/LoginHistory.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/entity/Role.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/entity/User.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/enums/EntityNameEnum.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/enums/SortByEnum.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/enums/SortTypeEnum.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/enums/UserRoleEnum.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/logic/AuthLogic.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/logic/BaseLogic.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/logic/LoginHistoryLogic.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/logic/MailLogic.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/logic/UserLogic.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/repository/LoginHistoryRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/repository/RoleRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/domain/repository/UserRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/util/JsonUtils.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/util/ObjectUtils.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/my/lsge/util/Utils.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/email/register_mail.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/email/register_mail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/assets/style/common.scss" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/assets/style/common.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/locales/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/locales/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/pages/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/pages/Home.vue" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/web-client/node_modules/" />
@@ -160,8 +94,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="619">
-              <caret line="124" column="20" lean-forward="true" selection-start-line="124" selection-start-column="20" selection-end-line="124" selection-end-column="20" />
+            <state relative-caret-position="70">
+              <caret line="121" column="32" selection-start-line="121" selection-start-column="32" selection-end-line="121" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" column="13" lean-forward="true" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -175,11 +118,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/application.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="17" lean-forward="true" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+            <state relative-caret-position="105">
+              <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -259,14 +202,17 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="lsge" type="b2602c69:ProjectViewProjectNode" />
               <item name="lsge" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="lsge" type="b2602c69:ProjectViewProjectNode" />
+              <item name="lsge" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="lsge" type="b2602c69:ProjectViewProjectNode" />
@@ -320,36 +266,12 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="lsge" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lsge" type="462c0819:PsiDirectoryNode" />
-              <item name="web-client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lsge" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lsge" type="462c0819:PsiDirectoryNode" />
-              <item name="web-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lsge" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lsge" type="462c0819:PsiDirectoryNode" />
-              <item name="web-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="lsge" type="b2602c69:ProjectViewProjectNode" />
-              <item name="lsge" type="462c0819:PsiDirectoryNode" />
-              <item name="web-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="login-history" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="ProjectViewState">
@@ -468,7 +390,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15994000" />
+    <option name="totallyTimeSpent" value="15998000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -483,7 +405,7 @@
     <frame x="39" y="25" width="1881" height="1055" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.33623978" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3438692" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -870,15 +792,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="619">
-          <caret line="124" column="20" lean-forward="true" selection-start-line="124" selection-start-column="20" selection-end-line="124" selection-end-column="20" />
+        <state relative-caret-position="70">
+          <caret line="121" column="32" selection-start-line="121" selection-start-column="32" selection-end-line="121" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/application.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="17" lean-forward="true" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+        <state relative-caret-position="105">
+          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
         </state>
       </provider>
     </entry>

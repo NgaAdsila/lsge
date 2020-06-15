@@ -2,7 +2,7 @@
   "common": {
     "label":{
       "site_name": "Ge-Lsg",
-      "slogan": "Ge - My site - My life",
+      "slogan": "Ge - True Or Lie",
       "name": "Full name",
       "username": "Username",
       "password": "Password",
@@ -110,6 +110,18 @@
   "logout": {
     "message": {
       "question": "Are you sure you want to logout?"
+    }
+  },
+  "home": {
+    "my_card": {
+      "header": "I'm Ha Quang Nga",
+      "content_title1": "Title 1",
+      "content1": "Content 1",
+      "content_title2": "Title 2",
+      "content2": "Content 2",
+      "sign_title": "Yours sincerely,",
+      "sign": "Ha Quang Nga",
+      "view_detail": "View detail vcard"
     }
   }
 }
