@@ -17,6 +17,7 @@
     import Footer from "../components/Footer";
     import { signOut } from '../services/user_service';
     import ConfirmModal from "../components/modal/ConfirmModal";
+    import {parseJwt} from "../utils";
     export default {
         name: "default",
         components: {ConfirmModal, Footer, Header},
@@ -25,11 +26,19 @@
                 user: {
                     name: ''
                 },
-                confirmMessage: ''
+                confirmMessage: '',
+                refreshToken: undefined
             }
         },
         created() {
             this.user.name = this.$store.getters.name;
+        },
+        mounted() {
+            this.refreshToken = setInterval(async (self = this) => {
+                if (self.$store.getters.jwt && parseJwt(self.$store.getters.jwt).exp < Date.now() / 1000) {
+                    await self.onOk();
+                }
+            }, 1000);
         },
         methods: {
             async logout() {
@@ -47,6 +56,11 @@
                 this.$bvModal.hide('modal-confirm');
                 await signOut();
                 await this.$router.push({path: '/login'});
+            }
+        },
+        beforeDestroy() {
+            if (!this.$store.getters.isLogin) {
+                clearInterval(this.refreshToken);
             }
         }
     }

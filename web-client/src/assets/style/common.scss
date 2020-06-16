@@ -73,6 +73,10 @@ form {
     transform: rotate(90deg);
   }
 }
+
+.collapsed.btn.focus, .collapsed.btn:focus, .not-collapsed.btn.focus, .not-collapsed.btn:focus {
+  box-shadow: unset;
+}
 /** -------End collapse icon style------- */
 
 .text-color-gray {

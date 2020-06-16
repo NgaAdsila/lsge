@@ -2,7 +2,7 @@
     <div class="register-form">
         <b-form @submit.stop.prevent="register">
             <p class="h4 text-center mb-4 register-label">{{ $t('register.label.title') }}</p>
-            <b-form-group label-cols="2" label-cols-lg="2" label-size="sm"
+            <b-form-group label-size="sm"
                           :label="$t('common.label.name')"
                           label-for="input-name">
                 <b-form-input id="input-name" size="sm"
@@ -16,7 +16,7 @@
                     {{ $t('common.validation.required', { name: $t('common.label.name') }) }}
                 </b-form-invalid-feedback>
             </b-form-group>
-            <b-form-group label-cols="2" label-cols-lg="2" label-size="sm"
+            <b-form-group label-size="sm"
                           :label="$t('common.label.username')"
                           label-for="input-username">
                 <b-form-input id="input-username" size="sm"
@@ -34,7 +34,7 @@
                             : $t('common.validation.strict_username', { name: $t('common.label.username') })) }}
                 </b-form-invalid-feedback>
             </b-form-group>
-            <b-form-group label-cols="2" label-cols-lg="2" label-size="sm"
+            <b-form-group label-size="sm"
                           :label="$t('common.label.password')"
                           label-for="input-password">
                 <b-form-input type="password" id="input-password" size="sm"
@@ -52,7 +52,7 @@
                             : $t('common.validation.strict_password')) }}
                 </b-form-invalid-feedback>
             </b-form-group>
-            <b-form-group label-cols="2" label-cols-lg="2" label-size="sm"
+            <b-form-group label-size="sm"
                           :label="$t('register.label.re_password')"
                           label-for="input-re_password">
                 <b-form-input type="password" id="input-re_password" size="sm"
@@ -68,7 +68,7 @@
                         : $t('register.validation.re_password.not_match') }}
                 </b-form-invalid-feedback>
             </b-form-group>
-            <b-form-group label-cols="2" label-cols-lg="2" label-size="sm"
+            <b-form-group label-size="sm"
                           :label="$t('common.label.email')"
                           label-for="input-email">
                 <b-form-input type="email" id="input-email" size="sm"

@@ -1,6 +1,7 @@
 <template>
     <b-form @submit.stop.prevent="save" class="profile-form">
-        <b-form-group :label="$t('common.label.username')"
+        <b-form-group label-size="sm"
+                      :label="$t('common.label.username')"
                       label-for="input-username">
             <b-form-input id="input-username" size="sm"
                           v-model="$v.profile.username.$model"
@@ -8,7 +9,8 @@
                           readonly
                           disabled></b-form-input>
         </b-form-group>
-        <b-form-group :label="$t('common.label.name')"
+        <b-form-group label-size="sm"
+                      :label="$t('common.label.name')"
                       label-for="input-name">
             <b-form-input id="input-name" size="sm"
                           v-model="$v.profile.name.$model"
@@ -20,7 +22,8 @@
                 {{ $t('common.validation.required', { name: $t('common.label.name') }) }}
             </b-form-invalid-feedback>
         </b-form-group>
-        <b-form-group :label="$t('common.label.email')"
+        <b-form-group label-size="sm"
+                      :label="$t('common.label.email')"
                       label-for="input-email">
             <b-form-input type="email" id="input-email" size="sm"
                           v-model="$v.profile.email.$model"

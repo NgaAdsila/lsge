@@ -2,7 +2,8 @@
     <div class="login-form">
         <b-form @submit.stop.prevent="onLogin">
             <p class="h4 text-center mb-4 login-label">{{ $t('login.label.title') }}</p>
-            <b-form-group :label="$t('login.label.username')"
+            <b-form-group label-size="sm"
+                          :label="$t('login.label.username')"
                           label-for="input-username">
                 <b-form-input id="input-username" size="sm"
                               v-model="$v.usernameOrEmail.$model"
@@ -19,7 +20,8 @@
                             : $t('common.validation.strict_username', { name: $t('login.label.username') })) }}
                 </b-form-invalid-feedback>
             </b-form-group>
-            <b-form-group :label="$t('common.label.password')"
+            <b-form-group label-size="sm"
+                          :label="$t('common.label.password')"
                           label-for="input-password">
                 <b-form-input type="password" id="input-password" size="sm"
                               v-model="$v.password.$model"

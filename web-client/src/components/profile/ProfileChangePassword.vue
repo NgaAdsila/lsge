@@ -1,6 +1,7 @@
 <template>
     <b-form @submit.stop.prevent="changePassword" class="profile-form">
-        <b-form-group :label="$t('profile.label.old_password')"
+        <b-form-group label-size="sm"
+                      :label="$t('profile.label.old_password')"
                       label-for="input-password">
             <b-form-input type="password" id="input-old-password" size="sm"
                           v-model="$v.oldPassword.$model"
@@ -15,7 +16,8 @@
                 : $t('common.validation.min_max', { name: $t('profile.label.old_password'), min: 8, max: 100 }) }}
             </b-form-invalid-feedback>
         </b-form-group>
-        <b-form-group :label="$t('profile.label.new_password')"
+        <b-form-group label-size="sm"
+                      :label="$t('profile.label.new_password')"
                       label-for="input-password">
             <b-form-input type="password" id="input-password" size="sm"
                           v-model="$v.password.$model"
@@ -32,7 +34,8 @@
                 : (!$v.password.strictPassword ? $t('common.validation.strict_password') : $t('profile.validation.match_old_password'))) }}
             </b-form-invalid-feedback>
         </b-form-group>
-        <b-form-group :label="$t('register.label.re_password')"
+        <b-form-group label-size="sm"
+                      :label="$t('register.label.re_password')"
                       label-for="input-re_password">
             <b-form-input type="password" id="input-re_password" size="sm"
                           v-model="$v.rePassword.$model"

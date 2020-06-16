@@ -23,7 +23,8 @@
                 <b-nav-item-dropdown right>
                     <!-- Using 'button-content' slot -->
                     <template v-slot:button-content>
-                        <b-avatar variant="success" :text="$store.getters.name.toUpperCase().charAt(0)"></b-avatar> <em>{{ $store.getters.name }} </em>
+                        <b-avatar variant="success" class="text-uppercase"
+                                  :text="$store.getters.name ? $store.getters.name.charAt(0) : ''"></b-avatar> <em>{{ $store.getters.name }} </em>
                     </template>
                     <b-dropdown-item href="/profile" :active="$route.path === '/profile'">
                         <b-icon icon="person-square"></b-icon> {{ $t('common.label.profile') }}
