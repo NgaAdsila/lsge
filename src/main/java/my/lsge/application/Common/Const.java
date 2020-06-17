@@ -11,4 +11,16 @@ public class Const {
     public static final String DB_DATE_FORMAT = "yyyy-MM-dd";
 
     public static final String DISPLAY_DATE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
+
+    public static final int PASSWORD_LENGTH_DEFAULT = 8;
+
+    public static final String LOWERCASE_CHARATER = "abcdefghijklmnopqrstuvxyz";
+
+    public static final String UPPERCASE_CHARATER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    public static final String NUMBERIC_CHARATER = "0123456789";
+
+    public static final String SYMBOL_CHARATER = "!\"#$%&'()*+,-./:;<=>?@[]^_`{|}~";
+
+    public static final String ALPHA_NUMBERIC_CHARATER = UPPERCASE_CHARATER + NUMBERIC_CHARATER + LOWERCASE_CHARATER;
 }

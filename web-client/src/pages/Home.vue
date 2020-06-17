@@ -1,5 +1,4 @@
 <template>
-    <div>ABC</div>
     <MyCard
             :cardInfo="cardInfo" />
 </template>

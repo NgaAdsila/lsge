@@ -81,3 +81,7 @@ export async function refreshToken() {
         return fail(e.message);
     }
 }
+
+export async function forgetPassword(req = {}) {
+    return await ApiService.post(API_PATH.AUTH_FORGET_PASSWORD, req, {});
+}

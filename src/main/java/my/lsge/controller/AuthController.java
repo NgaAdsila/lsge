@@ -1,8 +1,6 @@
 package my.lsge.controller;
 
-import my.lsge.application.dto.auth.LoginReq;
-import my.lsge.application.dto.auth.RefreshTokenReq;
-import my.lsge.application.dto.auth.SignUpReq;
+import my.lsge.application.dto.auth.*;
 import my.lsge.domain.logic.AuthLogic;
 import my.lsge.domain.logic.MailLogic;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +37,12 @@ public class AuthController {
     @PostMapping("/refresh-token")
     public ResponseEntity<?> refreshToken(@Valid @RequestBody RefreshTokenReq req) {
         return authLogic.refreshToken(req);
+    }
+
+    @PostMapping("/forget-password")
+    public ResponseEntity<?> forgetPassword(@Valid @RequestBody ForgetPasswordReq req) {
+        ForgetPasswordRes res = authLogic.forgetPassword(req);
+        mailLogic.sendForgetPasswordMail(res);
+        return res.getResponse();
     }
 }

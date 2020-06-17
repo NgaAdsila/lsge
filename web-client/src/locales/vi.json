@@ -52,7 +52,8 @@
       "remember_me": "Ghi nhớ đăng nhập",
       "submit": "Đăng nhập",
       "register_link": "Nếu bạn chưa có tài khoản. Hãy thực hiện ",
-      "register_link2": " để sử dụng hệ thống!"
+      "register_link2": " để sử dụng hệ thống!",
+      "forget_password": "Quên mật khẩu?"
     },
     "placeholder": {
       "username": "Nhập tên đăng nhập hoặc email",

@@ -42,6 +42,9 @@
                 <b-button type="submit" variant="outline-primary">{{ $t('login.label.submit') }}</b-button>
             </div>
             <div class="text-center mt-4">
+                <router-link to="/forget-password">{{ $t('login.label.forget_password') }}</router-link>
+            </div>
+            <div class="text-center mt-4">
                 {{ $t('login.label.register_link') }}
                 <router-link to="/register">{{ $t('common.label.register') }}</router-link>
                 {{ $t('login.label.register_link2') }}

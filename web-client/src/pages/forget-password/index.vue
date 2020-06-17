@@ -1,30 +1,28 @@
 <template>
-    <b-container>
-        <RegisterComponent
-                :isSubmit="isSubmit"
-                @register="onRegister"/>
-    </b-container>
+    <ForgetPasswordComponent
+            :isSubmit="isSubmit"
+            @forgetPassword="forgetPassword" />
 </template>
 
 <script>
-    import RegisterComponent from "../components/RegisterComponent";
-    import { register } from '../services/user_service';
-    import {RESPONSE} from "../services/constants";
+    import ForgetPasswordComponent from "../../components/ForgetPasswordComponent";
+    import {forgetPassword} from "../../services/user_service";
+    import {RESPONSE} from "../../services/constants";
     export default {
-        name: "Register",
-        components: {RegisterComponent},
+        name: "ForgetPassword",
+        components: {ForgetPasswordComponent},
         data() {
             return {
                 isSubmit: false
             }
         },
         methods: {
-            async onRegister(data = {}) {
+            async forgetPassword(req) {
                 try {
                     this.isSubmit = true;
-                    const res = await register(data);
+                    const res = await forgetPassword(req);
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
-                        this.$bvToast.toast(this.$t('register.message.success'), {
+                        this.$bvToast.toast(res.data.message, {
                             title: this.$t('common.toast.title'),
                             toaster: 'b-toaster-top-center',
                             solid: true,
@@ -42,7 +40,7 @@
                         });
                     }
                 } catch (e) {
-                    console.log('Register ERROR: ', e);
+                    console.log('Reset password error: ', e);
                 } finally {
                     this.isSubmit = false;
                 }

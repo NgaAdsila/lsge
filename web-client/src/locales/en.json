@@ -52,7 +52,8 @@
       "remember_me": "Remember me",
       "submit": "Login",
       "register_link": "If you have not account. Please ",
-      "register_link2": " now!"
+      "register_link2": " now!",
+      "forget_password": "Forgot password?"
     },
     "placeholder": {
       "username": "Input username or email",
@@ -122,6 +123,13 @@
       "sign_title": "My sincerely,",
       "sign": "Ha Quang Nga",
       "view_detail": "View detail vcard"
+    }
+  },
+  "forget_password": {
+    "label": {
+      "title": "FORGOT PASSWORD",
+      "email": "Registered email",
+      "submit": "Submit"
     }
   }
 }
