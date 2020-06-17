@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import my.lsge.application.dto.ApiResponse;
 import my.lsge.application.dto.auth.JwtAuthenticationRes;
 import my.lsge.application.dto.auth.LoginReq;
+import my.lsge.application.dto.auth.RefreshTokenReq;
 import my.lsge.application.dto.auth.SignUpReq;
 import my.lsge.application.security.JwtTokenProvider;
 import my.lsge.domain.entity.LoginHistory;
@@ -126,5 +127,11 @@ public class AuthLogic extends BaseLogic {
         return ResponseEntity
                 .created(location)
                 .body(new ApiResponse(true, language.getString("register.message.successfully")));
+    }
+
+    public ResponseEntity<?> refreshToken(RefreshTokenReq req) {
+        validateUser(req.getId());
+        String jwt = tokenProvider.generateTokenByUserId(req.getId());
+        return ResponseEntity.ok(new ApiResponse(true, jwt));
     }
 }

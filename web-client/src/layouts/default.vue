@@ -15,28 +15,29 @@
 <script>
     import Header from "../components/Header";
     import Footer from "../components/Footer";
-    import { signOut } from '../services/user_service';
+    import { signOut, refreshToken } from '../services/user_service';
     import ConfirmModal from "../components/modal/ConfirmModal";
     import {parseJwt} from "../utils";
+    import {RESPONSE} from "../services/constants";
     export default {
         name: "default",
         components: {ConfirmModal, Footer, Header},
         data() {
             return {
                 user: {
-                    name: ''
+                    name: this.$store.getters.name
                 },
                 confirmMessage: '',
                 refreshToken: undefined
             }
         },
-        created() {
-            this.user.name = this.$store.getters.name;
-        },
         mounted() {
             this.refreshToken = setInterval(async (self = this) => {
                 if (self.$store.getters.jwt && parseJwt(self.$store.getters.jwt).exp < Date.now() / 1000) {
-                    await self.onOk();
+                    const res = await refreshToken();
+                    if (res.status === RESPONSE.STATUS.ERROR) {
+                        await self.logout();
+                    }
                 }
             }, 1000);
         },

@@ -1,6 +1,7 @@
 package my.lsge.controller;
 
 import my.lsge.application.dto.auth.LoginReq;
+import my.lsge.application.dto.auth.RefreshTokenReq;
 import my.lsge.application.dto.auth.SignUpReq;
 import my.lsge.domain.logic.AuthLogic;
 import my.lsge.domain.logic.MailLogic;
@@ -33,5 +34,10 @@ public class AuthController {
         ResponseEntity<?> res = authLogic.registerUser(req);
         mailLogic.sendRegisterMail(req);
         return res;
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> refreshToken(@Valid @RequestBody RefreshTokenReq req) {
+        return authLogic.refreshToken(req);
     }
 }

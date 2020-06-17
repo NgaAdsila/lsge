@@ -1,9 +1,9 @@
 <template>
     <b-row class="home-page">
-        <b-col class="col-lg-5 col-md-4 text-right my-photo">
+        <b-col class="col-md-5 text-right my-photo">
             <b-img src="/card/my_photo.jpg" :alt="$t('common.label.slogan')" />
         </b-col>
-        <b-col class="col-lg-7 col-md-8 my-information">
+        <b-col class="col-md-7 my-information">
             <div class="my-card-name">
                 <h1 class="text-uppercase font-weight-bold">
                     {{ cardInfo.header }}
@@ -51,8 +51,12 @@
             img {
                 border-radius: 1rem;
                 max-width: 90%;
-                max-height: 600px;
+                max-height: 37.5rem;
                 box-shadow: 0.5rem 0.5rem 0.5rem lightgray;
+
+                @media (max-width: 768px) {
+                    max-width: 100% !important;
+                }
             }
         }
         .my-information {

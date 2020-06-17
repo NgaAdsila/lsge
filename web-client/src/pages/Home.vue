@@ -1,11 +1,11 @@
 <template>
     <div>ABC</div>
-<!--    <MyCard-->
-<!--            :cardInfo="cardInfo" />-->
+    <MyCard
+            :cardInfo="cardInfo" />
 </template>
 
 <script>
-    /*import MyCard from "../components/home/MyCard";
+    import MyCard from "../components/home/MyCard";
     export default {
         name: "Home",
         components: {MyCard},
@@ -39,7 +39,7 @@
                 }
             }
         }
-    }*/
+    }
 </script>
 
 <style scoped>

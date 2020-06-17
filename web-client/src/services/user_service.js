@@ -65,3 +65,19 @@ export async function update(req = {}) {
 export async function changePassword(req = {}) {
     return await ApiService.put(API_PATH.USER_CHANGE_PASSWORD, req, {});
 }
+
+export async function refreshToken() {
+    try {
+        const res = await ApiService.post(API_PATH.AUTH_REFRESH_TOKEN, { id: store.getters.id }, {});
+        if (res.status === RESPONSE.STATUS.SUCCESS) {
+            store.commit('saveJwt', res.data.message);
+            const userLocal = JSON.parse(localStorage.getItem('store'));
+            userLocal.jwt = res.data.message;
+            localStorage.setItem('store', JSON.stringify(userLocal));
+            return success('Refresh Token success!');
+        }
+        return res;
+    } catch (e) {
+        return fail(e.message);
+    }
+}

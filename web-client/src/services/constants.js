@@ -37,6 +37,7 @@ export function fail(message, code) {
 export const API_PATH = {
     AUTH_LOGIN: '/api/auth/signin',
     AUTH_SIGNUP: '/api/auth/signup',
+    AUTH_REFRESH_TOKEN: '/api/auth/refresh-token',
     USER_ROLE: '/api/users/get-role',
     CURRENT_USER: '/api/users/current-user',
     USER_UPDATE: '/api/users/update',
