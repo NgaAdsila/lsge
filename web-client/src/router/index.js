@@ -10,6 +10,7 @@ import { checkRole } from '../services/role'
 import Home from '../pages/Home'
 import LoginHistory from '../pages/login-history/index';
 import Profile from '../pages/profile/index';
+import ForgetPassword from '../pages/forget-password/index';
 
 Vue.use(VueRouter);
 
@@ -49,6 +50,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register
+  },
+  {
+    path: '/forget-password',
+    name: 'ForgetPassword',
+    component: ForgetPassword
   },
   {
     path: '*',

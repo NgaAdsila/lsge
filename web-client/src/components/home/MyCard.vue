@@ -1,9 +1,6 @@
 <template>
-    <b-row class="home-page">
-        <b-col class="col-md-5 text-right my-photo">
-            <b-img src="/card/my_photo.jpg" :alt="$t('common.label.slogan')" />
-        </b-col>
-        <b-col class="col-md-7 my-information">
+    <b-row class="my-card-section">
+        <b-col class="offset-xl-4 offset-lg-3 offset-md-2 offset-sm-1 my-information">
             <div class="my-card-name">
                 <h1 class="text-uppercase font-weight-bold">
                     {{ cardInfo.header }}
@@ -15,15 +12,17 @@
             <div v-for="(content, index) of cardInfo.contents"
                  :key="'content_' + index"
                  class="my-card-content">
-                <h3>{{ content.title }}</h3>
-                <span class="text-justify text-color-gray" v-html="content.content"></span>
+                <h3><b-icon icon="arrows-move" font-scale="0.75"
+                            variant="success"
+                            animation="spin"></b-icon> {{ content.title }}</h3>
+                <div class="text-justify" v-html="content.content"></div>
             </div>
             <div class="my-card-sign">
                 <span>{{ cardInfo.sign.title }}</span>
                 <p class="text-color-gray">{{ cardInfo.sign.content }}</p>
             </div>
             <div class="my-card-footer">
-                <b-button variant="outline-primary" @click="cardInfo.footer.detail.link">
+                <b-button variant="primary" @click="cardInfo.footer.detail.link">
                     {{ cardInfo.footer.detail.label }}
                 </b-button>
             </div>
@@ -41,35 +40,20 @@
 </script>
 
 <style lang="scss" scoped>
-    .home-page {
-        margin: 10% auto;
-        .my-photo {
-            @media(max-width: 768px) {
-                display: none;
-            }
-
-            img {
-                border-radius: 1rem;
-                max-width: 90%;
-                max-height: 37.5rem;
-                box-shadow: 0.5rem 0.5rem 0.5rem lightgray;
-
-                @media (max-width: 768px) {
-                    max-width: 100% !important;
-                }
-            }
-        }
+    .my-card-section {
         .my-information {
             font-family: "Times New Roman",sans-serif;
 
             .my-card-content {
-                padding: 1rem 1rem;
+                padding: 1rem 0;
+                .text-justify {
+                    padding: 0 1rem;
+                }
             }
-
         }
 
         .my-card-sign p {
-            font-family: "fantasy", sans-serif !important;
+            font-family: "Courier New", sans-serif !important;
         }
     }
 </style>

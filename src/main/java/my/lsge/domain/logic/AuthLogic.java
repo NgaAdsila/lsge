@@ -2,10 +2,7 @@ package my.lsge.domain.logic;
 
 import lombok.extern.slf4j.Slf4j;
 import my.lsge.application.dto.ApiResponse;
-import my.lsge.application.dto.auth.JwtAuthenticationRes;
-import my.lsge.application.dto.auth.LoginReq;
-import my.lsge.application.dto.auth.RefreshTokenReq;
-import my.lsge.application.dto.auth.SignUpReq;
+import my.lsge.application.dto.auth.*;
 import my.lsge.application.security.JwtTokenProvider;
 import my.lsge.domain.entity.LoginHistory;
 import my.lsge.domain.entity.Role;
@@ -31,6 +28,7 @@ import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -133,5 +131,27 @@ public class AuthLogic extends BaseLogic {
         validateUser(req.getId());
         String jwt = tokenProvider.generateTokenByUserId(req.getId());
         return ResponseEntity.ok(new ApiResponse(true, jwt));
+    }
+
+    public ForgetPasswordRes forgetPassword(ForgetPasswordReq req) {
+        Optional<User> userOpt = userRepository.findByEmail(req.getEmail());
+        if (!userOpt.isPresent()) {
+            return new ForgetPasswordRes(null, null, new ResponseEntity(
+                    new ApiResponse(false, language.getString("valid.user.email.is_not_existed")),
+                    HttpStatus.NOT_FOUND));
+        }
+        User user = userOpt.get();
+        if (user.isDeleted()) {
+            return new ForgetPasswordRes(null, null, new ResponseEntity(
+                    new ApiResponse(false, language.getString("valid.user.is_not_existed")),
+                    HttpStatus.NOT_FOUND));
+        }
+
+        String password = Utils.randomPassword();
+        user.setPassword(passwordEncoder.encode(password));
+        user = userRepository.save(user);
+
+        return new ForgetPasswordRes(user, password, ResponseEntity.ok(
+                new ApiResponse(false, language.getString("forget_password.save.successfully"))));
     }
 }

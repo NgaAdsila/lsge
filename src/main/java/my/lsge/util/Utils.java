@@ -88,14 +88,21 @@ public final class Utils {
         return list.stream().filter(Objects::nonNull).collect(Collectors.toList());
     }
 
-    public static String randomCode(int length) {
-        String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789" + "abcdefghijklmnopqrstuvxyz";
+    public static String randomString(int length, String characters) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
-            int index = (int) (alphaNumericString.length() * Math.random());
-            sb.append(alphaNumericString.charAt(index));
+            int index = (int) (characters.length() * Math.random());
+            sb.append(characters.charAt(index));
         }
         return sb.toString();
+    }
+
+    public static String randomPassword() {
+        int avg = Math.floorDiv(Const.PASSWORD_LENGTH_DEFAULT, 4);
+        return randomString(avg, Const.UPPERCASE_CHARATER)
+                + randomString(avg, Const.NUMBERIC_CHARATER)
+                + randomString(avg, Const.LOWERCASE_CHARATER)
+                + randomString(avg, Const.SYMBOL_CHARATER);
     }
 
     public static boolean startWith(String str, String tag) {

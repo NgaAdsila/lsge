@@ -171,7 +171,7 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .register-form {
     margin: 20vh auto;
     max-width: 700px;

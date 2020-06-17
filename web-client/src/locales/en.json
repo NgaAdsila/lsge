@@ -52,7 +52,8 @@
       "remember_me": "Remember me",
       "submit": "Login",
       "register_link": "If you have not account. Please ",
-      "register_link2": " now!"
+      "register_link2": " now!",
+      "forget_password": "Forgot password?"
     },
     "placeholder": {
       "username": "Input username or email",
@@ -114,14 +115,21 @@
   },
   "home": {
     "my_card": {
-      "header": "I'm Ha Quang Nga",
+      "header": "I am Ha Quang Nga",
       "content_title1": "Information system engineer",
       "content1": "Hanoi University of Science and Technology - School of Information and Communication Technology<br/>・ Course: 2011-2016 (K56)<br/>・ Graduated: Excellent (June 2016)",
       "content_title2": "Personal's goal",
       "content2": "Study, develop and expand your abilities. Actively cultivate knowledge, create a full life, have fun, and be happy",
       "sign_title": "My sincerely,",
       "sign": "Ha Quang Nga",
-      "view_detail": "View detail vcard"
+      "view_detail": "More about me"
+    }
+  },
+  "forget_password": {
+    "label": {
+      "title": "FORGOT PASSWORD",
+      "email": "Registered email",
+      "submit": "Submit"
     }
   }
 }
