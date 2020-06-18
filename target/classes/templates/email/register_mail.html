@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
-<head></head>
-<body>
-Dear <span th:text="${userFullName}"></span>,<br/>
-<br/>
-You have just registered for <span th:text="${systemShortName}"></span> system account.<br/>
-You can login by email or username:<br/>
-- Email: <span th:text="${mail}"></span><br/>
-- Username: <span th:text="${userName}"></span><br/>
-<br/>
-====================<br/>
-Any questions about account information please contact the admin or reply in this email.<br/>
-Sincerely thanks!<br/>
-<br/>
-<span th:text="${systemFullName}"></span><br/>
-Home page: <a th:href="${homePageLink}" target="_blank"><span th:text="${homePageName}"></span></a><br/>
-====================<br/>
-</body>
+    <head></head>
+    <body>
+    Dear <span th:text="${userFullName}"></span>,<br/>
+    <br/>
+    You have just registered for <span th:text="${systemShortName}"></span> system account.<br/>
+    You can login by email or username:<br/>
+    - Email: <span th:text="${mail}"></span><br/>
+    - Username: <span th:text="${userName}"></span><br/>
+    <br/>
+    ====================<br/>
+    Any questions about account information please contact the admin or reply in this email.<br/>
+    Sincerely thanks!<br/>
+    <br/>
+    <span th:text="${systemFullName}"></span><br/>
+    Home page: <a th:href="${homePageLink}" target="_blank"><span th:text="${homePageName}"></span></a><br/>
+    ====================<br/>
+    </body>
 </html>

@@ -8,6 +8,9 @@
                 <b-icon stacked icon="union" scale="1.2"></b-icon>
             </b-iconstack>
         </div>
+        <div class="text-center mt-4 text-uppercase font-weight-bold">
+            {{ $t('home.most_module.title') }}
+        </div>
         <div class="most-module-content">
             <b-carousel controls>
                 <b-carousel-slide v-for="(items, i) of modules" :key="'items-' + i">

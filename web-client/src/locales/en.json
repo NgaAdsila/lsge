@@ -123,6 +123,9 @@
       "sign_title": "My sincerely,",
       "sign": "Ha Quang Nga",
       "view_detail": "More about me"
+    },
+    "most_module": {
+      "title": "System's modules"
     }
   },
   "forget_password": {

@@ -3,6 +3,7 @@ node_modules
 /dist
 /target
 /.idea
+/logs
 
 # local env files
 .env.local
