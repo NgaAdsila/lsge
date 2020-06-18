@@ -11,6 +11,8 @@ import Home from '../pages/Home'
 import LoginHistory from '../pages/login-history/index';
 import Profile from '../pages/profile/index';
 import ForgetPassword from '../pages/forget-password/index';
+import AboutMe from "../pages/about-me/index";
+import ContactUs from '../pages/contact-us/index';
 
 Vue.use(VueRouter);
 
@@ -34,6 +36,16 @@ const routes = [
         path: '/profile',
         name: 'Profile',
         component: Profile
+      },
+      {
+        path: '/about-me',
+        name: 'AboutMe',
+        component: AboutMe
+      },
+      {
+        path: '/contact-us',
+        name: 'ContactUs',
+        component: ContactUs
       },
       {
         path: '/',
@@ -76,18 +88,18 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
-  if (store.getters.isLogin && to.path !== '/login') {
-    ApiService.getAxios().get(API_PATH.USER_ROLE)
-      .then(function (res) {
-        if (!checkRole(to.path, res.data)) {
-          next({ path: '/' })
-        }
-      })
-      .catch(function (e) {
-        console.log('Login error: ', e);
-      })
-  } else if (store.getters.isLogin && to.path === '/login') {
+  if (store.getters.isLogin && ['/forget-password', '/login', '/register'].some(t => t === to.path)) {
     next({ path: '/' });
+  } else if (store.getters.isLogin && to.path !== '/login') {
+    ApiService.getAxios().get(API_PATH.USER_ROLE)
+        .then(function (res) {
+          if (!checkRole(to.path, res.data)) {
+            next({ path: '/' })
+          }
+        })
+        .catch(function (e) {
+          console.log('Login error: ', e);
+        })
   }
 });
 

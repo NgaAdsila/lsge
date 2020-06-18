@@ -42,8 +42,6 @@
 <style lang="scss" scoped>
     .my-card-section {
         .my-information {
-            font-family: "Times New Roman",sans-serif;
-
             .my-card-content {
                 padding: 1rem 0;
                 .text-justify {

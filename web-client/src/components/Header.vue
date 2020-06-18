@@ -1,5 +1,5 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <b-navbar toggleable="lg" type="dark" variant="info" fixed="top" class="header-container">
+    <b-navbar toggleable="lg" type="dark" variant="dark" fixed="top" class="header-container">
         <b-navbar-brand href="/home">
             <b-img src="../assets/logo.png" height="50" :alt="$t('common.label.slogan')" />
         </b-navbar-brand>
@@ -9,8 +9,17 @@
         <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
                 <b-nav-item href="/home">{{ $t('common.label.home') }}</b-nav-item>
-                <b-nav-item href="/about-me">{{ $t('common.label.about_me') }}</b-nav-item>
-                <b-nav-item href="/contact-us">{{ $t('common.label.contact_us') }}</b-nav-item>
+                <b-nav-item-dropdown left>
+                    <template v-slot:button-content>
+                        {{ $t('common.label.help') }}
+                    </template>
+                    <b-dropdown-item href="/about-me" :active="$route.path === '/about-me'">
+                        <b-icon icon="emoji-sunglasses" ></b-icon> {{ $t('common.label.about_me') }}
+                    </b-dropdown-item>
+                    <b-dropdown-item href="/contact-us" :active="$route.path === '/contact-us'">
+                        <b-icon icon="question-diamond"></b-icon> {{ $t('common.label.contact_us') }}
+                    </b-dropdown-item>
+                </b-nav-item-dropdown>
             </b-navbar-nav>
 
             <!-- Right aligned nav items -->

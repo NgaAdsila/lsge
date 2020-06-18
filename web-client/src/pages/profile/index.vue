@@ -112,8 +112,12 @@
                             variant: 'success',
                             autoHideDelay: 2000
                         });
-                        await this.$router.push({path: '/login'});
+                        setTimeout(async (self = this) => {
+                            await self.$router.push('/login');
+                            this.isLoading = false;
+                        }, 2000);
                     } else {
+                        this.isLoading = false;
                         this.$bvToast.toast(res.message, {
                             title: this.$t('common.toast.title'),
                             toaster: 'b-toaster-top-center',
@@ -124,7 +128,6 @@
                     }
                 } catch (e) {
                     console.log('Change password error: ', e);
-                } finally {
                     this.isLoading = false;
                 }
             }

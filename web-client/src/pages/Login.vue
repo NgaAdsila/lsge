@@ -1,7 +1,10 @@
 <template>
     <b-container>
-        <LoginComponent
-                @login="login" />
+        <b-overlay :show="isSubmit" rounded="sm" spinner-variant="primary">
+            <LoginComponent
+                    :isSubmit="isSubmit"
+                    @login="login" />
+        </b-overlay>
     </b-container>
 </template>
 
@@ -13,9 +16,15 @@
     export default {
         name: "Login",
         components: {LoginComponent},
+        data() {
+            return {
+                isSubmit: false
+            }
+        },
         methods: {
             async login(data) {
                 try {
+                    this.isSubmit = true;
                     const res = await login(data);
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         this.$bvToast.toast(this.$t('login.message.success'), {
@@ -25,12 +34,16 @@
                             variant: 'success',
                             autoHideDelay: 2000
                         });
-                        await this.$router.push('/');
+                        setTimeout(async (self = this) => {
+                            await self.$router.push('/');
+                            this.isSubmit = false;
+                        }, 1000);
                         return;
                     }
                 } catch (e) {
                     console.log('Login ERROR: ', e);
                 }
+                this.isSubmit = false;
                 this.$bvToast.toast(this.$t('login.message.error'), {
                     title: this.$t('common.toast.title'),
                     toaster: 'b-toaster-top-center',

@@ -18,7 +18,8 @@
       "save": "Save",
       "about_me": "About me",
       "contact_us": "Contact us",
-      "reset": "Reset"
+      "reset": "Reset",
+      "help": "Help"
     },
     "validation": {
       "required": "Field {name} is required.",

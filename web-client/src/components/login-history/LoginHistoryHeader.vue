@@ -10,6 +10,7 @@
                     <b-form-input v-model="req.keyword"
                                   maxlength="100"
                                   :placeholder="$t('common.placeholder.keyword')"
+                                  class="active-search-keyword"
                                   @keydown.enter.native="search"></b-form-input>
                     <template v-slot:append>
                         <b-button v-b-toggle.sidebar-search><b-icon icon="list"></b-icon></b-button>
@@ -97,7 +98,7 @@
                 float: right!important;
             }
 
-            input {
+            input.active-search-keyword {
                 @media (max-width: 486px) {
                     display: none;
                 }

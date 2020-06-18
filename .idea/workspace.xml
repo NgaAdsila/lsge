@@ -20,17 +20,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fef0acaa-8523-4244-a52d-c69d1f481c89" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/logback-spring.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web-client/src/components/about-me/AboutMeComponent.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web-client/src/components/contact-us/ContactUsComponent.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web-client/src/pages/about-me/index.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web-client/src/pages/contact-us/index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/messages.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/messages.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/email/register_mail.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/email/register_mail.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/assets/style/common.scss" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/assets/style/common.scss" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web-client/src/components/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/components/Header.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web-client/src/components/home/MostModule.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/components/home/MostModule.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/components/LoginComponent.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/components/LoginComponent.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/components/home/MyCard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/components/home/MyCard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/components/login-history/LoginHistoryHeader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/components/login-history/LoginHistoryHeader.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web-client/src/locales/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/locales/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/pages/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/pages/Login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/pages/Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/pages/Register.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/pages/forget-password/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/pages/forget-password/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/pages/profile/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/pages/profile/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web-client/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/web-client/src/router/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,9 +82,9 @@
         <option value="Enum" />
         <option value="Interface" />
         <option value="JavaScript File" />
-        <option value="Vue Single File Component" />
         <option value="HTML File" />
         <option value="Class" />
+        <option value="Vue Single File Component" />
       </list>
     </option>
   </component>
@@ -208,7 +213,7 @@
       <workItem from="1591606402061" duration="5533000" />
       <workItem from="1591612750383" duration="107000" />
       <workItem from="1592206118975" duration="9851000" />
-      <workItem from="1592489019209" duration="1324000" />
+      <workItem from="1592489019209" duration="4675000" />
     </task>
     <servers />
   </component>

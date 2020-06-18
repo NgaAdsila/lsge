@@ -1,8 +1,10 @@
 <template>
     <b-container>
-        <RegisterComponent
-                :isSubmit="isSubmit"
-                @register="onRegister"/>
+        <b-overlay :show="isSubmit" rounded="sm" spinner-variant="primary">
+            <RegisterComponent
+                    :isSubmit="isSubmit"
+                    @register="onRegister"/>
+        </b-overlay>
     </b-container>
 </template>
 
@@ -31,8 +33,12 @@
                             variant: 'success',
                             autoHideDelay: 2000
                         });
-                        await this.$router.push('/login');
+                        setTimeout(async (self = this) => {
+                            await self.$router.push('/login');
+                            this.isSubmit = false;
+                        }, 1000);
                     } else {
+                        this.isSubmit = false;
                         this.$bvToast.toast(res.message, {
                             title: this.$t('common.toast.title'),
                             toaster: 'b-toaster-top-center',
@@ -43,7 +49,6 @@
                     }
                 } catch (e) {
                     console.log('Register ERROR: ', e);
-                } finally {
                     this.isSubmit = false;
                 }
             }

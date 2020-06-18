@@ -1,7 +1,9 @@
 <template>
-    <ForgetPasswordComponent
-            :isSubmit="isSubmit"
-            @forgetPassword="forgetPassword" />
+    <b-overlay :show="isSubmit" rounded="sm" spinner-variant="primary">
+        <ForgetPasswordComponent
+                :isSubmit="isSubmit"
+                @forgetPassword="forgetPassword" />
+    </b-overlay>
 </template>
 
 <script>
@@ -29,8 +31,12 @@
                             variant: 'success',
                             autoHideDelay: 2000
                         });
-                        await this.$router.push('/login');
+                        setTimeout(async (self = this) => {
+                            await self.$router.push('/login');
+                            this.isSubmit = false;
+                        }, 1000);
                     } else {
+                        this.isSubmit = false;
                         this.$bvToast.toast(res.message, {
                             title: this.$t('common.toast.title'),
                             toaster: 'b-toaster-top-center',
@@ -41,7 +47,6 @@
                     }
                 } catch (e) {
                     console.log('Reset password error: ', e);
-                } finally {
                     this.isSubmit = false;
                 }
             }

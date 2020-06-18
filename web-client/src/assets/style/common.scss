@@ -99,3 +99,12 @@ body::-webkit-scrollbar-thumb {
   background-color: darkgrey;
   outline: 1px solid slategrey;
 }
+
+.dropdown-menu {
+  .dropdown-item:hover {
+    background-color: #dadada;
+  }
+  .dropdown-item.active {
+    pointer-events: none;
+  }
+}
