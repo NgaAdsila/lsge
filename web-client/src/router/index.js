@@ -13,6 +13,9 @@ import Profile from '../pages/profile/index';
 import ForgetPassword from '../pages/forget-password/index';
 import AboutMe from "../pages/about-me/index";
 import ContactUs from '../pages/contact-us/index';
+import BookStoreHome from '../pages/book-store/index';
+import OldBookStoreHome from '../pages/book-store/old/index';
+import OldBookStoreAdmin from '../pages/book-store/old/admin';
 
 Vue.use(VueRouter);
 
@@ -46,6 +49,21 @@ const routes = [
         path: '/contact-us',
         name: 'ContactUs',
         component: ContactUs
+      },
+      {
+        path: '/book-store/old-home',
+        name: 'OldBookStoreHome',
+        component: OldBookStoreHome,
+      },
+      {
+        path: '/book-store/old-admin',
+        name: 'OldBookStoreAdmin',
+        component: OldBookStoreAdmin,
+      },
+      {
+        path: '/book-store',
+        name: 'BookStore',
+        component: BookStoreHome
       },
       {
         path: '/',

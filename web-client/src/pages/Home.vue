@@ -58,17 +58,23 @@
                 },
                 mostModules: [
                     [{
-                        title: 'Module1'
+                        title: this.$t('common.label.book_store'),
+                        icon: 'book'
                     }, {
-                        title: 'Module2'
+                        title: 'Module2',
+                        icon: 'puzzle'
                     }, {
-                        title: 'Module3'
+                        title: 'Module3',
+                        icon: 'puzzle'
                     }], [{
-                        title: 'Module4'
+                        title: 'Module4',
+                        icon: 'puzzle'
                     }, {
-                        title: 'Module5'
+                        title: 'Module5',
+                        icon: 'puzzle'
                     }, {
-                        title: 'Module6'
+                        title: 'Module6',
+                        icon: 'puzzle'
                     }]
                 ]
             }

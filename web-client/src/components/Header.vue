@@ -11,6 +11,24 @@
                 <b-nav-item href="/home">{{ $t('common.label.home') }}</b-nav-item>
                 <b-nav-item-dropdown left>
                     <template v-slot:button-content>
+                        {{ $t('common.label.module') }}
+                    </template>
+                    <b-dropdown-item disabled>
+                        <strong><b-icon icon="layers"></b-icon> {{ $t('common.label.book_store_old') }}</strong>
+                    </b-dropdown-item>
+                    <b-dropdown-item href="/book-store/old-home" :active="$route.path === '/book-store/old-home'">
+                        <b-icon icon="hash" ></b-icon> {{ $t('common.label.home_page') }}
+                    </b-dropdown-item>
+                    <b-dropdown-item href="/book-store/old-admin" :active="$route.path === '/book-store/old-admin'">
+                        <b-icon icon="hash" ></b-icon> {{ $t('common.label.admin_page') }}
+                    </b-dropdown-item>
+                    <b-dropdown-divider></b-dropdown-divider>
+                    <b-dropdown-item href="/book-store" :active="$route.path === '/book-store'">
+                        <strong><b-icon icon="book" ></b-icon> {{ $t('common.label.book_store') }}</strong>
+                    </b-dropdown-item>
+                </b-nav-item-dropdown>
+                <b-nav-item-dropdown left>
+                    <template v-slot:button-content>
                         {{ $t('common.label.help') }}
                     </template>
                     <b-dropdown-item href="/about-me" :active="$route.path === '/about-me'">

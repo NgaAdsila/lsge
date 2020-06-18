@@ -19,7 +19,12 @@
       "about_me": "About me",
       "contact_us": "Contact us",
       "reset": "Reset",
-      "help": "Help"
+      "help": "Help",
+      "module": "Modules",
+      "book_store": "Book store",
+      "book_store_old": "Old book store",
+      "home_page": "Home page",
+      "admin_page": "Admin page"
     },
     "validation": {
       "required": "Field {name} is required.",

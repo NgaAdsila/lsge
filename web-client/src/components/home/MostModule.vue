@@ -21,7 +21,7 @@
                                    class="most-module-col col-12"
                                    :class="'col-md-' + (12 / items.length)">
                                 <div class="most-module-item">
-                                    {{ item.title }}
+                                    <b-icon :icon="item.icon"></b-icon> {{ item.title }}
                                 </div>
                             </b-col>
                         </b-row>
