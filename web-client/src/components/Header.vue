@@ -14,7 +14,7 @@
                         {{ $t('common.label.module') }}
                     </template>
                     <b-dropdown-item disabled>
-                        <strong><b-icon icon="layers"></b-icon> {{ $t('common.label.book_store_old') }}</strong>
+                        <strong><b-icon icon="book" ></b-icon> {{ $t('common.label.book_store') }}</strong>
                     </b-dropdown-item>
                     <b-dropdown-item href="/book-store/old-home" :active="$route.path === '/book-store/old-home'">
                         <b-icon icon="hash" ></b-icon> {{ $t('common.label.home_page') }}
@@ -23,9 +23,7 @@
                         <b-icon icon="hash" ></b-icon> {{ $t('common.label.admin_page') }}
                     </b-dropdown-item>
                     <b-dropdown-divider></b-dropdown-divider>
-                    <b-dropdown-item href="/book-store" :active="$route.path === '/book-store'">
-                        <strong><b-icon icon="book" ></b-icon> {{ $t('common.label.book_store') }}</strong>
-                    </b-dropdown-item>
+
                 </b-nav-item-dropdown>
                 <b-nav-item-dropdown left>
                     <template v-slot:button-content>

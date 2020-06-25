@@ -20,7 +20,7 @@
                                    :key="'item-' + i + j"
                                    class="most-module-col col-12"
                                    :class="'col-md-' + (12 / items.length)">
-                                <div class="most-module-item">
+                                <div class="most-module-item" @click="$router.push({ path: item.link })">
                                     <b-icon :icon="item.icon"></b-icon> {{ item.title }}
                                 </div>
                             </b-col>
@@ -66,6 +66,10 @@
         border-radius: 50%;
         text-align: center;
         margin: 0.5rem 0;
+        &:hover {
+            cursor: pointer;
+            font-weight: bold;
+        }
     }
 }
 </style>
