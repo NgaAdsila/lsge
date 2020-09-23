@@ -13,17 +13,12 @@
                     <template v-slot:button-content>
                         {{ $t('common.label.module') }}
                     </template>
-                    <b-dropdown-item disabled>
-                        <strong><b-icon icon="book" ></b-icon> {{ $t('common.label.book_store') }}</strong>
+                    <b-dropdown-item href="/chat-list" :active="$route.path === '/chat-list'">
+                        <b-icon icon="chat-dots"></b-icon> {{ $t('common.label.chat_list') }}
                     </b-dropdown-item>
-                    <b-dropdown-item href="/book-store/old-home" :active="$route.path === '/book-store/old-home'">
-                        <b-icon icon="hash" ></b-icon> {{ $t('common.label.home_page') }}
+                    <b-dropdown-item href="#" :active="$route.path === '/module2'">
+                        <b-icon icon="puzzle"></b-icon> Module 2
                     </b-dropdown-item>
-                    <b-dropdown-item href="/book-store/old-admin" :active="$route.path === '/book-store/old-admin'">
-                        <b-icon icon="hash" ></b-icon> {{ $t('common.label.admin_page') }}
-                    </b-dropdown-item>
-                    <b-dropdown-divider></b-dropdown-divider>
-
                 </b-nav-item-dropdown>
                 <b-nav-item-dropdown left>
                     <template v-slot:button-content>

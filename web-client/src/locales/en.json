@@ -21,10 +21,7 @@
       "reset": "Reset",
       "help": "Help",
       "module": "Modules",
-      "book_store": "Book store",
-      "book_store_old": "Old book store",
-      "home_page": "Home page",
-      "admin_page": "Admin page"
+      "chat_list": "Chat list"
     },
     "validation": {
       "required": "Field {name} is required.",
@@ -81,6 +78,9 @@
       "re_password": {
         "not_match": "The Re password field must match the Password field"
       }
+    },
+    "message": {
+      "success": "Register success! Let's login to use our system"
     }
   },
   "footer": {

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Entity
 @Data
@@ -51,6 +53,26 @@ public class User extends BaseEntity {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    //.............................TODO: infinite user........................................
+    @OneToMany
+    @JoinColumn(name = "i_user_id")
+    public Set<Relationship> iRelationships;
+
+    @OneToMany
+    @JoinColumn(name = "y_user_id")
+    public Set<Relationship> yRelationships;
+
+    public Set<Relationship> relationships() {
+        return Stream.concat(iRelationships.stream(), yRelationships.stream())
+                .collect(Collectors.toSet());
+    }
+
+    public List<User> friendList() {
+        return this.relationships().stream()
+                .map(a -> a.getIUser().getId().equals(this.id) ? a.getYUser() : a.getIUser())
+                .collect(Collectors.toList());
+    }
 
     public User() {
 

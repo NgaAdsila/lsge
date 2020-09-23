@@ -5,7 +5,7 @@
                 <b-icon stacked icon="square-fill"
                         scale="3"
                         rotate="45" variant="success"></b-icon>
-                <b-icon stacked icon="union" scale="1.2"></b-icon>
+                <b-icon stacked icon="union" scale="1.2" animation="throb"></b-icon>
             </b-iconstack>
         </div>
         <div class="text-center mt-4 text-uppercase font-weight-bold">

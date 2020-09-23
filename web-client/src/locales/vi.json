@@ -18,7 +18,10 @@
       "save": "Lưu",
       "about_me": "Giới thiệu",
       "contact_us": "Liên hệ",
-      "reset": "Thiết lập lại"
+      "reset": "Thiết lập lại",
+      "help": "Trợ giúp",
+      "module": "Tính năng",
+      "chat_list": "Danh sách trò chuyện"
     },
     "validation": {
       "required": "Trường {name} bắt buộc nhập.",
@@ -75,6 +78,9 @@
       "re_password": {
         "not_match": "Trường \"Nhập lại mật khẩu\" phải trùng khớp với trường \"Mật khẩu\""
       }
+    },
+    "message": {
+      "success": "Đăng ký thành công. Hãy đăng nhập để sử dụng hệ thống của chúng tôi"
     }
   },
   "footer": {

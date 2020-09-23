@@ -2,11 +2,9 @@ package my.lsge.application.dto.loginHistory;
 
 import lombok.Getter;
 import lombok.Setter;
-import my.lsge.application.Common.Const;
+import my.lsge.application.common.Const;
 import my.lsge.domain.entity.LoginHistory;
 import my.lsge.util.Utils;
-
-import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter

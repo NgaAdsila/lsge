@@ -1,4 +1,4 @@
-package my.lsge.application.Common;
+package my.lsge.application.common;
 
 public class Const {
 

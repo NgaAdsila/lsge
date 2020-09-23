@@ -1,20 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../pages/Login.vue'
-import Register from '../pages/Register.vue'
 import BaseLayout from '../layouts/default.vue'
 import store from '../store/index'
 import ApiService from '../helper/ApiService'
 import { API_PATH } from '../services/constants'
 import { checkRole } from '../services/role'
-import Home from '../pages/Home'
-import LoginHistory from '../pages/login-history/index';
-import Profile from '../pages/profile/index';
-import ForgetPassword from '../pages/forget-password/index';
-import AboutMe from "../pages/about-me/index";
-import ContactUs from '../pages/contact-us/index';
-import OldBookStoreHome from '../pages/book-store/old/index';
-import OldBookStoreAdmin from '../pages/book-store/old/admin';
 
 Vue.use(VueRouter);
 
@@ -27,37 +17,32 @@ const routes = [
       {
         path: '/home',
         name: 'Home',
-        component: Home
+        component: () => import(/* webpackChunkName: "home" */ '../pages/Home')
       },
       {
         path: '/login-history',
         name: 'Login history',
-        component: LoginHistory
+        component: () => import(/* webpackChunkName: "login-history" */ '../pages/login-history/index')
       },
       {
         path: '/profile',
         name: 'Profile',
-        component: Profile
+        component: () => import(/* webpackChunkName: "profile" */ '../pages/profile/index')
       },
       {
         path: '/about-me',
         name: 'AboutMe',
-        component: AboutMe
+        component: () => import(/* webpackChunkName: "about-me" */ '../pages/about-me/index')
       },
       {
         path: '/contact-us',
         name: 'ContactUs',
-        component: ContactUs
+        component: () => import(/* webpackChunkName: "contact-us" */ '../pages/contact-us/index')
       },
       {
-        path: '/book-store/old-home',
-        name: 'OldBookStoreHome',
-        component: OldBookStoreHome,
-      },
-      {
-        path: '/book-store/old-admin',
-        name: 'OldBookStoreAdmin',
-        component: OldBookStoreAdmin,
+        path: '/chat-list',
+        name: 'ChatList',
+        component: () => import(/* webpackChunkName: "chat-list" */ '../pages/chat/index')
       },
       {
         path: '/',
@@ -68,17 +53,17 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: () => import(/* webpackChunkName: "login" */ '../pages/Login')
   },
   {
     path: '/register',
     name: 'Register',
-    component: Register
+    component: () => import(/* webpackChunkName: "register" */ '../pages/Register')
   },
   {
     path: '/forget-password',
     name: 'ForgetPassword',
-    component: ForgetPassword
+    component: () => import(/* webpackChunkName: "forget-password" */ '../pages/forget-password')
   },
   {
     path: '*',
@@ -89,7 +74,7 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({ x: 0, y: 0 }),
   routes
 });
 
