@@ -5,7 +5,11 @@ import my.lsge.domain.entity.RelationshipId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface RelationshipRepository extends JpaRepository<Relationship, RelationshipId> {
 
+    List<Relationship> findByIdReqUserIdOrIdRecUserId(Long reqUserId, Long recUserId);
 }

@@ -1,5 +1,6 @@
 package my.lsge.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import my.lsge.domain.enums.RelationShipStatusEnum;
@@ -16,15 +17,17 @@ public class Relationship extends BaseEntity {
     @EmbeddedId
     private RelationshipId id;
 
-    @MapsId(value = "iUserId")
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "i_user_id")
-    private User iUser;
+    @MapsId(value = "reqUserId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "req_user_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private User reqUser;
 
-    @MapsId(value = "yUserId")
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "y_user_id")
-    private User yUser;
+    @MapsId(value = "recUserId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rec_user_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private User recUser;
 
     @NotBlank
     @Enumerated(EnumType.STRING)
@@ -35,9 +38,8 @@ public class Relationship extends BaseEntity {
         this.status = RelationShipStatusEnum.PENDING;
     }
 
-    public Relationship(User iUser, User yUser, RelationShipStatusEnum status) {
-        this.iUser = iUser;
-        this.yUser = yUser;
+    public Relationship(RelationshipId id, RelationShipStatusEnum status) {
+        this.id = id;
         this.status = status;
     }
 }
