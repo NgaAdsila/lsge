@@ -40,6 +40,11 @@ const routes = [
         component: () => import(/* webpackChunkName: "contact-us" */ '../pages/contact-us/index')
       },
       {
+        path: '/find-friend',
+        name: 'FindFriend',
+        component: () => import(/* webpackChunkName: "find-friend" */ '../pages/find-friend/index')
+      },
+      {
         path: '/chat-list',
         name: 'ChatList',
         component: () => import(/* webpackChunkName: "chat-list" */ '../pages/chat/index')

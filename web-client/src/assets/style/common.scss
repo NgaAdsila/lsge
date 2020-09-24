@@ -108,3 +108,9 @@ body::-webkit-scrollbar-thumb {
     pointer-events: none;
   }
 }
+.has-link {
+  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+  }
+}

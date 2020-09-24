@@ -21,7 +21,9 @@
       "reset": "Reset",
       "help": "Help",
       "module": "Modules",
-      "chat_list": "Chat list"
+      "chat_list": "Chat list",
+      "search_friend": "Find friend...",
+      "find-friend": "Find friend"
     },
     "validation": {
       "required": "Field {name} is required.",

@@ -6,7 +6,6 @@ import my.lsge.application.dto.relation.AddingFriendReq;
 import my.lsge.application.dto.relation.FriendItemRes;
 import my.lsge.application.dto.relation.UpdatingFriendStatusReq;
 import my.lsge.application.exception.FormValidationException;
-import my.lsge.application.exception.NotAcceptableException;
 import my.lsge.domain.dao.RelationshipDao;
 import my.lsge.domain.entity.Relationship;
 import my.lsge.domain.entity.RelationshipId;
@@ -49,6 +48,9 @@ public class RelationshipLogic extends BaseLogic {
     public void addFriend(AddingFriendReq req, Long userId) {
         validateUser(userId);
 
+        if (userId.equals(req.getRecUserId())) {
+            throw new FormValidationException(language.getString("relationship.add_self"));
+        }
         Relationship relationship = relationshipDao.getOne(userId, req.getRecUserId());
         if (relationship == null || relationship.isDeleted()) {
             relationship = new Relationship(new RelationshipId(userId, req.getRecUserId()), RelationShipStatusEnum.PENDING);

@@ -35,10 +35,10 @@
 
             <!-- Right aligned nav items -->
             <b-navbar-nav class="ml-auto">
-                <b-nav-form @submit.stop.prevent="search">
+                <b-nav-form @submit.stop.prevent="searchFriend">
                     <b-form-input size="sm" class="mr-sm-2"
                                   v-model="keyword"
-                                  :placeholder="$t('common.label.search')"></b-form-input>
+                                  :placeholder="$t('common.label.search_friend')"></b-form-input>
                 </b-nav-form>
 
                 <b-nav-item-dropdown right>
@@ -77,8 +77,8 @@
             logout() {
                 this.$emit('logout');
             },
-            search() {
-                this.$emit('search', this.keyword);
+            searchFriend() {
+                this.$emit('searchFriend', this.keyword);
             }
         }
     }

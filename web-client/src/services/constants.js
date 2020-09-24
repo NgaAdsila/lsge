@@ -43,5 +43,7 @@ export const API_PATH = {
     CURRENT_USER: '/api/users/current-user',
     USER_UPDATE: '/api/users/update',
     USER_CHANGE_PASSWORD: '/api/users/change-password',
-    LOGIN_HISTORY_FILTER_BY_USER: '/api/login-histories/filter-by-user'
+    LOGIN_HISTORY_FILTER_BY_USER: '/api/login-histories/filter-by-user',
+    RELATIONSHIP_ADD_FRIEND: '/api/relationships',
+    RELATIONSHIP_CANCEL_FRIEND: '/api/relationships/cancel',
 };

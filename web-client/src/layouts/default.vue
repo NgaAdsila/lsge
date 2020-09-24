@@ -2,7 +2,7 @@
     <div>
         <Header
                 :user="user"
-                @search="searchHeader"
+                @searchFriend="searchFriend"
                 @logout="logout"/>
         <b-container fluid>
             <router-view />
@@ -46,12 +46,11 @@
                 this.confirmMessage = this.$t('logout.message.question');
                 this.$bvModal.show('modal-confirm');
             },
-            searchHeader(keyword = '') {
-                if (!keyword || keyword === '') {
+            searchFriend(keyword = '') {
+                if (!keyword || keyword.trim() === '') {
                     return;
                 }
-                //TODO: search all
-                console.log('SEARCH HEADER: ', keyword);
+                return this.$router.push({ name: 'FindFriend', query: { keyword: keyword } });
             },
             async onOk() {
                 this.$bvModal.hide('modal-confirm');
