@@ -83,6 +83,20 @@ const router = new VueRouter({
   routes
 });
 
+const originalPush = router.push;
+router.push = function push(location, onResolve, onReject) {
+  if (onResolve || onReject) {
+    return originalPush.call(this, location, onResolve, onReject);
+  }
+  return originalPush.call(this, location).catch((err) => {
+    if (!err || err.name === 'NavigationDuplicated' ||
+        err.message.includes('Avoided redundant navigation to current location')) {
+      return Promise.resolve(this.currentRoute);
+    }
+    return Promise.reject(err);
+  });
+};
+
 router.beforeEach((to, from, next) => {
   store.commit('initialiseStore');
   if (to.matched.some(r => r.meta.requiresAuth) && !store.getters.isLogin) {

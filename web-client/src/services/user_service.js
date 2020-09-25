@@ -85,3 +85,7 @@ export async function refreshToken() {
 export async function forgetPassword(req = {}) {
     return await ApiService.post(API_PATH.AUTH_FORGET_PASSWORD, req, {});
 }
+
+export async function getList(keyword) {
+    return await ApiService.get(API_PATH.USER_GET_LIST + (keyword ? `?keyword=${keyword}` : ''), {});
+}

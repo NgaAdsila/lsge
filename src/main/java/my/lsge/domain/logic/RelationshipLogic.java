@@ -9,8 +9,10 @@ import my.lsge.application.exception.FormValidationException;
 import my.lsge.domain.dao.RelationshipDao;
 import my.lsge.domain.entity.Relationship;
 import my.lsge.domain.entity.RelationshipId;
+import my.lsge.domain.entity.RelationshipLog;
 import my.lsge.domain.entity.User;
 import my.lsge.domain.enums.RelationShipStatusEnum;
+import my.lsge.domain.repository.RelationshipLogRepository;
 import my.lsge.domain.repository.RelationshipRepository;
 import my.lsge.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class RelationshipLogic extends BaseLogic {
     @Autowired
     private RelationshipDao relationshipDao;
 
+    @Autowired
+    private RelationshipLogRepository relationshipLogRepository;
+
     public ListObjectRes<FriendItemRes> getFriendList(Long userId) {
         User user = userRepository.getOne(userId);
         validateUser(user);
@@ -46,18 +51,32 @@ public class RelationshipLogic extends BaseLogic {
     }
 
     public void addFriend(AddingFriendReq req, Long userId) {
-        validateUser(userId);
+        User user = userRepository.getOne(userId);
+        validateUser(user);
 
         if (userId.equals(req.getRecUserId())) {
             throw new FormValidationException(language.getString("relationship.add_self"));
         }
+        User recUser = userRepository.getOne(req.getRecUserId());
+        if (recUser == null || recUser.isDeleted()) {
+            throw new FormValidationException(language.getString("valid.user.is_not_existed"));
+        }
         Relationship relationship = relationshipDao.getOne(userId, req.getRecUserId());
         if (relationship == null || relationship.isDeleted()) {
-            relationship = new Relationship(new RelationshipId(userId, req.getRecUserId()), RelationShipStatusEnum.PENDING);
+            relationship = new Relationship();
+            relationship.setId(new RelationshipId(userId, req.getRecUserId()));
+            relationship.setReqUser(user);
+            relationship.setRecUser(recUser);
         } else {
             throw new FormValidationException(language.getString("relationship.is_existed"));
         }
         relationshipRepository.save(relationship);
+        saveLog(relationship, RelationShipStatusEnum.PENDING);
+    }
+
+    private void saveLog(Relationship relationship, RelationShipStatusEnum status) {
+        RelationshipLog log = new RelationshipLog(0L, relationship.getReqUser(), relationship.getRecUser(), status);
+        relationshipLogRepository.save(log);
     }
 
     public void approve(UpdatingFriendStatusReq req, Long userId) {
@@ -70,6 +89,7 @@ public class RelationshipLogic extends BaseLogic {
         }
         relationship.setStatus(RelationShipStatusEnum.APPROVED);
         relationshipRepository.save(relationship);
+        saveLog(relationship, RelationShipStatusEnum.APPROVED);
     }
 
     public void cancel(UpdatingFriendStatusReq req, Long userId) {
@@ -79,7 +99,7 @@ public class RelationshipLogic extends BaseLogic {
         if (relationship == null || relationship.isDeleted()) {
             throw new FormValidationException(language.getString("relationship.is_cancelled"));
         }
-        relationship.setDeleted(true);
-        relationshipRepository.save(relationship);
+        saveLog(relationship, RelationShipStatusEnum.CANCEL);
+        relationshipRepository.delete(relationship);
     }
 }

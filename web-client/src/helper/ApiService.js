@@ -21,7 +21,7 @@ export default {
     },
     async get(url, config = {}) {
         try {
-            const res = await this.getAxios().get(url, config);
+            const res = await this.getAxios().get(encodeURI(url), config);
             return success(res.data);
         } catch (e) {
             return this.handleError(e.response);

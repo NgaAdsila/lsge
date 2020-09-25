@@ -1,23 +1,42 @@
 package my.lsge.domain.logic;
 
 import lombok.extern.slf4j.Slf4j;
-import my.lsge.application.dto.user.ChangingPasswordReq;
-import my.lsge.application.dto.user.UpdatingUserReq;
-import my.lsge.application.dto.user.UserIdentityAvailability;
-import my.lsge.application.dto.user.UserSummary;
+import my.lsge.application.dto.ListObjectRes;
+import my.lsge.application.dto.user.*;
 import my.lsge.application.exception.ForbiddenException;
 import my.lsge.application.exception.FormValidationException;
+import my.lsge.domain.dao.UserDao;
+import my.lsge.domain.entity.Relationship;
+import my.lsge.domain.entity.Role;
 import my.lsge.domain.entity.User;
+import my.lsge.domain.enums.UserRoleEnum;
+import my.lsge.domain.repository.RelationshipRepository;
+import my.lsge.domain.repository.RoleRepository;
+import my.lsge.util.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
 public class UserLogic extends BaseLogic {
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private RelationshipRepository relationshipRepository;
+
+    @Autowired
+    private UserDao userDao;
 
     public UserIdentityAvailability checkUsernameAvailability(String username) {
         Boolean isAvailability = !userRepository.existsByUsername(username);
@@ -80,5 +99,22 @@ public class UserLogic extends BaseLogic {
                 !passwordEncoder.matches(req.getOldPassword(), user.getPassword())) {
             throw new FormValidationException(language.getString("valid.user.change_password.old_password_not_match"));
         }
+    }
+
+    public ListObjectRes<UserWithNameItemRes> getUserList(FindUserReq req, Long userId) {
+        validateUser(userId);
+
+        req.normalize();
+        Optional<Role> adminRoleOpt = roleRepository.findByName(UserRoleEnum.ROLE_ADMIN);
+        List<User> users = userDao.findFriends(userId, adminRoleOpt.orElse(null), req);
+
+        ListObjectRes<UserWithNameItemRes> res = new ListObjectRes<>();
+        if (!Utils.isNullOrEmpty(users)) {
+            List<Relationship> relationships = relationshipRepository.findByIdReqUserIdOrIdRecUserId(userId, userId);
+            res.setResponses(users.stream()
+                .map(u -> UserWithNameItemRes.by(u, relationships))
+                .collect(Collectors.toList()));
+        }
+        return res;
     }
 }

@@ -38,6 +38,7 @@
                 <b-nav-form @submit.stop.prevent="searchFriend">
                     <b-form-input size="sm" class="mr-sm-2"
                                   v-model="keyword"
+                                  type="search"
                                   :placeholder="$t('common.label.search_friend')"></b-form-input>
                 </b-nav-form>
 

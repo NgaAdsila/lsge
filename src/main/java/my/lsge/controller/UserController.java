@@ -1,9 +1,7 @@
 package my.lsge.controller;
 
-import my.lsge.application.dto.user.ChangingPasswordReq;
-import my.lsge.application.dto.user.UpdatingUserReq;
-import my.lsge.application.dto.user.UserIdentityAvailability;
-import my.lsge.application.dto.user.UserSummary;
+import my.lsge.application.dto.ListObjectRes;
+import my.lsge.application.dto.user.*;
 import my.lsge.application.security.CurrentUser;
 import my.lsge.application.security.UserPrincipal;
 import my.lsge.domain.logic.UserLogic;
@@ -53,5 +51,10 @@ public class UserController extends BaseController {
     @PutMapping("/change-password")
     public UserSummary changePassword(@Valid @RequestBody ChangingPasswordReq req) {
         return userLogic.changePassword(req, getUserId());
+    }
+
+    @GetMapping("/user-list")
+    public ListObjectRes<UserWithNameItemRes> getUserList(FindUserReq req) {
+        return userLogic.getUserList(req, getUserId());
     }
 }

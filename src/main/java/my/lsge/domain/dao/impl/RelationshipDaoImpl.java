@@ -4,17 +4,23 @@ import my.lsge.domain.dao.RelationshipDao;
 import my.lsge.domain.entity.Relationship;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.NoResultException;
+
 @Repository
 public class RelationshipDaoImpl extends BaseDaoImpl<Relationship> implements RelationshipDao {
     @Override
     public Relationship getOne(Long firstUserId, Long secondUserId) {
-        if (firstUserId == null || secondUserId == null) {
-            return  null;
+        try {
+            if (firstUserId == null || secondUserId == null) {
+                return  null;
+            }
+            String query = String.format("SELECT rs FROM Relationship rs " +
+                            "WHERE (rs.id.reqUserId = %s AND rs.id.recUserId = %s) " +
+                            "OR (rs.id.reqUserId = %s AND rs.id.recUserId = %s)",
+                    firstUserId, secondUserId, secondUserId, firstUserId);
+            return entityManager.createQuery(query, Relationship.class).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
         }
-        String query = String.format("SELECT rs FROM Relationship rs " +
-                        "WHERE (rs.id.reqUserId = %s AND rs.id.recUserId = %s) " +
-                        "OR (rs.id.reqUserId = %s AND rs.id.recUserId = %s)",
-                firstUserId, secondUserId, secondUserId, firstUserId);
-        return entityManager.createQuery(query, Relationship.class).getSingleResult();
     }
 }

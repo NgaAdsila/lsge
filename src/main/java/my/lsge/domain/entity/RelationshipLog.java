@@ -10,18 +10,17 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @Getter
 @Setter
-@Table(name = "relationships")
-public class Relationship extends BaseEntity {
+@Table(name = "relationship_logs")
+public class RelationshipLog extends BaseEntity {
 
-    @EmbeddedId
-    private RelationshipId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @MapsId(value = "reqUserId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "req_user_id")
     private User reqUser;
 
-    @MapsId(value = "recUserId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rec_user_id")
     private User recUser;
@@ -31,12 +30,14 @@ public class Relationship extends BaseEntity {
     @Column(length = 16)
     private RelationShipStatusEnum status;
 
-    public Relationship() {
-        this.status = RelationShipStatusEnum.PENDING;
+    public RelationshipLog() {
+
     }
 
-    public Relationship(RelationshipId id, User reqUser, User recUser, RelationShipStatusEnum status) {
+    public RelationshipLog(Long id, User reqUser, User recUser, RelationShipStatusEnum status) {
         this.id = id;
+        this.reqUser = reqUser;
+        this.recUser = recUser;
         this.status = status;
     }
 }

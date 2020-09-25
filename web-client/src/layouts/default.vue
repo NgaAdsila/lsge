@@ -46,11 +46,8 @@
                 this.confirmMessage = this.$t('logout.message.question');
                 this.$bvModal.show('modal-confirm');
             },
-            searchFriend(keyword = '') {
-                if (!keyword || keyword.trim() === '') {
-                    return;
-                }
-                return this.$router.push({ name: 'FindFriend', query: { keyword: keyword } });
+            async searchFriend(keyword = '') {
+                await this.$router.push({ name: 'FindFriend', query: { keyword: keyword.trim() } });
             },
             async onOk() {
                 this.$bvModal.hide('modal-confirm');
