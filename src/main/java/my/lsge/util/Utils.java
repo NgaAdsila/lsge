@@ -2,6 +2,7 @@ package my.lsge.util;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -137,5 +138,12 @@ public final class Utils {
     public static boolean isValidEmail(String email) {
         return StringUtils.isNotEmpty(email) && //
                 Pattern.compile(Const.EMAIL_VALID_REGEX).matcher(email).matches();
+    }
+
+    public static Long parseDateTimeToMilliSecond(LocalDateTime dateTime) {
+        if (dateTime == null) {
+            return null;
+        }
+        return dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 }

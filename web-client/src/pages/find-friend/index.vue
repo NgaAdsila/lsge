@@ -2,10 +2,13 @@
     <div class="find-friend-page">
         <b-breadcrumb :items="crumbItems"></b-breadcrumb>
         <b-overlay :show="isLoading" rounded="sm" spinner-variant="primary">
-            <FindFriendComponent :userList="userList"
-                                 @addFriend="addFriend"
-                                 @approveFriend="approveFriend"
-                                 @cancelFriend="cancelFriend" />
+            <FindFriendComponent
+                    :userList="userList"
+                    @addFriend="addFriend"
+                    @approveFriend="approveFriend"
+                    @cancelFriend="cancelFriend"
+                    @createChatRoom="createChatRoom"
+            />
         </b-overlay>
     </div>
 </template>
@@ -14,6 +17,7 @@
     import FindFriendComponent from "../../components/find-friend/FindFriendComponent";
     import { addFriend, cancelFriend, approveFriend } from "../../services/relationship_service";
     import { getList } from "../../services/user_service";
+    import { initNormalChatroom } from "../../services/chatroom_service";
     import {RELATION_STATUS, RESPONSE} from "../../services/constants";
 
     export default {
@@ -75,7 +79,7 @@
                     const res = await addFriend({recUserId: userId});
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         this.userList[index].hasFriendReq = true;
-                        this.$bvToast.toast(this.$t('common.message.update_success'), {
+                        this.$bvToast.toast(this.$t('find-friend.message.add_friend_success'), {
                             title: this.$t('common.toast.title'),
                             toaster: 'b-toaster-top-center',
                             solid: true,
@@ -103,7 +107,7 @@
                     const res = await cancelFriend({userId: userId});
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         this.userList[index].hasFriendReq = false;
-                        this.$bvToast.toast(this.$t('common.message.update_success'), {
+                        this.$bvToast.toast(this.$t('find-friend.message.cancel_friend_success'), {
                             title: this.$t('common.toast.title'),
                             toaster: 'b-toaster-top-center',
                             solid: true,
@@ -132,7 +136,7 @@
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         this.userList[index].canApprove = false;
                         this.userList[index].status = RELATION_STATUS.APPROVED;
-                        this.$bvToast.toast(this.$t('common.message.update_success'), {
+                        this.$bvToast.toast(this.$t('find-friend.message.approve_friend_success', {name: this.userList[index].name}), {
                             title: this.$t('common.toast.title'),
                             toaster: 'b-toaster-top-center',
                             solid: true,
@@ -151,6 +155,37 @@
                 } catch(e) {
                     console.log('cancel friend error: ', e);
                 } finally {
+                    this.isLoading = false;
+                }
+            },
+            async createChatRoom(userId, index) {
+                try {
+                    this.isLoading = true;
+                    const res = await initNormalChatroom({userId: userId});
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        this.$bvToast.toast(this.$t('chatroom.message.init_normal_success', {name: this.userList[index].name}), {
+                            title: this.$t('common.toast.title'),
+                            toaster: 'b-toaster-top-center',
+                            solid: true,
+                            variant: 'success',
+                            autoHideDelay: 2000
+                        });
+                        setTimeout(async (self = this) => {
+                            await self.$router.push({ name: 'ChatDetail', params: { id: res.data.id } });
+                            this.isLoading = false;
+                        }, 500);
+                    } else {
+                        this.$bvToast.toast(res.message, {
+                            title: this.$t('common.toast.title'),
+                            toaster: 'b-toaster-top-center',
+                            solid: true,
+                            variant: 'danger',
+                            autoHideDelay: 2000
+                        });
+                        this.isLoading = false;
+                    }
+                } catch(e) {
+                    console.log('create chatroom error: ', e);
                     this.isLoading = false;
                 }
             }

@@ -17,6 +17,10 @@
                                 variant="success" font-scale="1.5"
                                 class="has-link user-action-approve"
                                 @click="approveFriend(user.id, index)"></b-icon>
+                        <b-icon v-else icon="chat-dots"
+                                variant="primary" font-scale="1.5"
+                                class="has-link user-action-approve"
+                                @click="createChatRoom(user.id, index)"></b-icon>
                         <b-icon icon="person-x"
                                 variant="danger" font-scale="1.5"
                                 class="has-link"
@@ -57,6 +61,9 @@
             },
             isFriend(user) {
                 return user.hasFriendReq && user.status === RELATION_STATUS.APPROVED;
+            },
+            createChatRoom(userId, index) {
+                this.$emit('createChatRoom', userId, index);
             }
         }
     }

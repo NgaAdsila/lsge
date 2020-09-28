@@ -23,7 +23,9 @@
       "module": "Tính năng",
       "chat_list": "Danh sách trò chuyện",
       "search_friend": "Tìm kiếm bạn bè...",
-      "find-friend": "Tìm kiếm bạn bè"
+      "find-friend": "Tìm kiếm bạn bè",
+      "chat_detail": "Trò chuyện",
+      "someone": "Ai đó"
     },
     "validation": {
       "required": "Trường {name} bắt buộc nhập.",
@@ -131,6 +133,18 @@
       "sign_title": "Chữ ký,",
       "sign": "Hà Quang Ngà",
       "view_detail": "Xem chi tiết"
+    }
+  },
+  "find-friend": {
+    "message": {
+      "add_friend_success": "Gửi yêu cầu kết bạn thành công. Vui lòng đợi yêu cầu được chấp nhận",
+      "approve_friend_success": "Bạn vừa đồng ý yêu cầu kết bạn của {name}",
+      "cancel_friend_success": "Hủy kết bạn thành công"
+    }
+  },
+  "chatroom": {
+    "message": {
+      "init_normal_success": "Bắt đầu trò chuyện với {name}"
     }
   }
 }

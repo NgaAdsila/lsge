@@ -50,6 +50,11 @@ const routes = [
         component: () => import(/* webpackChunkName: "chat-list" */ '../pages/chat/index')
       },
       {
+        path: '/chat-detail/:id',
+        name: 'ChatDetail',
+        component: () => import(/* webpackChunkName: "chat-detail" */ '../pages/chat/detail/index')
+      },
+      {
         path: '/',
         redirect: '/home'
       }

@@ -23,7 +23,9 @@
       "module": "Modules",
       "chat_list": "Chat list",
       "search_friend": "Find friend...",
-      "find-friend": "Find friend"
+      "find-friend": "Find friend",
+      "chat_detail": "Chat detail",
+      "someone": "Someone"
     },
     "validation": {
       "required": "Field {name} is required.",
@@ -141,6 +143,18 @@
       "title": "FORGOT PASSWORD",
       "email": "Registered email",
       "submit": "Submit"
+    }
+  },
+  "find-friend": {
+    "message": {
+      "add_friend_success": "Send a successful friend request. Please wait for your request to be accepted",
+      "approve_friend_success": "You just agreed to {name}'s friend request",
+      "cancel_friend_success": "Unfriend success"
+    }
+  },
+  "chatroom": {
+    "message": {
+      "init_normal_success": "Start chatting with {name}"
     }
   }
 }
