@@ -18,8 +18,9 @@ public class MessageTrackingStatus extends BaseEntity {
     @Column(name = "chatroom_id")
     private long chatroomId;
 
-    @Column(name = "message_id")
-    private long messageId;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "message_id", referencedColumnName = "id")
+    private Message message;
 
     @Column(name = "user_id")
     private long userId;
@@ -30,10 +31,10 @@ public class MessageTrackingStatus extends BaseEntity {
         this.isSeen = false;
     }
 
-    public MessageTrackingStatus(Long id, Long chatroomId, Long messageId, Long userId, boolean isSeen) {
+    public MessageTrackingStatus(Long id, Long chatroomId, Message message, Long userId, boolean isSeen) {
         this.id = id;
         this.chatroomId = chatroomId;
-        this.messageId = messageId;
+        this.message = message;
         this.userId = userId;
         this.isSeen = isSeen;
     }

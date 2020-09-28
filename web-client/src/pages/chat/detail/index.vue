@@ -7,6 +7,8 @@
                     :messages="messages"
                     :users="users"
                     :currentUserId="currentUserId"
+                    :isSubmitting="isSubmitting"
+                    @createMessage="createMessage"
             />
         </b-overlay>
     </div>
@@ -14,7 +16,7 @@
 
 <script>
     import ChatDetailComponent from "../../../components/chat/detail/ChatDetailComponent";
-    import { findById } from "../../../services/chatroom_service";
+    import { findById, createMessage } from "../../../services/chatroom_service";
     import {RESPONSE} from "../../../services/constants";
 
     export default {
@@ -47,7 +49,8 @@
                 isLoading: false,
                 chatroomName: '',
                 messages: [],
-                users: []
+                users: [],
+                isSubmitting: false
             }
         },
         created() {
@@ -85,6 +88,27 @@
                 } finally {
                     this.isLoading = false
                 }
+            },
+            async createMessage(message) {
+                try {
+                    this.isSubmitting = true
+                    const res = await createMessage({
+                        chatroomId: this.chatroomId,
+                        message: message
+                    });
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        this.messages.push(res.data)
+                        console.log(this.messages);
+                    } else {
+                        console.log('ERRRR: ', res.message)
+                    }
+                    return true;
+                } catch (e) {
+                    console.log('Create message error: ', e)
+                } finally {
+                    this.isSubmitting = false
+                }
+                return false;
             }
         }
     }

@@ -1,23 +1,25 @@
 package my.lsge.domain.logic;
 
+import my.lsge.application.dto.chatroom.AddingMessageReq;
 import my.lsge.application.dto.chatroom.ChatroomRes;
 import my.lsge.application.dto.chatroom.InitChatroomReq;
+import my.lsge.application.dto.chatroom.MessageRes;
 import my.lsge.application.exception.ForbiddenException;
 import my.lsge.application.exception.FormValidationException;
 import my.lsge.application.exception.NotFoundException;
 import my.lsge.domain.dao.ChatroomDao;
-import my.lsge.domain.entity.Chatroom;
-import my.lsge.domain.entity.ChatroomUser;
-import my.lsge.domain.entity.User;
+import my.lsge.domain.entity.*;
 import my.lsge.domain.enums.ChatroomStatusEnum;
 import my.lsge.domain.enums.ChatroomTypeEnum;
 import my.lsge.domain.enums.ChatroomUserStatusEnum;
 import my.lsge.domain.repository.ChatroomRepository;
 import my.lsge.domain.repository.ChatroomUserRepository;
+import my.lsge.domain.repository.MessageRepository;
 import my.lsge.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,6 +34,9 @@ public class ChatroomLogic extends BaseLogic {
 
     @Autowired
     private ChatroomUserRepository chatroomUserRepository;
+
+    @Autowired
+    private MessageRepository messageRepository;
 
     public ChatroomRes initNormalChatroom(InitChatroomReq req, Long userId) {
         User user = userRepository.getOne(userId);
@@ -81,5 +86,33 @@ public class ChatroomLogic extends BaseLogic {
             || userList.stream()
                     .noneMatch(t -> t.getUser().getId().equals(userId) &&
                             t.getStatus().equals(ChatroomUserStatusEnum.JOINING));
+    }
+
+    public MessageRes createMessage(AddingMessageReq req, Long userId) {
+        User user = userRepository.getOne(userId);
+        validateUser(user);
+
+        req.normalize();
+
+        Chatroom chatroom = chatroomRepository.findById(req.getChatroomId()).orElse(null);
+        if (chatroom == null || chatroom.isDeleted() || chatroom.getStatus().equals(ChatroomStatusEnum.DELETED)) {
+            throw new NotFoundException(language.getString("chatroom.is_not_existed"));
+        }
+
+        List<ChatroomUser> userList = chatroomUserRepository.findAllByChatroomId(req.getChatroomId());
+        if (cannotViewChatroom(userId, userList)) {
+            throw new ForbiddenException();
+        }
+
+        Message message = new Message(0L, req.getChatroomId(), req.getMessage());
+
+
+        List<MessageTrackingStatus> statuses = new ArrayList<>();
+        for (ChatroomUser cUser : userList) {
+            statuses.add(new MessageTrackingStatus(0L, req.getChatroomId(), message, cUser.getUser().getId(), cUser.getUser().getId().equals(userId)));
+        }
+        message.setStatuses(statuses);
+        messageRepository.save(message);
+        return MessageRes.by(message);
     }
 }

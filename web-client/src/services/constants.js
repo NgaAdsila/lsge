@@ -54,5 +54,6 @@ export const API_PATH = {
     RELATIONSHIP_CANCEL_FRIEND: '/api/relationships/cancel',
     RELATIONSHIP_APPROVE_FRIEND: '/api/relationships/approve',
     CHATROOM_INIT_NORMAL: '/api/chatrooms/init-normal',
-    CHATROOM_API: '/api/chatrooms'
+    CHATROOM_API: '/api/chatrooms',
+    CHATROOM_CREATE_MESSAGE: '/api/chatrooms/create-message'
 };

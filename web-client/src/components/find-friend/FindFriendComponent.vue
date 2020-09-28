@@ -17,7 +17,7 @@
                                 variant="success" font-scale="1.5"
                                 class="has-link user-action-approve"
                                 @click="approveFriend(user.id, index)"></b-icon>
-                        <b-icon v-else icon="chat-dots"
+                        <b-icon v-else-if="isFriend(user)" icon="chat-dots"
                                 variant="primary" font-scale="1.5"
                                 class="has-link user-action-approve"
                                 @click="createChatRoom(user.id, index)"></b-icon>

@@ -24,8 +24,7 @@ public class Message extends BaseEntity {
     @Size(max = 2000)
     private String message;
 
-    @OneToMany
-    @JoinColumn(name = "message_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "message")
     private List<MessageTrackingStatus> statuses;
 
     public Message() {

@@ -8,3 +8,7 @@ export async function initNormalChatroom(req = {}) {
 export async function findById(id) {
     return await ApiService.get(`${API_PATH.CHATROOM_API}/${id}`, {});
 }
+
+export async function createMessage(req = {}) {
+    return await ApiService.post(API_PATH.CHATROOM_CREATE_MESSAGE, req, {});
+}
