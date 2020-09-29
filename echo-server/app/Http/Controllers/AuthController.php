@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Helper\ResponseHelper;
+use App\Models\User;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
 
@@ -25,8 +26,7 @@ class AuthController extends Controller
             if (!$user || empty($user)) {
                 return ResponseHelper::fail(__('auth.failed'), ResponseHelper::HTTP_STATUS_NOTFOUND);
             }
-            $newUser = $this->authService->createOrUpdateUser($user);
-            $token = $this->authService->generateToken(config('app.url'), $newUser);
+            $token = $this->authService->generateToken($user);
             return ResponseHelper::success([
                 'token' => $token
             ]);

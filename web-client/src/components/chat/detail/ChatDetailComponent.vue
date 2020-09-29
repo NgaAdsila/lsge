@@ -70,7 +70,7 @@
             }
         },
         updated() {
-            this.$refs.chatDetailList.scrollTop = this.$refs.chatDetailList.scrollHeight;
+            this.scrollToBottom()
         },
         methods: {
             displayUserName(userId) {
@@ -90,6 +90,9 @@
                 const nextMessage = this.messages[index + 1];
                 return nextMessage && message.createdBy === nextMessage.createdBy
                     && nextMessage.createdAt - message.createdAt < 60000;
+            },
+            scrollToBottom() {
+                this.$refs.chatDetailList.scrollTop = this.$refs.chatDetailList.scrollHeight;
             }
         }
     }

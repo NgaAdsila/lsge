@@ -1,10 +1,8 @@
 <?php
 
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class BroadcastAuthController extends Controller
@@ -13,22 +11,15 @@ class BroadcastAuthController extends Controller
     {
         $user = $request->user();
         $channel = $request->get('channel_name');
-        $this->addCurrentChannel($user, $channel);
         return [
             'channel' => $channel,
             'channel_data' => [
                 'user_id' => $user->id,
-                'user_info' => $user
+                'user_info' => [
+                    'id' => $user->id,
+                    'name' => $user->name
+                ]
             ]
         ];
-    }
-
-    private function addCurrentChannel($user, $channel)
-    {
-        if ($user) {
-            $user->update([
-                'current_channel' => $channel
-            ]);
-        }
     }
 }

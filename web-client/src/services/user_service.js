@@ -1,7 +1,18 @@
 import ApiService from '../helper/ApiService';
-import {API_PATH, RESPONSE, success, fail} from './constants';
+import {API_PATH, RESPONSE, success, fail, ECHO_API_URL} from './constants';
 import store from '../store/index';
 import { getBrowser, getOs } from "../helper/detect_browser";
+
+async function loginEchoServer(user) {
+    try {
+        const echoRes = await ApiService.post(API_PATH.ECHO_AUTH_LOGIN, {}, {}, ECHO_API_URL, user.jwt);
+        if (echoRes.status === RESPONSE.STATUS.SUCCESS) {
+            user.echoJwt = echoRes.data.token;
+        }
+    } catch (e) {
+        console.log('Login echo server error: ', e);
+    }
+}
 
 export async function login(data = {}) {
     try {
@@ -21,6 +32,7 @@ export async function login(data = {}) {
                 jwt: res.data.accessToken,
                 isLogin: true
             };
+            await loginEchoServer(user);
             store.commit('doLogin', user);
             localStorage.setItem('store', JSON.stringify(user));
 

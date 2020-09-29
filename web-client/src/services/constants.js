@@ -55,5 +55,9 @@ export const API_PATH = {
     RELATIONSHIP_APPROVE_FRIEND: '/api/relationships/approve',
     CHATROOM_INIT_NORMAL: '/api/chatrooms/init-normal',
     CHATROOM_API: '/api/chatrooms',
-    CHATROOM_CREATE_MESSAGE: '/api/chatrooms/create-message'
+    CHATROOM_IS_READ_MESSAGE: '/api/chatrooms/is-read-message',
+    ECHO_CREATE_MESSAGE: '/api/create-message',
+    ECHO_AUTH_LOGIN: '/api/login',
 };
+
+export const ECHO_API_URL = process.env.LARAVEL_ECHO_SERVER_API_URL || 'http://localhost:8000';

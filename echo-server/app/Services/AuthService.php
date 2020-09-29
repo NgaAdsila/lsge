@@ -1,57 +1,24 @@
 <?php
 
-
 namespace App\Services;
 
-
-use App\Helper\ResponseHelper;
-use App\Models\UserMongo;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use App\Models\User;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthService
 {
-    public function createOrUpdateUser($user)
+    public function getUser(string $bearerToken)
     {
-        $oldUser = UserMongo::query()->where('id', $user['id'])->first();
-        if ($oldUser) {
-            $oldUser->update([
-                'name' => $user['name'],
-                'email' => $user['email'],
-                'lang_setting' => $user['lang_setting']
-            ]);
-            return $oldUser;
+        if (!$bearerToken) {
+            return null;
         }
-        return UserMongo::query()->create([
-            'id' => $user['id'],
-            'name' => $user['name'],
-            'email' => $user['email'],
-            'lang_setting' => $user['lang_setting']
-        ]);
+        $payloadEncoded = explode('.', $bearerToken)[1];
+        $payload = json_decode(base64_decode($payloadEncoded), true);
+        return User::query()->find($payload['sub']);
     }
 
-    public function generateToken($url, $user)
+    public function generateToken($user)
     {
         return JWTAuth::fromUser($user);
-    }
-
-    public function getUser(string $token)
-    {
-        try {
-            $client = new Client();
-            $response = $client->get(config('services.luc-manual.domain') . '/api/user', [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $token
-                ]
-            ]);
-            if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
-                $body =  json_decode($response->getBody(), true);
-                return $body['data'];
-            }
-        } catch (GuzzleException $e) {
-            throw new \Exception($e);
-        }
-        return null;
     }
 }

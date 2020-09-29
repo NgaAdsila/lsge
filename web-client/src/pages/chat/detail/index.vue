@@ -16,8 +16,9 @@
 
 <script>
     import ChatDetailComponent from "../../../components/chat/detail/ChatDetailComponent";
-    import { findById, createMessage } from "@/services/chatroom_service";
+    import { findById, createMessage, isReadMessage } from "@/services/chatroom_service";
     import {RESPONSE} from "@/services/constants";
+    import {initEcho} from "../../../helper/EchoClientHelper";
 
     export default {
         name: "ChatDetail",
@@ -50,7 +51,8 @@
                 chatroomName: '',
                 messages: [],
                 users: [],
-                isSubmitting: false
+                isSubmitting: false,
+                echoConnect: null
             }
         },
         created() {
@@ -88,20 +90,32 @@
                 } finally {
                     this.isLoading = false
                 }
+                await this.handleChannelMessage()
+            },
+            async handleChannelMessage() {
+                this.echoConnect = await initEcho();
+                this.echoConnect.join(`channel-message-${this.chatroomId}`)
+                    .here(users => {
+                        console.log('HERE: ', users)
+                    })
+                    .joining(user => {
+                        console.log('JOINING: ', user)
+                    })
+                    .leaving(user => {
+                        console.log('LEAVING: ', user)
+                    })
+                    .listen('created-message', (data) => {
+                        this.messages.push(data.message)
+                        this.handleCreatedMessage(data.message)
+                    })
             },
             async createMessage(message) {
                 try {
                     this.isSubmitting = true
-                    const res = await createMessage({
+                    await createMessage({
                         chatroomId: this.chatroomId,
                         message: message
                     });
-                    if (res.status === RESPONSE.STATUS.SUCCESS) {
-                        this.messages.push(res.data)
-                        console.log(this.messages);
-                    } else {
-                        console.log('ERRRR: ', res.message)
-                    }
                     return true;
                 } catch (e) {
                     console.log('Create message error: ', e)
@@ -109,6 +123,12 @@
                     this.isSubmitting = false
                 }
                 return false;
+            },
+            handleCreatedMessage(message) {
+                if (message.createdBy === this.currentUserId) {
+                    return;
+                }
+                isReadMessage(message.id)
             }
         }
     }

@@ -31,4 +31,9 @@ public class ChatroomController extends BaseController {
     public MessageRes createMessage(@Valid @RequestBody AddingMessageReq req) {
         return chatroomLogic.createMessage(req, getUserId());
     }
+
+    @PutMapping("/is-read-message/{id}")
+    public MessageRes isReadMessage(@PathVariable long id) {
+        return chatroomLogic.isReadMessage(id, getUserId());
+    }
 }

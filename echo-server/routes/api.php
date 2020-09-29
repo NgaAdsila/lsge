@@ -20,8 +20,9 @@ Route::group([
     Route::post('login', 'AuthController@login');
 
     Route::group([
-        'middleware' => ['auth:api'],
+        'middleware' => ['jwt.auth'],
     ], function () {
         Route::post('broadcasting/auth', 'BroadcastAuthController@auth');
+        Route::post('create-message', 'MessageController@createMessage');
     });
 });

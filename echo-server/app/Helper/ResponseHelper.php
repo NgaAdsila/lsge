@@ -12,16 +12,12 @@ class ResponseHelper
 
     public static function success($data)
     {
-        return response()->json([
-            'code' => self::HTTP_STATUS_OK,
-            'data' => $data
-        ], self::HTTP_STATUS_OK);
+        return response()->json($data, self::HTTP_STATUS_OK);
     }
 
-    public static function fail($message, $status = self::HTTP_STATUS_FAIL, $code = null)
+    public static function fail($message, $status = self::HTTP_STATUS_FAIL)
     {
         return response()->json([
-            'code' => $code ? $code : $status,
             'message' => $message
         ], $status);
     }

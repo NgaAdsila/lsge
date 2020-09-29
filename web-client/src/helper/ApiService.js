@@ -15,37 +15,38 @@ const instance = axios.create({
 });
 
 export default {
-    getAxios() {
-        instance.defaults.headers.common['Authorization'] = 'Bearer ' + store.getters.jwt;
+    getAxios(baseUrl = null, token = null) {
+        instance.defaults.baseURL = baseUrl || URL;
+        instance.defaults.headers.common['Authorization'] = 'Bearer ' + (token || store.getters.jwt);
         return instance;
     },
-    async get(url, config = {}) {
+    async get(url, config = {}, baseUrl = null, token = null) {
         try {
-            const res = await this.getAxios().get(encodeURI(url), config);
+            const res = await this.getAxios(baseUrl, token).get(encodeURI(url), config);
             return success(res.data);
         } catch (e) {
             return this.handleError(e.response);
         }
     },
-    async post(url, data= {}, config = {}) {
+    async post(url, data= {}, config = {}, baseUrl = null, token = null) {
         try {
-            const res = await this.getAxios().post(url, data, config);
+            const res = await this.getAxios(baseUrl, token).post(url, data, config);
             return success(res.data);
         } catch (e) {
             return this.handleError(e.response);
         }
     },
-    async put(url, data = {}, config = {}) {
+    async put(url, data = {}, config = {}, baseUrl = null, token = null) {
         try {
-            const res = await this.getAxios().put(url, data, config);
+            const res = await this.getAxios(baseUrl, token).put(url, data, config);
             return success(res.data);
         } catch (e) {
             return this.handleError(e.response);
         }
     },
-    async remove(url, config = {}) {
+    async remove(url, config = {}, baseUrl = null, token = null) {
         try {
-            const res = await this.getAxios().delete(url, config);
+            const res = await this.getAxios(baseUrl, token).delete(url, config);
             return success(res.data);
         } catch (e) {
             return this.handleError(e.response);
