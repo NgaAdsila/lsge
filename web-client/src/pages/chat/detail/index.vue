@@ -16,8 +16,8 @@
 
 <script>
     import ChatDetailComponent from "../../../components/chat/detail/ChatDetailComponent";
-    import { findById, createMessage } from "../../../services/chatroom_service";
-    import {RESPONSE} from "../../../services/constants";
+    import { findById, createMessage } from "@/services/chatroom_service";
+    import {RESPONSE} from "@/services/constants";
 
     export default {
         name: "ChatDetail",

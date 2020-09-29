@@ -53,7 +53,7 @@
 </template>
 
 <script>
-    import { smartTime } from "../../../utils";
+    import { smartTime } from "@/utils";
 
     export default {
         name: "ChatDetailComponent",
