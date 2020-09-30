@@ -58,6 +58,12 @@
         created() {
             this.initData();
         },
+        beforeDestroy() {
+            if (this.echoConnect) {
+                this.echoConnect.leave(`channel-message-${this.chatroomId}`);
+                this.echoConnect = null;
+            }
+        },
         methods: {
             async initData() {
                 try {
@@ -105,7 +111,6 @@
                         console.log('LEAVING: ', user)
                     })
                     .listen('created-message', (data) => {
-                        this.messages.push(data.message)
                         this.handleCreatedMessage(data.message)
                     })
             },
@@ -116,19 +121,32 @@
                         chatroomId: this.chatroomId,
                         message: message
                     });
-                    return true;
+                    return true
                 } catch (e) {
                     console.log('Create message error: ', e)
                 } finally {
                     this.isSubmitting = false
                 }
-                return false;
+                return false
             },
-            handleCreatedMessage(message) {
-                if (message.createdBy === this.currentUserId) {
-                    return;
+            async handleCreatedMessage(message) {
+                try {
+                    this.messages.push(message);
+                    if (message.createdBy === this.currentUserId) {
+                        return
+                    }
+                    const res = await isReadMessage(message.id)
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        message.statuses.map(s => {
+                            if (s.userId === this.currentUserId) {
+                                s.seen = true
+                            }
+                            return s
+                        })
+                    }
+                } catch (e) {
+                    console.log('Is read message error: ', e);
                 }
-                isReadMessage(message.id)
             }
         }
     }

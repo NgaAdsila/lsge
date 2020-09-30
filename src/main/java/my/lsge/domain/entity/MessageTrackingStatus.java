@@ -16,14 +16,14 @@ public class MessageTrackingStatus extends BaseEntity {
     private Long id;
 
     @Column(name = "chatroom_id")
-    private long chatroomId;
+    private Long chatroomId;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "message_id", referencedColumnName = "id")
     private Message message;
 
     @Column(name = "user_id")
-    private long userId;
+    private Long userId;
 
     private boolean isSeen;
 

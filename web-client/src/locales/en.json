@@ -25,7 +25,8 @@
       "search_friend": "Find friend...",
       "find-friend": "Find friend",
       "chat_detail": "Chat detail",
-      "someone": "Someone"
+      "someone": "Someone",
+      "friend-list": "Friends"
     },
     "validation": {
       "required": "Field {name} is required.",

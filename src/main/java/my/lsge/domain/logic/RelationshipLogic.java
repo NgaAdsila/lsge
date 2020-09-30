@@ -43,6 +43,7 @@ public class RelationshipLogic extends BaseLogic {
         ListObjectRes<FriendItemRes> res = new ListObjectRes<>();
         if (!Utils.isNullOrEmpty(relationships)) {
             res.setResponses(relationships.stream()
+                    .filter(r -> r.getStatus().equals(RelationShipStatusEnum.APPROVED))
                     .map(r -> r.getId().getReqUserId().equals(userId) ? r.getRecUser() : r.getReqUser())
                     .map(FriendItemRes::by)
                     .collect(Collectors.toList()));

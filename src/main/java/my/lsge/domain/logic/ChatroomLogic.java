@@ -15,6 +15,7 @@ import my.lsge.domain.enums.ChatroomUserStatusEnum;
 import my.lsge.domain.repository.ChatroomRepository;
 import my.lsge.domain.repository.ChatroomUserRepository;
 import my.lsge.domain.repository.MessageRepository;
+import my.lsge.domain.repository.MessageTrackingStatusRepository;
 import my.lsge.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ChatroomLogic extends BaseLogic {
@@ -37,6 +39,9 @@ public class ChatroomLogic extends BaseLogic {
 
     @Autowired
     private MessageRepository messageRepository;
+
+    @Autowired
+    private MessageTrackingStatusRepository messageTrackingStatusRepository;
 
     public ChatroomRes initNormalChatroom(InitChatroomReq req, Long userId) {
         User user = userRepository.getOne(userId);
@@ -73,6 +78,7 @@ public class ChatroomLogic extends BaseLogic {
         if (chatroom == null || chatroom.isDeleted() || chatroom.getStatus().equals(ChatroomStatusEnum.DELETED)) {
             throw new NotFoundException(language.getString("chatroom.is_not_existed"));
         }
+        isReadAllMessage(chatroom, userId);
 
         List<ChatroomUser> userList = chatroomUserRepository.findAllByChatroomId(id);
         if (cannotViewChatroom(userId, userList)) {
@@ -86,6 +92,22 @@ public class ChatroomLogic extends BaseLogic {
             || userList.stream()
                     .noneMatch(t -> t.getUser().getId().equals(userId) &&
                             t.getStatus().equals(ChatroomUserStatusEnum.JOINING));
+    }
+
+    private void isReadAllMessage(Chatroom chatroom, Long userId) {
+        if (Utils.isNullOrEmpty(chatroom.getMessages())) {
+            return;
+        }
+        List<MessageTrackingStatus> unReadMessages = chatroom.getMessages().stream()
+                .map(m -> m.getStatuses().stream()
+                        .filter(s -> s.getUserId().equals(userId) && !s.isSeen())
+                        .findFirst().orElse(null))
+                .filter(s -> !Utils.isNullOrEmptyObject(s))
+                .peek(s -> s.setSeen(true))
+                .collect(Collectors.toList());
+        if (!Utils.isNullOrEmpty(unReadMessages)) {
+            messageTrackingStatusRepository.saveAll(unReadMessages);
+        }
     }
 
     public MessageRes createMessage(AddingMessageReq req, Long userId) {
@@ -113,6 +135,26 @@ public class ChatroomLogic extends BaseLogic {
         }
         message.setStatuses(statuses);
         messageRepository.save(message);
+        return MessageRes.by(message);
+    }
+
+    public MessageRes isReadMessage(long id, Long userId) {
+        validateUser(userId);
+
+        Message message = messageRepository.findById(id).orElse(null);
+        if (message == null) {
+            throw new NotFoundException(language.getString("message.is_not_existed"));
+        }
+
+        List<MessageTrackingStatus> unReadMessages =
+                messageTrackingStatusRepository.findByChatroomIdAndUserIdAndMessageIdLessThanEqualAndIsSeen(
+                        message.getChatroomId(), userId, id, false);
+        if (!Utils.isNullOrEmpty(unReadMessages)) {
+            messageTrackingStatusRepository.saveAll(unReadMessages.stream()
+                    .peek(s -> s.setSeen(true))
+                    .collect(Collectors.toList()));
+        }
+
         return MessageRes.by(message);
     }
 }

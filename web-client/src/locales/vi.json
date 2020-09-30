@@ -25,7 +25,8 @@
       "search_friend": "Tìm kiếm bạn bè...",
       "find-friend": "Tìm kiếm bạn bè",
       "chat_detail": "Trò chuyện",
-      "someone": "Ai đó"
+      "someone": "Ai đó",
+      "friend-list": "Danh sách bạn bè"
     },
     "validation": {
       "required": "Trường {name} bắt buộc nhập.",

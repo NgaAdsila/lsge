@@ -12,3 +12,7 @@ export async function cancelFriend(req = {}) {
 export async function approveFriend(req = {}) {
     return await ApiService.put(API_PATH.RELATIONSHIP_APPROVE_FRIEND, req, {});
 }
+
+export async function getFriendList() {
+    return await ApiService.get(API_PATH.RELATIONSHIP_LIST_FRIEND, {});
+}

@@ -74,6 +74,11 @@
                 keyword: ''
             }
         },
+        mounted() {
+            if (this.$route.name === 'FindFriend' && this.keyword === '') {
+                this.keyword = this.$route.query.keyword
+            }
+        },
         methods: {
             logout() {
                 this.$emit('logout');

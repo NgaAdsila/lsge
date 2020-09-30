@@ -9,7 +9,7 @@
                      :class="message.createdBy === currentUserId ? 'is-right' : 'is-left'">
                     <div v-if="message.createdBy === currentUserId" class="chat-detail-item chat-detail-list-right"
                          :class="{'is-group-message': isGroupMessage(message, index) }">
-                        <div class="message-content text-break">
+                        <div class="message-content text-break" v-linkified>
                             {{ message.message }}
                         </div>
                         <span class="message-time">{{ displayTime(message.createdAt) }}</span>
@@ -21,10 +21,16 @@
                                       size="25"
                                       :text="displayUserName(message.createdBy).charAt(0)"></b-avatar>
                         </span>
-                        <div class="message-content text-break">
+                        <div class="message-content text-break" v-linkified>
                             {{ message.message }}
                         </div>
                         <span class="message-time">{{ displayTime(message.createdAt) }}</span>
+                    </div>
+                    <div v-if="isReadMessage(message, index)" class="message-is-seen-avatar">
+                        <b-avatar class="text-uppercase"
+                                  size="25"
+                                  variant="primary"
+                                  :text="displayUserName(currentUserId).charAt(0)"></b-avatar>
                     </div>
                 </div>
             </div>
@@ -91,6 +97,11 @@
                 return nextMessage && message.createdBy === nextMessage.createdBy
                     && nextMessage.createdAt - message.createdAt < 60000;
             },
+            isReadMessage(message, index) {
+                const nextMessage = this.messages[index + 1];
+                return message.statuses.some(s => s.userId === this.currentUserId && s.seen)
+                    && (!nextMessage || nextMessage.statuses.some(s => s.userId === this.currentUserId && !s.seen));
+            },
             scrollToBottom() {
                 this.$refs.chatDetailList.scrollTop = this.$refs.chatDetailList.scrollHeight;
             }
@@ -125,20 +136,32 @@
         .is-right {
             display: flex;
             justify-content: flex-end;
-            margin-right: 0.25rem;
+            margin-right: 1.75rem;
+            position: relative;
             .is-group-message {
                 margin-bottom: -0.3rem;
+            }
+            .message-is-seen-avatar {
+                position: absolute;
+                right: -1.7rem;
+                bottom: 0;
             }
         }
         .is-left {
             display: flex;
             justify-content: flex-start;
             margin-left: 2rem;
+            position: relative;
             .is-group-message {
                 margin-bottom: -0.3rem;
                 .message-user-avatar {
                     display: none;
                 }
+            }
+            .message-is-seen-avatar {
+                position: absolute;
+                right: 0.05rem;
+                bottom: 0;
             }
         }
         .chat-detail-item {

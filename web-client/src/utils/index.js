@@ -49,3 +49,7 @@ export function smartTime(time) {
 
     return [day, month, year].join('/') + ' ' + [hour, minute, second].join(':');
 }
+
+export function randomColor() {
+    return '#'+(Math.random()*0xFFFFFF<<0).toString(16)
+}

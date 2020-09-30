@@ -53,6 +53,7 @@ export const API_PATH = {
     RELATIONSHIP_ADD_FRIEND: '/api/relationships',
     RELATIONSHIP_CANCEL_FRIEND: '/api/relationships/cancel',
     RELATIONSHIP_APPROVE_FRIEND: '/api/relationships/approve',
+    RELATIONSHIP_LIST_FRIEND: '/api/relationships/friend-list',
     CHATROOM_INIT_NORMAL: '/api/chatrooms/init-normal',
     CHATROOM_API: '/api/chatrooms',
     CHATROOM_IS_READ_MESSAGE: '/api/chatrooms/is-read-message',
@@ -61,3 +62,8 @@ export const API_PATH = {
 };
 
 export const ECHO_API_URL = process.env.LARAVEL_ECHO_SERVER_API_URL || 'http://localhost:8000';
+
+export const ECHO_CHANNEL = {
+    CHANNEL_MAIN: 'channel-main-top',
+    CHANNEL_MESSAGE: 'channel-message-'
+}
