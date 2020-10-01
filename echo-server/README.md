@@ -1,4 +1,4 @@
-####Build project Echo Server
+#### Build project Echo Server
 1. Copy .env.example to .env  
 Edit attribute env:
     - `Mysql database`
