@@ -9,9 +9,7 @@
                      :class="message.createdBy === currentUserId ? 'is-right' : 'is-left'">
                     <div v-if="message.createdBy === currentUserId" class="chat-detail-item chat-detail-list-right"
                          :class="{'is-group-message': isGroupMessage(message, index) }">
-                        <div class="message-content text-break" v-linkified>
-                            {{ message.message }}
-                        </div>
+                        <div class="message-content text-break" v-linkified v-html="message.message" />
                         <span class="message-time">{{ displayTime(message.createdAt) }}</span>
                     </div>
                     <div v-else class="chat-detail-item chat-detail-list-left"
@@ -21,9 +19,7 @@
                                       size="25"
                                       :text="displayUserName(message.createdBy).charAt(0)"></b-avatar>
                         </span>
-                        <div class="message-content text-break" v-linkified>
-                            {{ message.message }}
-                        </div>
+                        <div class="message-content text-break" v-linkified v-html="message.message" />
                         <span class="message-time">{{ displayTime(message.createdAt) }}</span>
                     </div>
                     <div v-if="isReadMessage(message, index)" class="message-is-seen-avatar">
