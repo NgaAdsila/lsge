@@ -9,24 +9,26 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class CreateMessageEvent implements ShouldBroadcast
+class AddFriendEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $chatroomId;
-
-    public $message;
+    public $reqUserId;
+    public $recUserId;
+    public $name;
 
     /**
      * Create a new event instance.
      *
-     * @param $chatroomId
-     * @param $message
+     * @param $reqUserId
+     * @param $recUserId
+     * @param $name
      */
-    public function __construct($chatroomId, $message)
+    public function __construct($reqUserId, $recUserId, $name)
     {
-        $this->chatroomId = $chatroomId;
-        $this->message = $message;
+        $this->reqUserId = $reqUserId;
+        $this->recUserId = $recUserId;
+        $this->name = $name;
     }
 
     /**
@@ -36,7 +38,7 @@ class CreateMessageEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel(ChannelEnum::CHANNEL_MESSAGE . $this->chatroomId);
+        return new PresenceChannel(ChannelEnum::CHANNEL_MAIN);
     }
 
     /**
@@ -46,6 +48,6 @@ class CreateMessageEvent implements ShouldBroadcast
      */
     public function broadcastAs()
     {
-        return ChannelEnum::EVENT_CREATE_MESSAGE;
+        return ChannelEnum::EVENT_ADD_FRIEND;
     }
 }

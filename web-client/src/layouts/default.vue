@@ -5,7 +5,7 @@
                 @searchFriend="searchFriend"
                 @logout="logout"/>
         <b-container fluid>
-            <router-view />
+            <router-view :key="$route.path" />
             <FriendList
                     ref="friendList"
                     :friendList="friendList"
@@ -20,14 +20,15 @@
 <script>
     import Header from "../components/Header";
     import Footer from "../components/Footer";
-    import { signOut, refreshToken } from '../services/user_service';
+    import { signOut, refreshToken } from '@/services/user_service';
     import ConfirmModal from "../components/modal/ConfirmModal";
-    import {parseJwt} from "../utils";
-    import {ECHO_CHANNEL, RESPONSE} from "../services/constants";
+    import {parseJwt} from "@/utils";
+    import {ECHO_CHANNEL, ECHO_EVENT, RESPONSE, VARIANT} from "@/services/constants";
     import FriendList from "../components/home/FriendList";
-    import {getFriendList} from "../services/relationship_service";
-    import {initNormalChatroom} from "../services/chatroom_service";
-    import {initEcho} from "../helper/EchoClientHelper";
+    import {getFriendList} from "@/services/relationship_service";
+    import {initNormalChatroom} from "@/services/chatroom_service";
+    import {initEcho} from "@/helper/EchoClientHelper";
+    import ToastHelper from "@/helper/ToastHelper";
     export default {
         name: "default",
         components: {FriendList, ConfirmModal, Footer, Header},
@@ -42,6 +43,11 @@
                 chatWithUserId: null,
                 echoConnect: null,
                 onlineUserIds: []
+            }
+        },
+        computed: {
+            currentUserId: function () {
+                return this.$store.getters.id
             }
         },
         mounted() {
@@ -127,6 +133,38 @@
                         const index = this.onlineUserIds.findIndex(id => id === user.id)
                         if (index > -1) {
                             this.onlineUserIds.splice(index, 1);
+                        }
+                    })
+                    .listen(ECHO_EVENT.ADD_FRIEND, data => {
+                        if (data.recUserId === this.currentUserId) {
+                            this.$store.commit('removeFriendApprovedId', data.reqUserId)
+                            this.$store.commit('removeFriendCancelledId', data.reqUserId)
+                            this.$store.commit('addFriendRequestedId', data.reqUserId)
+                            ToastHelper.notify(this.$t('find-friend.message.notify_has_new_request', { name: data.name }))
+                        }
+                    })
+                    .listen(ECHO_EVENT.APPROVE_FRIEND, data => {
+                        if (data.reqUserId === this.currentUserId) {
+                            this.$store.commit('removeFriendRequestedId', data.recUserId)
+                            this.$store.commit('removeFriendCancelledId', data.recUserId)
+                            this.$store.commit('addFriendApprovedId', data.recUserId)
+                            ToastHelper.notify(
+                                this.$t('find-friend.message.notify_approved_friend', { name: data.name }), VARIANT.SUCCESS)
+                        }
+                        if (data.reqUserId === this.currentUserId || data.recUserId === this.currentUserId) {
+                            this.getFriendList();
+                        }
+                    })
+                    .listen(ECHO_EVENT.CANCEL_FRIEND, data => {
+                        if (data.reqUserId === this.currentUserId) {
+                            this.$store.commit('removeFriendRequestedId', data.recUserId)
+                            this.$store.commit('removeFriendApprovedId', data.recUserId)
+                            this.$store.commit('addFriendCancelledId', data.recUserId)
+                            ToastHelper.notify(
+                                this.$t('find-friend.message.notify_cancelled_friend', { name: data.name }), VARIANT.DANGER)
+                        }
+                        if (data.reqUserId === this.currentUserId || data.recUserId === this.currentUserId) {
+                            this.getFriendList();
                         }
                     })
             }

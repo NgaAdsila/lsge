@@ -128,13 +128,14 @@ public class ChatroomLogic extends BaseLogic {
 
         Message message = new Message(0L, req.getChatroomId(), req.getMessage());
 
-
         List<MessageTrackingStatus> statuses = new ArrayList<>();
         for (ChatroomUser cUser : userList) {
             statuses.add(new MessageTrackingStatus(0L, req.getChatroomId(), message, cUser.getUser().getId(), cUser.getUser().getId().equals(userId)));
         }
         message.setStatuses(statuses);
         messageRepository.save(message);
+        chatroom.setLastMessage(message);
+        chatroomRepository.save(chatroom);
         return MessageRes.by(message);
     }
 

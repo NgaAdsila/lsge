@@ -43,7 +43,8 @@
 </template>
 
 <script>
-    import { RELATION_STATUS } from '../../services/constants';
+    import {RELATION_STATUS} from "@/services/constants";
+
     export default {
         name: "FindFriendComponent",
         props: [

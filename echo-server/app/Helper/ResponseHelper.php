@@ -15,10 +15,8 @@ class ResponseHelper
         return response()->json($data, self::HTTP_STATUS_OK);
     }
 
-    public static function fail($message, $status = self::HTTP_STATUS_FAIL)
+    public static function fail($data, $status = self::HTTP_STATUS_FAIL)
     {
-        return response()->json([
-            'message' => $message
-        ], $status);
+        return response()->json($data, $status);
     }
 }

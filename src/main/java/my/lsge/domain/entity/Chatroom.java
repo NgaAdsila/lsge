@@ -8,6 +8,7 @@ import my.lsge.domain.enums.ChatroomTypeEnum;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,7 +28,9 @@ public class Chatroom extends BaseEntity {
     @NotNull
     private ChatroomTypeEnum type;
 
-    private Long lastMessageId;
+    @OneToOne
+    @JoinColumn(name = "last_message_id")
+    private Message lastMessage;
 
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -39,13 +42,15 @@ public class Chatroom extends BaseEntity {
 
     public Chatroom() {
         this.status = ChatroomStatusEnum.CREATED;
+        this.messages = new ArrayList<>();
     }
 
-    public Chatroom(Long id, String name, ChatroomTypeEnum type, Long lastMessageId, ChatroomStatusEnum status) {
+    public Chatroom(Long id, String name, ChatroomTypeEnum type, Message lastMessage, ChatroomStatusEnum status) {
         this.id = id;
         this.name = name;
         this.type = type;
-        this.lastMessageId = lastMessageId;
+        this.lastMessage = lastMessage;
         this.status = status;
+        this.messages = new ArrayList<>();
     }
 }

@@ -124,5 +124,12 @@
     #most-module {
         padding: 5rem 0.5rem 2rem;
         text-align: center;
+        background: linear-gradient(rgba(255,255,255,.7), rgba(255,255,255,.7)) no-repeat fixed top;
+        background-size: cover;
+        background-blend-mode: lighten;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
     }
 </style>

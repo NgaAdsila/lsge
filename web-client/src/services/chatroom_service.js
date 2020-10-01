@@ -11,7 +11,6 @@ export async function findById(id) {
 }
 
 export async function createMessage(req = {}) {
-    req.token = store.getters.jwt;
     return await ApiService.post(API_PATH.ECHO_CREATE_MESSAGE, req, {}, ECHO_API_URL, store.getters.echoJwt);
 }
 

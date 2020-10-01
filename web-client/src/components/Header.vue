@@ -1,6 +1,6 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <b-navbar toggleable="lg" type="dark" variant="dark" fixed="top" class="header-container">
-        <b-navbar-brand href="/home">
+        <b-navbar-brand @click="redirectTo('/home')" class="has-link">
             <b-img src="../assets/logo.png" height="50" :alt="$t('common.label.slogan')" />
         </b-navbar-brand>
 
@@ -8,15 +8,15 @@
 
         <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-                <b-nav-item href="/home">{{ $t('common.label.home') }}</b-nav-item>
+                <b-nav-item @click="redirectTo('/home')">{{ $t('common.label.home') }}</b-nav-item>
                 <b-nav-item-dropdown left>
                     <template v-slot:button-content>
                         {{ $t('common.label.module') }}
                     </template>
-                    <b-dropdown-item href="/chat-list" :active="$route.path === '/chat-list'">
+                    <b-dropdown-item @click="redirectTo('/chat-list')" :active="$route.path === '/chat-list'">
                         <b-icon icon="chat-dots"></b-icon> {{ $t('common.label.chat_list') }}
                     </b-dropdown-item>
-                    <b-dropdown-item href="#" :active="$route.path === '/module2'">
+                    <b-dropdown-item @click="redirectTo()" :active="$route.path === '/module2'">
                         <b-icon icon="puzzle"></b-icon> Module 2
                     </b-dropdown-item>
                 </b-nav-item-dropdown>
@@ -24,10 +24,10 @@
                     <template v-slot:button-content>
                         {{ $t('common.label.help') }}
                     </template>
-                    <b-dropdown-item href="/about-me" :active="$route.path === '/about-me'">
+                    <b-dropdown-item @click="redirectTo('/about-me')" :active="$route.path === '/about-me'">
                         <b-icon icon="emoji-sunglasses" ></b-icon> {{ $t('common.label.about_me') }}
                     </b-dropdown-item>
-                    <b-dropdown-item href="/contact-us" :active="$route.path === '/contact-us'">
+                    <b-dropdown-item @click="redirectTo('/contact-us')" :active="$route.path === '/contact-us'">
                         <b-icon icon="question-diamond"></b-icon> {{ $t('common.label.contact_us') }}
                     </b-dropdown-item>
                 </b-nav-item-dropdown>
@@ -48,10 +48,10 @@
                         <b-avatar variant="success" class="text-uppercase"
                                   :text="$store.getters.name ? $store.getters.name.charAt(0) : ''"></b-avatar> <em>{{ $store.getters.name }} </em>
                     </template>
-                    <b-dropdown-item href="/profile" :active="$route.path === '/profile'">
+                    <b-dropdown-item @click="redirectTo('/profile')" :active="$route.path === '/profile'">
                         <b-icon icon="person-square"></b-icon> {{ $t('common.label.profile') }}
                     </b-dropdown-item>
-                    <b-dropdown-item href="/login-history" :active="$route.path === '/login-history'">
+                    <b-dropdown-item @click="redirectTo('/login-history')" :active="$route.path === '/login-history'">
                         <b-icon icon="arrow-counterclockwise"></b-icon> {{ $t('common.label.login_history') }}
                     </b-dropdown-item>
                     <b-dropdown-item @click="logout">
@@ -85,7 +85,13 @@
             },
             searchFriend() {
                 this.$emit('searchFriend', this.keyword);
-            }
+            },
+          redirectTo(path = '') {
+              if (path === '' || path === this.$route.path) {
+                return
+              }
+              this.$router.push(path)
+          }
         }
     }
 </script>

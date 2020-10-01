@@ -17,8 +17,9 @@
 <script>
     import ChatDetailComponent from "../../../components/chat/detail/ChatDetailComponent";
     import { findById, createMessage, isReadMessage } from "@/services/chatroom_service";
-    import {RESPONSE} from "@/services/constants";
+    import {RESPONSE, VARIANT} from "@/services/constants";
     import {initEcho} from "../../../helper/EchoClientHelper";
+    import ToastHelper from "@/helper/ToastHelper";
 
     export default {
         name: "ChatDetail",
@@ -80,13 +81,7 @@
                             this.users = users
                         }
                     } else {
-                        this.$bvToast.toast(res.message, {
-                            title: this.$t('common.toast.title'),
-                            toaster: 'b-toaster-top-center',
-                            solid: true,
-                            variant: 'danger',
-                            autoHideDelay: 2000
-                        });
+                        ToastHelper.message(res.message, VARIANT.DANGER)
                         setTimeout(async (self = this) => {
                             await self.$router.push({ name: 'ChatList' });
                         }, 2000);

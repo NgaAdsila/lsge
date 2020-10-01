@@ -18,6 +18,7 @@ export default {
     getAxios(baseUrl = null, token = null) {
         instance.defaults.baseURL = baseUrl || URL;
         instance.defaults.headers.common['Authorization'] = 'Bearer ' + (token || store.getters.jwt);
+        instance.defaults.headers.common['Base-Authorization'] = 'Bearer ' + store.getters.jwt;
         return instance;
     },
     async get(url, config = {}, baseUrl = null, token = null) {

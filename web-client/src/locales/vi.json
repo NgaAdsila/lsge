@@ -39,7 +39,8 @@
       "exception": "Rất tiếc, có lỗi xảy ra. Vui lòng liên hệ Admin để được hỗ trợ"
     },
     "toast": {
-      "title": "Ge-Lsg - Thông báo"
+      "title": "Ge-Lsg - Thông báo",
+      "notify_title": "Ge-Lsg - Thông báo"
     },
     "modal": {
       "confirm_title": "Ge-Lsg - Xác nhận"
@@ -140,7 +141,10 @@
     "message": {
       "add_friend_success": "Gửi yêu cầu kết bạn thành công. Vui lòng đợi yêu cầu được chấp nhận",
       "approve_friend_success": "Bạn vừa đồng ý yêu cầu kết bạn của {name}",
-      "cancel_friend_success": "Hủy kết bạn thành công"
+      "cancel_friend_success": "Hủy kết bạn thành công",
+      "notify_has_new_request": "Bạn có một yêu cầu kết bạn từ {name}",
+      "notify_approved_friend": "{name} vừa đồng ý yêu cầu kết bạn của bạn",
+      "notify_cancelled_friend": "{name} vừa hủy kết bạn với bạn"
     }
   },
   "chatroom": {

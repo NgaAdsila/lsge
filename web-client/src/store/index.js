@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import app from './modules/app'
+import getters from "./getters";
 
 Vue.use(Vuex);
 
@@ -11,14 +13,6 @@ export default new Vuex.Store({
     jwt: '',
     isLogin: false,
     echoJwt: ''
-  },
-  getters: {
-    isLogin: state => state.isLogin,
-    jwt: state => state.jwt,
-    role: state => state.role,
-    id: state => state.id,
-    name: state => state.name,
-    echoJwt: state => state.echoJwt
   },
   mutations: {
     initialiseStore(state) {
@@ -51,5 +45,9 @@ export default new Vuex.Store({
     saveName: (state, payload) => {
       state.name = payload.name;
     }
-  }
+  },
+  modules: {
+    app
+  },
+  getters
 })

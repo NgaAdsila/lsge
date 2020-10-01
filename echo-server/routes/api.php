@@ -24,5 +24,8 @@ Route::group([
     ], function () {
         Route::post('broadcasting/auth', 'BroadcastAuthController@auth');
         Route::post('create-message', 'MessageController@createMessage');
+        Route::post('relationships', 'RelationshipController@addFriend');
+        Route::put('relationships/approve', 'RelationshipController@approveFriend');
+        Route::put('relationships/cancel', 'RelationshipController@cancelFriend');
     });
 });

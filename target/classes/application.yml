@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/lsge?useTimezone=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/lsge?useTimezone=true&serverTimezone=UTC&useUnicode=TRUE&characterEncoding=UTF-8
     username: root
     password: root
   jpa:

@@ -39,7 +39,8 @@
       "exception": "Sorry, an error occurred. Please contact the Admin for assistance!"
     },
     "toast": {
-      "title": "Ge-Lsg Message"
+      "title": "Ge-Lsg Message",
+      "notify_title": "Ge-Lsg Notification"
     },
     "modal": {
       "confirm_title": "Ge-Lsg Confirm Dialog"
@@ -150,7 +151,10 @@
     "message": {
       "add_friend_success": "Send a successful friend request. Please wait for your request to be accepted",
       "approve_friend_success": "You just agreed to {name}'s friend request",
-      "cancel_friend_success": "Unfriend success"
+      "cancel_friend_success": "Unfriend success",
+      "notify_has_new_request": "You have a friend request from {name}",
+      "notify_approved_friend": "{name} has just agreed to your friend request",
+      "notify_cancelled_friend": "{name} has just unfriend with you"
     }
   },
   "chatroom": {

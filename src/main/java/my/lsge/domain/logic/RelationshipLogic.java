@@ -58,7 +58,7 @@ public class RelationshipLogic extends BaseLogic {
         if (userId.equals(req.getRecUserId())) {
             throw new FormValidationException(language.getString("relationship.add_self"));
         }
-        User recUser = userRepository.getOne(req.getRecUserId());
+        User recUser = userRepository.findById(req.getRecUserId()).orElse(null);
         if (recUser == null || recUser.isDeleted()) {
             throw new FormValidationException(language.getString("valid.user.is_not_existed"));
         }

@@ -20,7 +20,8 @@ export const PAGINATION = {
 
 export const RELATION_STATUS = {
     PENDING: 'PENDING',
-    APPROVED: 'APPROVED'
+    APPROVED: 'APPROVED',
+    CANCEL: 'CANCEL'
 };
 
 export function success(data) {
@@ -66,4 +67,21 @@ export const ECHO_API_URL = process.env.LARAVEL_ECHO_SERVER_API_URL || 'http://l
 export const ECHO_CHANNEL = {
     CHANNEL_MAIN: 'channel-main-top',
     CHANNEL_MESSAGE: 'channel-message-'
+}
+
+export const ECHO_EVENT = {
+    CREATE_MESSAGE: 'created-message',
+    ADD_FRIEND: 'add-friend',
+    APPROVE_FRIEND: 'approve-friend',
+    CANCEL_FRIEND: 'cancel-friend'
+}
+
+export const VARIANT = {
+    DEFAULT: '',
+    PRIMARY: 'primary',
+    SECONDARY: 'secondary',
+    DANGER: 'danger',
+    WARNING: 'warning',
+    SUCCESS: 'success',
+    INFO: 'info'
 }
