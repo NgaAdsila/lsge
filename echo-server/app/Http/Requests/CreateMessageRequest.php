@@ -26,7 +26,6 @@ class CreateMessageRequest extends FormRequest
         return [
             'message' => 'required|max:2000',
             'chatroomId' => 'required',
-            'token' => 'required',
         ];
     }
 }

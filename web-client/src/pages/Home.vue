@@ -108,13 +108,6 @@
     #section-my-card {
         padding: 2rem 0.5rem;
         min-height: 60vh;
-        background: linear-gradient(rgba(255,255,255,.7), rgba(255,255,255,.7)), url(/card/my_card_wapper1.jpg) no-repeat fixed top;
-        background-size: cover;
-        background-blend-mode: lighten;
-        -ms-background-size: cover;
-        -o-background-size: cover;
-        -moz-background-size: cover;
-        -webkit-background-size: cover;
 
         .shape {
             margin-top: 2.5rem;
@@ -124,12 +117,5 @@
     #most-module {
         padding: 5rem 0.5rem 2rem;
         text-align: center;
-        background: linear-gradient(rgba(255,255,255,.7), rgba(255,255,255,.7)) no-repeat fixed top;
-        background-size: cover;
-        background-blend-mode: lighten;
-        -ms-background-size: cover;
-        -o-background-size: cover;
-        -moz-background-size: cover;
-        -webkit-background-size: cover;
     }
 </style>

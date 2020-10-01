@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import my.lsge.application.dto.ListObjectRes;
 import my.lsge.application.dto.relation.AddingFriendReq;
 import my.lsge.application.dto.relation.FriendItemRes;
+import my.lsge.application.dto.relation.FriendListRes;
 import my.lsge.application.dto.relation.UpdatingFriendStatusReq;
 import my.lsge.application.exception.FormValidationException;
 import my.lsge.domain.dao.RelationshipDao;
@@ -18,6 +19,7 @@ import my.lsge.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,18 +36,25 @@ public class RelationshipLogic extends BaseLogic {
     @Autowired
     private RelationshipLogRepository relationshipLogRepository;
 
-    public ListObjectRes<FriendItemRes> getFriendList(Long userId) {
+    public FriendListRes getFriendList(Long userId) {
         User user = userRepository.getOne(userId);
         validateUser(user);
 
         List<Relationship> relationships = relationshipRepository.findByIdReqUserIdOrIdRecUserId(userId, userId);
 
-        ListObjectRes<FriendItemRes> res = new ListObjectRes<>();
+        FriendListRes res = new FriendListRes();
         if (!Utils.isNullOrEmpty(relationships)) {
-            res.setResponses(relationships.stream()
+            res.setFriends(relationships.stream()
                     .filter(r -> r.getStatus().equals(RelationShipStatusEnum.APPROVED))
                     .map(r -> r.getId().getReqUserId().equals(userId) ? r.getRecUser() : r.getReqUser())
+                    .sorted(Comparator.comparing(User::getName))
                     .map(FriendItemRes::by)
+                    .collect(Collectors.toList()));
+            res.setRequestedFriends(relationships.stream()
+                    .filter(r -> r.getStatus().equals(RelationShipStatusEnum.PENDING)
+                            && r.getId().getRecUserId().equals(userId))
+                    .sorted(Comparator.comparing(Relationship::getCreatedAt))
+                    .map(r -> FriendItemRes.by(r.getReqUser()))
                     .collect(Collectors.toList()));
         }
         return res;

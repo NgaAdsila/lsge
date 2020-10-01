@@ -151,5 +151,11 @@
     "message": {
       "init_normal_success": "Bắt đầu trò chuyện với {name}"
     }
+  },
+  "friend-list": {
+    "label": {
+      "tab-friends": "Bạn bè ({number})",
+      "tab-requests": "Yêu cầu ({number})"
+    }
   }
 }

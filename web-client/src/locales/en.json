@@ -161,5 +161,11 @@
     "message": {
       "init_normal_success": "Start chatting with {name}"
     }
+  },
+  "friend-list": {
+    "label": {
+      "tab-friends": "Friends ({number})",
+      "tab-requests": "Requests ({number})"
+    }
   }
 }

@@ -53,7 +53,8 @@
                 messages: [],
                 users: [],
                 isSubmitting: false,
-                echoConnect: null
+                echoConnect: null,
+                channelName: `channel-message-${this.$route.params.id}`
             }
         },
         created() {
@@ -61,7 +62,7 @@
         },
         beforeDestroy() {
             if (this.echoConnect) {
-                this.echoConnect.leave(`channel-message-${this.chatroomId}`);
+                this.echoConnect.leave(this.channelName);
                 this.echoConnect = null;
             }
         },
@@ -95,18 +96,15 @@
             },
             async handleChannelMessage() {
                 this.echoConnect = await initEcho();
-                this.echoConnect.join(`channel-message-${this.chatroomId}`)
-                    .here(users => {
-                        console.log('HERE: ', users)
-                    })
+                this.echoConnect.join(this.channelName)
                     .joining(user => {
-                        console.log('JOINING: ', user)
-                    })
-                    .leaving(user => {
-                        console.log('LEAVING: ', user)
+                        this.handleJoiningMessage(user)
                     })
                     .listen('created-message', (data) => {
                         this.handleCreatedMessage(data.message)
+                    })
+                    .listen('is-read-message', (data) => {
+                        this.handleIsReadMessage(data.message)
                     })
             },
             async createMessage(message) {
@@ -142,6 +140,33 @@
                 } catch (e) {
                     console.log('Is read message error: ', e);
                 }
+            },
+            handleIsReadMessage(message) {
+                let userIds = []
+                message.statuses.forEach(s => {
+                    if (s.userId !== this.currentUserId && s.seen) {
+                        userIds.push(s.userId)
+                    }
+                })
+                if (userIds.length <= 0) {
+                    return
+                }
+                this.messages.forEach(m => {
+                    m.statuses.forEach(s => {
+                        if (!s.seen && userIds.includes(s.userId)) {
+                            s.seen = true
+                        }
+                    })
+                })
+            },
+            handleJoiningMessage(user) {
+                this.messages.forEach(m => {
+                    m.statuses.forEach(s => {
+                        if (!s.seen && s.userId === user.id) {
+                            s.seen = true
+                        }
+                    })
+                })
             }
         }
     }

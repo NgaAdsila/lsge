@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @Setter
 public class MessageRes {
     private Long id;
+    private Long chatroomId;
     private String message;
     private Long createdBy;
     private Long createdAt;
@@ -26,6 +27,7 @@ public class MessageRes {
     public static MessageRes by(Message message) {
         MessageRes res = new MessageRes();
         res.setId(message.getId());
+        res.setChatroomId(message.getChatroomId());
         res.setMessage(message.getMessage());
         res.setCreatedBy(message.getCreatedBy());
         res.setCreatedAt(Utils.parseDateTimeToMilliSecond(message.getCreatedAt()));

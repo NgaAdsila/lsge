@@ -15,5 +15,6 @@ export async function createMessage(req = {}) {
 }
 
 export async function isReadMessage(id, req = {}) {
-    return await ApiService.put(`${API_PATH.CHATROOM_IS_READ_MESSAGE}/${id}`, req);
+    return await ApiService.put(
+        `${API_PATH.CHATROOM_IS_READ_MESSAGE}/${id}`, req, {}, ECHO_API_URL, store.getters.echoJwt);
 }

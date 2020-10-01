@@ -5,24 +5,30 @@
         </div>
         <div class="chat-detail-list" ref="chatDetailList">
             <div v-if="messages.length > 0">
-                <div v-for="(message, index) in messages" :key="message.id"
-                     :class="message.createdBy === currentUserId ? 'is-right' : 'is-left'">
-                    <div v-if="message.createdBy === currentUserId" class="chat-detail-item chat-detail-list-right"
-                         :class="{'is-group-message': isGroupMessage(message, index) }">
-                        <div class="message-content text-break" v-linkified v-html="message.message" />
-                        <span class="message-time">{{ displayTime(message.createdAt) }}</span>
+                <div v-for="(message, index) in messages" :key="message.id">
+                    <div v-if="isNextDay(message, index)" class="is-default">
+                        ----------------------&star;---------------------<br/>
+                        {{ displayDate(message.createdAt) }}<br/>
+                        ----------------------&star;---------------------
                     </div>
-                    <div v-else class="chat-detail-item chat-detail-list-left"
-                         :class="{'is-group-message': isGroupMessage(message, index) }">
+                    <div :class="message.createdBy === currentUserId ? 'is-right' : 'is-left'">
+                        <div v-if="message.createdBy === currentUserId" class="chat-detail-item chat-detail-list-right"
+                             :class="{'is-group-message': isGroupMessage(message, index) }">
+                            <div class="message-content text-break" v-linkified v-html="message.message" />
+                            <span class="message-time">{{ displayTime(message.createdAt) }}</span>
+                        </div>
+                        <div v-else class="chat-detail-item chat-detail-list-left"
+                             :class="{'is-group-message': isGroupMessage(message, index) }">
                         <span class="message-user-avatar" :title="displayUserName(message.createdBy)">
                             <b-avatar class="text-uppercase"
                                       size="25"
                                       :text="displayUserName(message.createdBy).charAt(0)"></b-avatar>
                         </span>
-                        <div class="message-content text-break" v-linkified v-html="message.message" />
-                        <span class="message-time">{{ displayTime(message.createdAt) }}</span>
+                            <div class="message-content text-break" v-linkified v-html="message.message" />
+                            <span class="message-time">{{ displayTime(message.createdAt) }}</span>
+                        </div>
                     </div>
-                    <div v-if="isReadMessage(message, index)" class="message-is-seen-avatar">
+                    <div v-if="isReadMessage(message, index)" class="is-right message-is-seen-avatar">
                         <b-avatar class="text-uppercase"
                                   size="25"
                                   variant="primary"
@@ -84,6 +90,9 @@
             displayTime(time) {
                 return smartTime(time);
             },
+            displayDate(time) {
+                return (new Date(time)).toDateString();
+            },
             async createMessage() {
                 await this.$emit('createMessage', this.newMessage);
                 this.newMessage = '';
@@ -95,11 +104,20 @@
             },
             isReadMessage(message, index) {
                 const nextMessage = this.messages[index + 1];
-                return message.statuses.some(s => s.userId === this.currentUserId && s.seen)
-                    && (!nextMessage || nextMessage.statuses.some(s => s.userId === this.currentUserId && !s.seen));
+                return message.statuses.some(s => s.userId !== this.currentUserId && s.seen)
+                    && (!nextMessage || nextMessage.statuses.some(s => s.userId !== this.currentUserId && !s.seen));
             },
             scrollToBottom() {
                 this.$refs.chatDetailList.scrollTop = this.$refs.chatDetailList.scrollHeight;
+            },
+            isNextDay(message, index) {
+                if (index === 0) {
+                    return true
+                }
+                const prevMessage = this.messages[index - 1],
+                    prevDate = new Date(prevMessage.createdAt),
+                    date = new Date(message.createdAt)
+                return prevDate.setHours(0,0,0,0) < date.setHours(0,0,0,0)
             }
         }
     }
@@ -115,6 +133,7 @@
     .chat-detail-list {
         height: calc(100% - 4.75rem);
         overflow: auto;
+        overscroll-behavior: contain;
 
         &::-webkit-scrollbar {
             width: 0.5rem;
@@ -129,35 +148,29 @@
             outline: none;
         }
 
+        .is-default {
+            text-align: center;
+            font-weight: 500;
+            background: radial-gradient(rgba(255,125,0,0.2), transparent);
+        }
+
         .is-right {
             display: flex;
             justify-content: flex-end;
-            margin-right: 1.75rem;
-            position: relative;
+            margin-right: 0.25rem;
             .is-group-message {
                 margin-bottom: -0.3rem;
-            }
-            .message-is-seen-avatar {
-                position: absolute;
-                right: -1.7rem;
-                bottom: 0;
             }
         }
         .is-left {
             display: flex;
             justify-content: flex-start;
             margin-left: 2rem;
-            position: relative;
             .is-group-message {
                 margin-bottom: -0.3rem;
                 .message-user-avatar {
                     display: none;
                 }
-            }
-            .message-is-seen-avatar {
-                position: absolute;
-                right: 0.05rem;
-                bottom: 0;
             }
         }
         .chat-detail-item {

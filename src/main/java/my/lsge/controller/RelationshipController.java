@@ -1,8 +1,7 @@
 package my.lsge.controller;
 
-import my.lsge.application.dto.ListObjectRes;
 import my.lsge.application.dto.relation.AddingFriendReq;
-import my.lsge.application.dto.relation.FriendItemRes;
+import my.lsge.application.dto.relation.FriendListRes;
 import my.lsge.application.dto.relation.UpdatingFriendStatusReq;
 import my.lsge.domain.logic.RelationshipLogic;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ public class RelationshipController extends BaseController {
     private RelationshipLogic relationshipLogic;
 
     @GetMapping("/friend-list")
-    public ListObjectRes<FriendItemRes> getFriendList() {
+    public FriendListRes getFriendList() {
         return relationshipLogic.getFriendList(getUserId());
     }
 

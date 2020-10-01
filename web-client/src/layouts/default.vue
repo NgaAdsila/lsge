@@ -9,8 +9,12 @@
             <FriendList
                     ref="friendList"
                     :friendList="friendList"
+                    :requestedFriends="requestedFriends"
                     :onlineUserIds="onlineUserIds"
-                    @createChatRoom="createChatRoom" />
+                    :isLoading="isLoading"
+                    @createChatRoom="createChatRoom"
+                    @approveFriend="approveFriend"
+                    @cancelFriend="cancelFriend" />
         </b-container>
         <Footer />
         <ConfirmModal :message="confirmMessage" @onOk="onOk" />
@@ -29,6 +33,7 @@
     import {initNormalChatroom} from "@/services/chatroom_service";
     import {initEcho} from "@/helper/EchoClientHelper";
     import ToastHelper from "@/helper/ToastHelper";
+    import {approveFriend, cancelFriend} from "../services/relationship_service";
     export default {
         name: "default",
         components: {FriendList, ConfirmModal, Footer, Header},
@@ -40,9 +45,11 @@
                 confirmMessage: '',
                 refreshToken: undefined,
                 friendList: [],
+                requestedFriends: [],
                 chatWithUserId: null,
                 echoConnect: null,
-                onlineUserIds: []
+                onlineUserIds: [],
+                isLoading: false
             }
         },
         computed: {
@@ -77,45 +84,41 @@
             },
             async getFriendList() {
                 try {
-                    const res = await getFriendList();
+                    this.isLoading = true
+                    const res = await getFriendList()
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
-                        this.friendList = res.data.responses;
+                        this.friendList = res.data.friends
+                        this.requestedFriends = res.data.requestedFriends
                     }
                 } catch (e) {
-                    console.log('Get friend list error: ', e);
+                    console.log('Get friend list error: ', e)
+                } finally {
+                    this.isLoading = false
                 }
             },
             async createChatRoom(user) {
                 try {
+                    this.isLoading = true
                     if (this.$route.name === 'ChatDetail' && this.chatWithUserId === user.id) {
                         this.$refs.friendList.$refs.friendListButton.click()
+                        this.isLoading = false
                         return
                     }
                     const res = await initNormalChatroom({ userId: user.id });
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         this.chatWithUserId = user.id;
-                        this.$bvToast.toast(this.$t('chatroom.message.init_normal_success', {name: user.name}), {
-                            title: this.$t('common.toast.title'),
-                            toaster: 'b-toaster-top-center',
-                            solid: true,
-                            variant: 'success',
-                            autoHideDelay: 2000
-                        });
+                        ToastHelper.message(this.$t('chatroom.message.init_normal_success', {name: user.name}))
                         setTimeout(async (self = this) => {
                             this.$refs.friendList.$refs.friendListButton.click()
                             await self.$router.push({ name: 'ChatDetail', params: { id: res.data.id } })
                         }, 500);
                     } else {
-                        this.$bvToast.toast(res.message, {
-                            title: this.$t('common.toast.title'),
-                            toaster: 'b-toaster-top-center',
-                            solid: true,
-                            variant: 'danger',
-                            autoHideDelay: 2000
-                        });
+                        ToastHelper.message(res.message, VARIANT.DANGER)
                     }
                 } catch (e) {
                     console.log('Create chatroom error: ', e)
+                } finally {
+                    this.isLoading = false
                 }
             },
             async registerEchoConnection() {
@@ -141,6 +144,7 @@
                             this.$store.commit('removeFriendCancelledId', data.reqUserId)
                             this.$store.commit('addFriendRequestedId', data.reqUserId)
                             ToastHelper.notify(this.$t('find-friend.message.notify_has_new_request', { name: data.name }))
+                            this.getFriendList();
                         }
                     })
                     .listen(ECHO_EVENT.APPROVE_FRIEND, data => {
@@ -167,6 +171,37 @@
                             this.getFriendList();
                         }
                     })
+            },
+            async approveFriend(user) {
+                try {
+                    this.isLoading = true;
+                    const res = await approveFriend({userId: user.id});
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        ToastHelper.message(
+                            this.$t('find-friend.message.approve_friend_success', {name: user.name}))
+                    } else {
+                        ToastHelper.message(res.message, VARIANT.DANGER)
+                    }
+                } catch(e) {
+                    console.log('cancel friend error: ', e);
+                } finally {
+                    this.isLoading = false;
+                }
+            },
+            async cancelFriend(user) {
+                try {
+                    this.isLoading = true;
+                    const res = await cancelFriend({userId: user.id});
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        ToastHelper.message(this.$t('find-friend.message.cancel_friend_success'))
+                    } else {
+                        ToastHelper.message(res.message, VARIANT.DANGER)
+                    }
+                } catch(e) {
+                    console.log('cancel friend error: ', e);
+                } finally {
+                    this.isLoading = false;
+                }
             }
         },
         beforeDestroy() {

@@ -27,5 +27,6 @@ Route::group([
         Route::post('relationships', 'RelationshipController@addFriend');
         Route::put('relationships/approve', 'RelationshipController@approveFriend');
         Route::put('relationships/cancel', 'RelationshipController@cancelFriend');
+        Route::put('chatrooms/is-read-message/{id}', 'MessageController@readMessage');
     });
 });

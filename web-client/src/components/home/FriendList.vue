@@ -9,30 +9,72 @@
                       :text="'' + countOnlineFriend"></b-avatar>
         </b-button>
         <b-sidebar id="sidebar-list-friend" :title="$t('common.label.friend-list')" right shadow>
-            <hr />
             <div class="friend-list-wrapper">
-                <div v-if="friendList && friendList.length">
-                    <div v-for="friend in friendList" :key="friend.id"
-                         class="friend-list-item has-link"
-                         @click.stop.prevent="createChatRoom(friend)">
-                        <div class="friend-item-info" :class="{ 'offline': !onlineFriend(friend.id) }">
-                            <div class="friend-item-avatar">
-                                <b-avatar class="text-uppercase"
-                                          :style="{ 'background-color': getColor() + ' !important' }"
-                                          :text="friend.name ? friend.name.charAt(0) : ''"></b-avatar>
+                <b-overlay :show="isLoading" rounded="sm" spinner-variant="primary">
+                    <b-tabs content-class="mt-3" justified>
+                        <b-tab :title="$t('friend-list.label.tab-friends', { number: friendList.length })"
+                               active class="friend-list-tab">
+                            <div v-if="friendList && friendList.length">
+                                <div v-for="friend in orderFriendList(friendList)" :key="friend.id"
+                                     class="friend-list-item">
+                                    <div class="friend-item-info has-link" :class="{ 'offline': !friend.isOnline }"
+                                         @click.stop.prevent="createChatRoom(friend)">
+                                        <div class="friend-item-avatar">
+                                            <b-avatar class="text-uppercase"
+                                                      :style="{ 'background-color': getColor() + ' !important' }"
+                                                      :text="friend.name ? friend.name.charAt(0) : ''"></b-avatar>
+                                            <b-icon v-show="friend.isOnline" icon="dot"
+                                                    animation="fade"
+                                                    scale="4" class="friend-item-status"></b-icon>
+                                        </div>
+                                        <div class="friend-item-name">
+                                            {{ friend.name }}
+                                        </div>
+                                    </div>
+                                    <div class="friend-item-actions">
+                                        <b-icon icon="person-x"
+                                                variant="danger" font-scale="1.5"
+                                                class="has-link"
+                                                @click="cancelFriend(friend)"></b-icon>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="friend-item-name">
-                                {{ friend.name }}
+                            <div v-else>
+                                <b-alert variant="warning" show>{{ $t('common.message.no_data') }}</b-alert>
                             </div>
-                        </div>
-                        <div class="friend-item-status">
-                            <b-icon v-show="onlineFriend(friend.id)" icon="dot" variant="success" scale="3"></b-icon>
-                        </div>
-                    </div>
-                </div>
-                <div v-else>
-                    <b-alert variant="warning" show>{{ $t('common.message.no_data') }}</b-alert>
-                </div>
+                        </b-tab>
+                        <b-tab :title="$t('friend-list.label.tab-requests', { number: requestedFriends.length })"
+                               class="friend-list-tab">
+                            <div v-if="requestedFriends && requestedFriends.length">
+                                <div v-for="user in requestedFriends" :key="user.id" class="friend-list-item">
+                                    <div class="friend-item-info" :class="{ 'offline': !onlineFriend(user.id) }">
+                                        <div class="friend-item-avatar">
+                                            <b-avatar class="text-uppercase"
+                                                      :style="{ 'background-color': getColor() + ' !important' }"
+                                                      :text="user.name ? user.name.charAt(0) : ''"></b-avatar>
+                                        </div>
+                                        <div class="friend-item-name">
+                                            {{ user.name }}
+                                        </div>
+                                    </div>
+                                    <div class="friend-item-actions">
+                                        <b-icon icon="person-check"
+                                                variant="success" font-scale="1.5"
+                                                class="has-link user-action-approve"
+                                                @click="approveFriend(user)"></b-icon>
+                                        <b-icon icon="person-x"
+                                                variant="danger" font-scale="1.5"
+                                                class="has-link"
+                                                @click="cancelFriend(user)"></b-icon>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-else>
+                                <b-alert variant="warning" show>{{ $t('common.message.no_data') }}</b-alert>
+                            </div>
+                        </b-tab>
+                    </b-tabs>
+                </b-overlay>
             </div>
         </b-sidebar>
     </div>
@@ -45,7 +87,9 @@
         name: "FriendList",
         props: [
             'friendList',
-            'onlineUserIds'
+            'requestedFriends',
+            'onlineUserIds',
+            'isLoading'
         ],
         computed: {
             countOnlineFriend: function() {
@@ -70,6 +114,29 @@
             },
             getColor() {
                 return randomColor()
+            },
+            approveFriend(user) {
+                this.$emit('approveFriend', user);
+            },
+            cancelFriend(user) {
+                this.$emit('cancelFriend', user);
+            },
+            orderFriendList(friendList) {
+                if (friendList.length <= 0) {
+                    return []
+                }
+                let onlineList = [],
+                    offlineList = []
+                friendList.forEach(f => {
+                    if (this.onlineFriend(f.id)) {
+                        f.isOnline = true
+                        onlineList.push(f)
+                    } else {
+                        f.isOnline = false
+                        offlineList.push(f)
+                    }
+                })
+                return onlineList.concat(offlineList)
             }
         }
     }
@@ -91,7 +158,9 @@
             }
         }
         .friend-list-wrapper {
-            margin: 1rem;
+            .friend-list-tab {
+                margin: 0 1rem 1rem;
+            }
             .friend-list-item {
                 display: flex;
                 justify-content: space-between;
@@ -99,15 +168,22 @@
                 .friend-item-info {
                     display: flex;
                     line-height: 3rem;
-                    width: 100%;
+                    width: calc(100% - 3.5rem);
                     .friend-item-avatar {
                         margin-right: 0.5rem;
+                        position: relative;
+                        .friend-item-status {
+                            position: absolute;
+                            right: -4px;
+                            top: 6px;
+                            color: darkgreen;
+                        }
                     }
                     .friend-item-name {
                         white-space: nowrap;
                         text-overflow: ellipsis;
                         overflow: hidden;
-                        width: calc(100% - 4rem);
+                        width: calc(100% - 3rem);
                     }
                     &.offline {
                         .friend-item-avatar {
@@ -118,8 +194,11 @@
                         }
                     }
                 }
-                .friend-item-status {
+                .friend-item-actions {
                     line-height: 3rem;
+                    .user-action-approve {
+                        margin-right: 0.5rem;
+                    }
                 }
             }
         }
@@ -131,6 +210,13 @@
     #sidebar-list-friend {
         top: 4.75rem;
         height: calc(100vh - 4.75rem);
+
+        .b-sidebar-body {
+            &::-webkit-scrollbar {
+                width: 0;
+            }
+            overscroll-behavior: contain;
+        }
     }
 }
 </style>
