@@ -36,7 +36,8 @@
       "strict_password": "Password must use all of the following:\n・ Lowercase half-width alphabet\n・ Uppercase half-width alphabet\n・ Half-width numbers\n・ Symbols (usable symbols !\"# $% & '() * +,-. / :; <=>? @ [] ^ _` {|} ~)",
       "strict_username": "{name} must use all of the following:\n・ Only contains alphanumeric characters, underscore and dot\n・ Start with alphanumeric characters",
       "invalid_email": "Email is invalid.",
-      "exception": "Sorry, an error occurred. Please contact the Admin for assistance!"
+      "exception": "Sorry, an error occurred. Please contact the Admin for assistance!",
+      "unauthorized": "Your login session has expired. Please re-login to continue"
     },
     "toast": {
       "title": "Ge-Lsg Message",

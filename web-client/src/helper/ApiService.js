@@ -1,7 +1,10 @@
 import axios from 'axios'
-import { RESPONSE, success, fail } from '../services/constants'
+import {RESPONSE, success, fail, VARIANT} from '../services/constants'
 import store from '../store/index'
 import i18n from '../plugins/i18n';
+import ToastHelper from "@/helper/ToastHelper";
+import { signOut } from "@/services/user_service";
+import router from "@/router";
 
 const URL = process.env.BACKEND_BASE_URL || 'http://localhost:18081';
 const instance = axios.create({
@@ -54,9 +57,16 @@ export default {
         }
     },
     async handleError(e) {
-        if (!e || !e.data || !e.data.message) {
+        if (!e || !e.data || !e.data.message ||
+            e.status === RESPONSE.CODE.EXCEPTION || e.status === RESPONSE.CODE.FORBIDDEN) {
             return fail(i18n.t('common.validation.exception'), RESPONSE.CODE.EXCEPTION);
         }
-        return fail(e.data.message, e.status);
+        if (e.status === RESPONSE.CODE.UNAUTHORIZED) {
+            await ToastHelper.message(i18n.t('common.validation.unauthorized'), VARIANT.DANGER)
+            await signOut()
+            return router.push({ name: 'Login' })
+        } else {
+            return fail(e.data.message, e.status);
+        }
     }
 }

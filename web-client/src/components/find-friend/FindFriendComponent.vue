@@ -89,13 +89,16 @@
             .user-info {
                 display: flex;
                 flex-direction: row;
+                max-width: calc(100% - 4rem);
                 .user-avatar {
                     line-height: 3.5rem;
                 }
                 .user-name {
                     margin-left: 0.5rem;
                     line-height: 3.75rem;
-
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
                 }
             }
             .user-action {

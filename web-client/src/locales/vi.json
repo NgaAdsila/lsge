@@ -36,7 +36,8 @@
       "strict_password": "Mật khẩu phải chứa các điều kiện sau:\n・ Chữ cái viết thường\n・ Chữ cái viết hoa\n・ Chữ số\n・ Ký tự (Cho phép !\"# $% & '() * +,-. / :; <=>? @ [] ^ _` {|} ~)",
       "strict_username": "{name} phải chứa các điều kiện sau:\n・ Chỉ chứa các ký tự chữ và số, gạch dưới và dấu chấm\n・ Bắt đầu bằng các ký tự chữ hoặc số",
       "invalid_email": "Email không hợp lệ.",
-      "exception": "Rất tiếc, có lỗi xảy ra. Vui lòng liên hệ Admin để được hỗ trợ"
+      "exception": "Rất tiếc, có lỗi xảy ra. Vui lòng liên hệ Admin để được hỗ trợ",
+      "unauthorized": "Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại để tiếp tục"
     },
     "toast": {
       "title": "Ge-Lsg - Thông báo",

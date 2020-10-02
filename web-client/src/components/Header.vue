@@ -9,7 +9,9 @@
 
             <b-collapse id="nav-collapse" v-model="isNavbarCollapseOpen" is-nav>
                 <b-navbar-nav>
-                    <b-nav-item @click="redirectTo('/home')">{{ $t('common.label.home') }}</b-nav-item>
+                    <b-nav-item @click="redirectTo('/home')" :active="$route.path === '/home'">
+                        {{ $t('common.label.home') }}
+                    </b-nav-item>
                     <b-nav-item-dropdown left class="is-desktop">
                         <template v-slot:button-content>
                             {{ $t('common.label.module') }}
@@ -32,21 +34,38 @@
                             <b-icon icon="question-diamond"></b-icon> {{ $t('common.label.contact_us') }}
                         </b-dropdown-item>
                     </b-nav-item-dropdown>
-                    <b-nav-item @click="redirectTo('/chat-list')" class="is-mobile">
+                    <b-nav-item @click="redirectTo('/chat-list')" class="is-mobile"
+                                :active="$route.path === '/chat-list'" >
                         {{ $t('common.label.chat_list') }}
                     </b-nav-item>
-                    <b-nav-item @click="redirectTo('/about-me')" class="is-mobile">
+                    <b-nav-item @click="redirectTo('/about-me')" class="is-mobile"
+                                :active="$route.path === '/about-me'">
                         {{ $t('common.label.about_me') }}
                     </b-nav-item>
-                    <b-nav-item @click="redirectTo('/contact-us')" class="is-mobile">
+                    <b-nav-item @click="redirectTo('/contact-us')" class="is-mobile"
+                                :active="$route.path === '/contact-us'">
                         {{ $t('common.label.contact_us') }}
                     </b-nav-item>
                 </b-navbar-nav>
 
                 <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto">
+                    <b-nav-text class="is-mobile navbar-header-username">
+                        <div class="user-name has-link" @click="redirectTo('/profile')">
+                            <b-avatar variant="success" class="text-uppercase"
+                                      :text="$store.getters.name ? $store.getters.name.charAt(0) : ''">
+                            </b-avatar> <em>{{ $store.getters.name }} </em>
+                        </div>
+                        <div @click="logout" class="user-action-logout has-link">
+                            <b-icon icon="power" scale="1.5"></b-icon>
+                        </div>
+                    </b-nav-text>
+                    <b-nav-item @click="redirectTo('/login-history')" class="is-mobile"
+                                :active="$route.path === '/login-history'">
+                        {{ $t('common.label.login_history') }}
+                    </b-nav-item>
                     <b-nav-form @submit.stop.prevent="searchFriend">
-                        <b-form-input size="sm" class="mr-sm-2"
+                        <b-form-input size="sm" class="nav-header-search-friend mr-sm-2"
                                       v-model="keyword"
                                       type="search"
                                       :placeholder="$t('common.label.search_friend')"></b-form-input>
@@ -68,20 +87,6 @@
                             <b-icon icon="power"></b-icon> {{ $t('common.label.sign_out') }}
                         </b-dropdown-item>
                     </b-nav-item-dropdown>
-                    <b-nav-text class="is-mobile navbar-header-username">
-                        <b-avatar variant="success" class="text-uppercase"
-                                  :text="$store.getters.name ? $store.getters.name.charAt(0) : ''">
-                        </b-avatar> <em>{{ $store.getters.name }} </em>
-                    </b-nav-text>
-                    <b-nav-item @click="redirectTo('/profile')" class="is-mobile ml-2">
-                        <b-icon icon="person-square"></b-icon> {{ $t('common.label.profile') }}
-                    </b-nav-item>
-                    <b-nav-item @click="redirectTo('/login-history')" class="is-mobile ml-2">
-                        <b-icon icon="arrow-counterclockwise"></b-icon> {{ $t('common.label.login_history') }}
-                    </b-nav-item>
-                    <b-nav-item @click="logout" class="is-mobile ml-2">
-                        <b-icon icon="power"></b-icon> {{ $t('common.label.sign_out') }}
-                    </b-nav-item>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
@@ -115,6 +120,7 @@
                 this.$emit('searchFriend', this.keyword);
             },
           redirectTo(path = '') {
+              this.isNavbarCollapseOpen = false
               if (path === '' || path === this.$route.path) {
                 return
               }
@@ -149,9 +155,24 @@
         }
         .is-mobile {
             display: block;
+            &.navbar-header-username {
+                display: flex;
+                justify-content: space-between;
+                border-top: 1px dotted lightgrey;
+                margin-right: 0.25rem;
+                .user-name {
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    width: calc(100vw - 3.5rem);
+                }
+                .user-action-logout {
+                    line-height: 2.125rem;
+                }
+            }
         }
-        input {
-            width: calc(100vw - 2rem);
+        .nav-header-search-friend {
+            width: calc(100vw - 2.5rem);
         }
     }
 }

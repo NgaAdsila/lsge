@@ -16,8 +16,8 @@
                                active class="friend-list-tab">
                             <div v-if="friendList && friendList.length">
                                 <div v-for="friend in orderFriendList(friendList)" :key="friend.id"
-                                     class="friend-list-item">
-                                    <div class="friend-item-info has-link" :class="{ 'offline': !friend.isOnline }"
+                                     class="friend-list-item" :class="{ 'first-offline': friend.isFirst }">
+                                    <div class="friend-item-info has-link"
                                          @click.stop.prevent="createChatRoom(friend)">
                                         <div class="friend-item-avatar">
                                             <b-avatar class="text-uppercase"
@@ -47,7 +47,7 @@
                                class="friend-list-tab">
                             <div v-if="requestedFriends && requestedFriends.length">
                                 <div v-for="user in requestedFriends" :key="user.id" class="friend-list-item">
-                                    <div class="friend-item-info" :class="{ 'offline': !onlineFriend(user.id) }">
+                                    <div class="friend-item-info">
                                         <div class="friend-item-avatar">
                                             <b-avatar class="text-uppercase"
                                                       :style="{ 'background-color': getColor() + ' !important' }"
@@ -84,7 +84,7 @@
 </template>
 
 <script>
-    import { randomColor } from "../../utils";
+    import { randDarkColor } from "@/utils";
 
     export default {
         name: "FriendList",
@@ -116,7 +116,7 @@
                 return this.onlineUserIds && this.onlineUserIds.includes(userId);
             },
             getColor() {
-                return randomColor()
+                return randDarkColor()
             },
             approveFriend(user) {
                 this.$emit('approveFriend', user);
@@ -133,9 +133,11 @@
                 friendList.forEach(f => {
                     if (this.onlineFriend(f.id)) {
                         f.isOnline = true
+                        f.isFirst = false
                         onlineList.push(f)
                     } else {
                         f.isOnline = false
+                        f.isFirst = offlineList.length === 0
                         offlineList.push(f)
                     }
                 })
@@ -168,6 +170,9 @@
                 display: flex;
                 justify-content: space-between;
                 padding: 0.5rem 0;
+                &.first-offline {
+                    border-top: 1px solid cyan;
+                }
                 .friend-item-info {
                     display: flex;
                     line-height: 3rem;
@@ -216,10 +221,14 @@
         height: calc(100vh - 4.75rem);
 
         .b-sidebar-body {
-            &::-webkit-scrollbar {
-                width: 0;
+            .tab-content {
+                height: calc(100vh - 12rem);
+                overflow: auto;
+                &::-webkit-scrollbar {
+                    width: 0;
+                }
+                overscroll-behavior: contain;
             }
-            overscroll-behavior: contain;
         }
     }
 }

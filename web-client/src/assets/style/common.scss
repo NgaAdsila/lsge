@@ -11,6 +11,20 @@ body {
   -o-background-size: cover;
   -moz-background-size: cover;
   -webkit-background-size: cover;
+
+  &.modal-open {
+    padding-right: 0 !important;
+    overflow-y: auto;
+    .modal {
+      padding-right: 0 !important;
+    }
+    nav.header-container {
+      padding-right: 1rem !important;
+    }
+    .navbar-dark .navbar-toggler {
+      margin-right: 0 !important;
+    }
+  }
 }
 
 .container-fluid {
