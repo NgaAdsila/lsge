@@ -37,11 +37,11 @@
                 crumbItems: [
                     {
                         text: this.$t('common.label.home'),
-                        href: '/home'
+                        to: { name: 'Home' }
                     },
                     {
                         text: this.$t('common.label.chat_list'),
-                        href: '/chat-list'
+                        to: { name: 'ChatList' }
                     },
                     {
                         text: this.$t('common.label.chat_detail'),
@@ -161,6 +161,9 @@
             },
             handleJoiningMessage(user) {
                 this.messages.forEach(m => {
+                    if (m.createdBy === user.id) {
+                        return
+                    }
                     m.statuses.forEach(s => {
                         if (!s.seen && s.userId === user.id) {
                             s.seen = true

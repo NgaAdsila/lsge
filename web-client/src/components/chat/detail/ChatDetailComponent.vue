@@ -7,9 +7,8 @@
             <div v-if="messages.length > 0">
                 <div v-for="(message, index) in messages" :key="message.id">
                     <div v-if="isNextDay(message, index)" class="is-default">
-                        ----------------------&star;---------------------<br/>
-                        {{ displayDate(message.createdAt) }}<br/>
-                        ----------------------&star;---------------------
+                        {{ displayDate(message.createdAt) }}
+                        <div class="is-default-line">&#8604;<small>&star;</small>&#128312;<small>&star;</small>&#8605;</div>
                     </div>
                     <div :class="message.createdBy === currentUserId ? 'is-right' : 'is-left'">
                         <div v-if="message.createdBy === currentUserId" class="chat-detail-item chat-detail-list-right"
@@ -91,7 +90,7 @@
                 return smartTime(time);
             },
             displayDate(time) {
-                return (new Date(time)).toDateString();
+                return time ? new Date(time).toDateString() : '';
             },
             async createMessage() {
                 await this.$emit('createMessage', this.newMessage);
@@ -136,7 +135,7 @@
         overscroll-behavior: contain;
 
         &::-webkit-scrollbar {
-            width: 0.5rem;
+            width: 0.25rem;
         }
 
         &::-webkit-scrollbar-track {
@@ -152,6 +151,9 @@
             text-align: center;
             font-weight: 500;
             background: radial-gradient(rgba(255,125,0,0.2), transparent);
+            .is-default-line {
+              margin-top: -0.75rem;
+            }
         }
 
         .is-right {

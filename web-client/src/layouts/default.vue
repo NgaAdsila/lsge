@@ -5,7 +5,7 @@
                 @searchFriend="searchFriend"
                 @logout="logout"/>
         <b-container fluid>
-            <router-view :key="$route.path" />
+            <router-view :key="$route.fullPath" />
             <FriendList
                     ref="friendList"
                     :friendList="friendList"
@@ -33,7 +33,7 @@
     import {initNormalChatroom} from "@/services/chatroom_service";
     import {initEcho} from "@/helper/EchoClientHelper";
     import ToastHelper from "@/helper/ToastHelper";
-    import {approveFriend, cancelFriend} from "../services/relationship_service";
+    import {approveFriend, cancelFriend} from "@/services/relationship_service";
     export default {
         name: "default",
         components: {FriendList, ConfirmModal, Footer, Header},
@@ -179,6 +179,7 @@
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         ToastHelper.message(
                             this.$t('find-friend.message.approve_friend_success', {name: user.name}))
+                        this.forceReloadPage()
                     } else {
                         ToastHelper.message(res.message, VARIANT.DANGER)
                     }
@@ -194,6 +195,7 @@
                     const res = await cancelFriend({userId: user.id});
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         ToastHelper.message(this.$t('find-friend.message.cancel_friend_success'))
+                        this.forceReloadPage()
                     } else {
                         ToastHelper.message(res.message, VARIANT.DANGER)
                     }
@@ -201,6 +203,12 @@
                     console.log('cancel friend error: ', e);
                 } finally {
                     this.isLoading = false;
+                }
+            },
+            forceReloadPage() {
+                if (this.$route.name === 'FindFriend') {
+                    const query = { ...this.$route.query, _: '' + new Date().getTime() }
+                    this.$router.replace({ ...this.$route, query })
                 }
             }
         },

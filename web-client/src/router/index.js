@@ -3,8 +3,8 @@ import VueRouter from 'vue-router'
 import BaseLayout from '../layouts/default.vue'
 import store from '../store/index'
 import ApiService from '../helper/ApiService'
-import { API_PATH } from '../services/constants'
-import { checkRole } from '../services/role'
+import { API_PATH } from '@/services/constants'
+import { checkRole } from '@/services/role'
 
 Vue.use(VueRouter);
 

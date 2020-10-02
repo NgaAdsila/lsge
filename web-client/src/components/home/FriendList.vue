@@ -24,7 +24,7 @@
                                                       :style="{ 'background-color': getColor() + ' !important' }"
                                                       :text="friend.name ? friend.name.charAt(0) : ''"></b-avatar>
                                             <b-icon v-show="friend.isOnline" icon="dot"
-                                                    animation="fade"
+                                                    variant="success"
                                                     scale="4" class="friend-item-status"></b-icon>
                                         </div>
                                         <div class="friend-item-name">
@@ -52,6 +52,9 @@
                                             <b-avatar class="text-uppercase"
                                                       :style="{ 'background-color': getColor() + ' !important' }"
                                                       :text="user.name ? user.name.charAt(0) : ''"></b-avatar>
+                                            <b-icon v-show="user.isOnline" icon="dot"
+                                                    variant="success"
+                                                    scale="4" class="friend-item-status"></b-icon>
                                         </div>
                                         <div class="friend-item-name">
                                             {{ user.name }}
@@ -175,8 +178,9 @@
                         .friend-item-status {
                             position: absolute;
                             right: -4px;
-                            top: 6px;
-                            color: darkgreen;
+                            bottom: 2px;
+                            background: #FFFFFF;
+                            border-radius: 100%;
                         }
                     }
                     .friend-item-name {

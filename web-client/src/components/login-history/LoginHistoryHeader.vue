@@ -86,22 +86,21 @@
 </script>
 
 <style lang="scss" scoped>
-    .login-history-header {
-        margin: 1rem;
-        .login-history-total-record {
-            line-height: 2.375rem;
+.login-history-header {
+    margin: 1rem;
+    .login-history-total-record {
+        line-height: 2.375rem;
+    }
+    .search-key-word {
+        max-width: 22rem;
+
+        @media (min-width: 574px) {
+            float: right!important;
         }
-        .search-key-word {
-            max-width: 22rem;
 
-            @media (min-width: 574px) {
-                float: right!important;
-            }
-
-            input.active-search-keyword {
-                @media (max-width: 486px) {
-                    display: none;
-                }
+        input.active-search-keyword {
+            @media (max-width: 486px) {
+                display: none;
             }
         }
     }
@@ -116,4 +115,13 @@
             margin-right: 1rem;
         }
     }
+}
+</style>
+<style lang="scss">
+.login-history-header {
+    #sidebar-search {
+        top: 4.75rem;
+        height: calc(100vh - 4.75rem);
+    }
+}
 </style>
