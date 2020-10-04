@@ -1,3 +1,5 @@
+import i18n from "../plugins/i18n";
+
 export function parseJwt(token) {
     let base64Url = token.split('.')[1],
         base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'),
@@ -69,4 +71,14 @@ export function randDarkColor() {
         rgb += ("00" + c).substr(c.length);
     }
     return rgb;
+}
+
+export function smartDisplayUsername(usernames = []) {
+    if (usernames.length <= 2) {
+        return usernames.join(', ')
+    }
+    return i18n.t('common.label.display_username', {
+        name: `${usernames[0]}, ${usernames[1]}`,
+        count: usernames.length - 2
+    })
 }

@@ -75,12 +75,8 @@
                         if (res.data.name) {
                             this.chatroomName = this.crumbItems[2].text = res.data.name
                         }
-                        this.messages = res.data.messages;
-                        if (res.data.users.length > 0) {
-                            const users = [];
-                            res.data.users.forEach(u => users[u.id] = u);
-                            this.users = users
-                        }
+                        this.messages = res.data.messages || []
+                        this.users = res.data.users || []
                     } else {
                         ToastHelper.message(res.message, VARIANT.DANGER)
                         setTimeout(async (self = this) => {

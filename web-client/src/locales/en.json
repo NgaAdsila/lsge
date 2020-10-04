@@ -26,7 +26,8 @@
       "find-friend": "Find friend",
       "chat_detail": "Chat detail",
       "someone": "Someone",
-      "friend-list": "Friends"
+      "friend-list": "Friends",
+      "display_username": "{name} and {count} others"
     },
     "validation": {
       "required": "Field {name} is required.",
@@ -161,6 +162,12 @@
   "chatroom": {
     "message": {
       "init_normal_success": "Start chatting with {name}"
+    },
+    "label": {
+      "update_chatroom": "Update chatroom's name",
+      "set_nickname": "Set nickname",
+      "name": "Name",
+      "nickname": "Nickname"
     }
   },
   "friend-list": {

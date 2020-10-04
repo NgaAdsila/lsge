@@ -1,7 +1,26 @@
 <template>
     <div class="chat-detail-component">
         <div class="chat-detail-header">
-
+            <div class="chat-detail-title">
+                {{ chatroomName || getDefaultName() }}
+            </div>
+            <div class="chat-detail-action">
+                <b-dropdown size="md"  variant="link" toggle-class="chat-detail-action-toggle" right no-caret>
+                    <template v-slot:button-content>
+                        <b-icon icon="gear"></b-icon><span class="sr-only">Search</span>
+                    </template>
+                    <b-dropdown-item @click="openUpdateChatroomModal">
+                        <b-icon icon="plus" scale="0.8" variant="success"
+                                animation="fade"></b-icon> {{ $t('chatroom.label.update_chatroom') }}
+                    </b-dropdown-item>
+                    <b-dropdown-item @click="openSetNicknameModal">
+                        <b-icon icon="plus" scale="0.8" variant="success"
+                                animation="fade"></b-icon> {{ $t('chatroom.label.set_nickname') }}
+                    </b-dropdown-item>
+                </b-dropdown>
+                <ChatDetailUpdateChatroom :currentName="chatroomName" @onOk="updateChatroom" />
+                <ChatDetailSetNickname :currentUsers="users" @onOk="setNickname" />
+            </div>
         </div>
         <div class="chat-detail-list" ref="chatDetailList">
             <div v-if="messages.length > 0">
@@ -60,10 +79,13 @@
 </template>
 
 <script>
-    import { smartTime } from "@/utils";
+    import { smartTime, smartDisplayUsername } from "@/utils";
+    import ChatDetailUpdateChatroom from "./ChatDetailUpdateChatroom";
+    import ChatDetailSetNickname from "./ChatDetailSetNickname";
 
     export default {
         name: "ChatDetailComponent",
+        components: {ChatDetailSetNickname, ChatDetailUpdateChatroom},
         props: [
             'chatroomName',
             'currentUserId',
@@ -81,10 +103,14 @@
         },
         methods: {
             displayUserName(userId) {
-                if (this.users.length <= 0 || !this.users[userId]) {
+                if (this.users.length <= 0) {
                     return this.$t('common.label.someone');
                 }
-                return this.users[userId].nickname || this.users[userId].name;
+                const user = this.users.find(u => u.id === userId);
+                if (!user) {
+                    return this.$t('common.label.someone');
+                }
+                return user.nickname || user.name;
             },
             displayTime(time) {
                 return smartTime(time);
@@ -117,6 +143,30 @@
                     prevDate = new Date(prevMessage.createdAt),
                     date = new Date(message.createdAt)
                 return prevDate.setHours(0,0,0,0) < date.setHours(0,0,0,0)
+            },
+            getDefaultName() {
+                if (!this.users || this.users.length <= 0) {
+                    return this.$t('common.label.chat_detail')
+                }
+                let userNames = []
+                this.users.forEach(u => {
+                    if (u.id !== this.currentUserId) {
+                        userNames.push(u.name)
+                    }
+                })
+                return userNames.length ? smartDisplayUsername(userNames) : this.$t('common.label.chat_detail')
+            },
+            openUpdateChatroomModal() {
+                this.$bvModal.show('chat-detail-update-chatroom-modal');
+            },
+            updateChatroom(name) {
+                console.log('Update', name)
+            },
+            openSetNicknameModal() {
+                this.$bvModal.show('chat-detail-set-nickname-modal');
+            },
+            setNickname() {
+                console.log('set nickname')
             }
         }
     }
@@ -128,6 +178,20 @@
     flex-direction: column;
     justify-content: space-between;
     height: calc(100vh - 17rem);
+
+    .chat-detail-header {
+        text-align: center;
+        font-weight: 500;
+        font-size: 1rem;
+        position: relative;
+        margin-bottom: 1rem;
+
+        .chat-detail-action {
+            position: absolute;
+            right: 0;
+            top: -0.5rem;
+        }
+    }
 
     .chat-detail-list {
         height: calc(100% - 4.75rem);

@@ -26,7 +26,8 @@
       "find-friend": "Tìm kiếm bạn bè",
       "chat_detail": "Trò chuyện",
       "someone": "Ai đó",
-      "friend-list": "Danh sách bạn bè"
+      "friend-list": "Danh sách bạn bè",
+      "display_username": "{name} và {count} người khác"
     },
     "validation": {
       "required": "Trường {name} bắt buộc nhập.",
@@ -151,6 +152,12 @@
   "chatroom": {
     "message": {
       "init_normal_success": "Bắt đầu trò chuyện với {name}"
+    },
+    "label": {
+      "update_chatroom": "Cập nhật tên cuộc trò chuyện",
+      "set_nickname": "Thiết lập biệt danh",
+      "name": "Tên cuộc trò chuyện",
+      "nickname": "Biệt danh"
     }
   },
   "friend-list": {
