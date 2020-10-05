@@ -13,11 +13,11 @@
                           :key="index"
                           :label-for="'input-name-' + index">
                 <b-form-input :id="'input-name' + index" size="sm"
-                              v-model="$v.user.nickname.$model"
+                              v-model="$v.nicknames.$each[index].nickname.$model"
                               maxlength="100"
-                              :state="validateState('nicknames', index)"
+                              :state="validateState('nickname', index)"
                               :aria-describedby="'name-live-feedback' + index"
-                              ref="name"
+                              :ref="'name' + index"
                               class="grey-text"></b-form-input>
                 <b-form-invalid-feedback :id="'name-live-feedback' + index">
                     {{ $t('common.validation.max', { name: $t('chatroom.label.nickname'), max: 100 }) }}
@@ -44,27 +44,29 @@
         },
         watch: {
             currentUsers: function(users) {
-                this.nicknames = users
+                this.nicknames = JSON.parse(JSON.stringify(users))
             }
         },
         validations: {
             nicknames: {
-                nickname: {
+                $each: {
+                  nickname: {
                     maxLength: maxLength(100)
+                  }
                 }
             }
         },
         methods: {
             validateState(name, index) {
-                console.log(name, index, this.$v)
-                // const { $dirty, $error } = this.$v[name]
-                // return $dirty ? !$error : null
+                const { $dirty, $error } = this.$v.nicknames.$each[index]['nickname']
+                return $dirty ? !$error : null
             },
             onOk() {
-                if (this.$v.$error) {
-                    return false
+                this.$v.nicknames.$touch()
+                if (this.$v.nicknames.$anyError) {
+                  return false
                 }
-                this.$emit('onOk')
+                this.$emit('onOk', this.nicknames)
             },
             cancel() {
                 this.$emit('cancel')

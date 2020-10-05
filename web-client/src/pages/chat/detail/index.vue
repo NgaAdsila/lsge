@@ -9,6 +9,8 @@
                     :currentUserId="currentUserId"
                     :isSubmitting="isSubmitting"
                     @createMessage="createMessage"
+                    @updateChatroom="updateChatroom"
+                    @setNickname="setNickname"
             />
         </b-overlay>
     </div>
@@ -16,9 +18,9 @@
 
 <script>
     import ChatDetailComponent from "../../../components/chat/detail/ChatDetailComponent";
-    import { findById, createMessage, isReadMessage } from "@/services/chatroom_service";
+    import { findById, createMessage, isReadMessage, updateChatroom, setNickname } from "@/services/chatroom_service";
     import {RESPONSE, VARIANT} from "@/services/constants";
-    import {initEcho} from "../../../helper/EchoClientHelper";
+    import {initEcho} from "@/helper/EchoClientHelper";
     import ToastHelper from "@/helper/ToastHelper";
 
     export default {
@@ -166,6 +168,39 @@
                         }
                     })
                 })
+            },
+            async updateChatroom(name) {
+                try {
+                    const res = await updateChatroom(this.chatroomId, { name: name })
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        this.chatroomName = name
+                        ToastHelper.message(this.$t('common.message.update_success'))
+                    } else {
+                        ToastHelper.message(res.message, VARIANT.DANGER)
+                    }
+                } catch (e) {
+                    console.log('update chatroom error: ', e)
+                }
+            },
+            async setNickname(users) {
+                try {
+                    const res = await setNickname(this.chatroomId, {
+                        userList: users.map(u => {
+                            return {
+                                id: u.id,
+                                nickname: u.nickname
+                            }
+                        })
+                    })
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        this.users = users
+                        ToastHelper.message(this.$t('common.message.update_success'))
+                    } else {
+                        ToastHelper.message(res.message, VARIANT.DANGER)
+                    }
+                } catch (e) {
+                    console.log('set nickname error: ', e)
+                }
             }
         }
     }

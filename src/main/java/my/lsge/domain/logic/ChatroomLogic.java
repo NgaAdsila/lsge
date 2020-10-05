@@ -1,9 +1,6 @@
 package my.lsge.domain.logic;
 
-import my.lsge.application.dto.chatroom.AddingMessageReq;
-import my.lsge.application.dto.chatroom.ChatroomRes;
-import my.lsge.application.dto.chatroom.InitChatroomReq;
-import my.lsge.application.dto.chatroom.MessageRes;
+import my.lsge.application.dto.chatroom.*;
 import my.lsge.application.exception.ForbiddenException;
 import my.lsge.application.exception.FormValidationException;
 import my.lsge.application.exception.NotFoundException;
@@ -12,11 +9,13 @@ import my.lsge.domain.entity.*;
 import my.lsge.domain.enums.ChatroomStatusEnum;
 import my.lsge.domain.enums.ChatroomTypeEnum;
 import my.lsge.domain.enums.ChatroomUserStatusEnum;
+import my.lsge.domain.enums.MessageTypeEnum;
 import my.lsge.domain.repository.ChatroomRepository;
 import my.lsge.domain.repository.ChatroomUserRepository;
 import my.lsge.domain.repository.MessageRepository;
 import my.lsge.domain.repository.MessageTrackingStatusRepository;
 import my.lsge.util.Utils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -126,17 +125,25 @@ public class ChatroomLogic extends BaseLogic {
             throw new ForbiddenException();
         }
 
-        Message message = new Message(0L, req.getChatroomId(), req.getMessage());
-
-        List<MessageTrackingStatus> statuses = new ArrayList<>();
-        for (ChatroomUser cUser : userList) {
-            statuses.add(new MessageTrackingStatus(0L, req.getChatroomId(), message, cUser.getUser().getId(), cUser.getUser().getId().equals(userId)));
-        }
-        message.setStatuses(statuses);
-        messageRepository.save(message);
+        Message message = createNewMessage(req.getChatroomId(), req.getMessage(), userId, userList, MessageTypeEnum.NORMAL);
         chatroom.setLastMessage(message);
         chatroomRepository.save(chatroom);
         return MessageRes.by(message);
+    }
+
+    private Message createNewMessage(Long chatroomId, String messageText,
+                                     Long userId, List<ChatroomUser> userList,
+                                     MessageTypeEnum type) {
+        Message message = new Message(0L, chatroomId, messageText, type);
+
+        List<MessageTrackingStatus> statuses = new ArrayList<>();
+        for (ChatroomUser cUser : userList) {
+            statuses.add(new MessageTrackingStatus(
+                    0L, chatroomId, message, cUser.getUser().getId(), cUser.getUser().getId().equals(userId)));
+        }
+        message.setStatuses(statuses);
+        messageRepository.save(message);
+        return message;
     }
 
     public MessageRes isReadMessage(long id, Long userId) {
@@ -157,5 +164,83 @@ public class ChatroomLogic extends BaseLogic {
         }
 
         return MessageRes.by(message);
+    }
+
+    public MessageRes update(long id, UpdatingChatroomReq req, Long userId) {
+        User user = userRepository.getOne(userId);
+        validateUser(user);
+
+        Chatroom chatroom = chatroomRepository.findById(id).orElse(null);
+        if (chatroom == null || chatroom.isDeleted() || chatroom.getStatus().equals(ChatroomStatusEnum.DELETED)) {
+            throw new NotFoundException(language.getString("chatroom.is_not_existed"));
+        }
+
+        List<ChatroomUser> userList = chatroomUserRepository.findAllByChatroomId(id);
+        if (cannotViewChatroom(userId, userList)) {
+            throw new ForbiddenException();
+        }
+        String messageText = null;
+        if (StringUtils.isNotBlank(chatroom.getName()) && StringUtils.isBlank(req.getName())) {
+            messageText = String.format(language.getString("message.default.delete_name"), user.getName());
+        } else if ((StringUtils.isNotBlank(req.getName()) && StringUtils.isBlank(chatroom.getName())) ||
+                (StringUtils.isNotBlank(chatroom.getName()) && StringUtils.isNotBlank(req.getName())
+                        && !chatroom.getName().equals(req.getName()))) {
+            messageText = String.format(language.getString("message.default.update_name"),
+                    user.getName(), req.getName());
+        }
+
+        chatroom.setName(req.getName());
+        chatroomRepository.save(chatroom);
+
+        if (StringUtils.isNotBlank(messageText)) {
+            Message message = createNewMessage(id, messageText, userId, userList, MessageTypeEnum.DEFAULT);
+            return MessageRes.by(message);
+        }
+        return null;
+    }
+
+    public MessageRes setNickname(long id, SettingNicknameReq req, Long userId) {
+        User user = userRepository.getOne(userId);
+        validateUser(user);
+
+        Chatroom chatroom = chatroomRepository.findById(id).orElse(null);
+        if (chatroom == null || chatroom.isDeleted() || chatroom.getStatus().equals(ChatroomStatusEnum.DELETED)) {
+            throw new NotFoundException(language.getString("chatroom.is_not_existed"));
+        }
+
+        List<ChatroomUser> userList = chatroomUserRepository.findAllByChatroomId(id);
+        if (cannotViewChatroom(userId, userList)) {
+            throw new ForbiddenException();
+        }
+        List<String> messageTexts = new ArrayList<>();
+        userList = userList.stream()
+                .peek(u -> {
+                    req.getUserList().stream()
+                            .filter(t -> t.getId().equals(u.getUser().getId()))
+                            .findFirst()
+                            .ifPresent(t -> {
+                                if (StringUtils.isBlank(t.getNickname()) && StringUtils.isNotBlank(u.getNickname())) {
+                                    messageTexts.add(String.format(language.getString("message.default.set_nickname.delete"),
+                                            u.getUser().getName()));
+                                } else if (StringUtils.isNotBlank(t.getNickname()) && StringUtils.isBlank(u.getNickname())) {
+                                    messageTexts.add(String.format(language.getString("message.default.set_nickname.add"),
+                                            u.getUser().getName(), t.getNickname()));
+                                } else if (StringUtils.isNotBlank(t.getNickname()) && StringUtils.isNotBlank(u.getNickname())
+                                        && !t.getNickname().equals(u.getNickname())) {
+                                    messageTexts.add(String.format(language.getString("message.default.set_nickname.update"),
+                                            u.getUser().getName(), u.getNickname(), t.getNickname()));
+                                }
+                                u.setNickname(t.getNickname());
+                            });
+                })
+                .collect(Collectors.toList());
+        if (!Utils.isNullOrEmpty(messageTexts)) {
+            chatroomUserRepository.saveAll(userList);
+            String messageText = String.format(language.getString("message.default.set_nickname"),
+                    user.getName(), "<br/>" + Utils.joinList(messageTexts, "<br/>"));
+            Message message = createNewMessage(id, messageText, userId, userList, MessageTypeEnum.DEFAULT);
+            return MessageRes.by(message);
+        }
+        return null;
     }
 }

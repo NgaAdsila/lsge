@@ -85,3 +85,8 @@ export const VARIANT = {
     SUCCESS: 'success',
     INFO: 'info'
 }
+
+export const MESSAGE_TYPE = {
+    NORMAL: 'NORMAL',
+    DEFAULT: 'DEFAULT'
+}

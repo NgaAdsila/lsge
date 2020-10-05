@@ -35,7 +35,12 @@
         ],
         data() {
             return {
-                name: this.currentName
+                name: ''
+            }
+        },
+        watch: {
+            currentName: function (val) {
+                this.name = val
             }
         },
         validations: {
@@ -49,6 +54,10 @@
                 return $dirty ? !$error : null
             },
             onOk() {
+                this.$v.name.$touch()
+                if (this.$v.name.$anyError) {
+                    return false
+                }
                 this.$emit('onOk', this.name)
             },
             cancel() {

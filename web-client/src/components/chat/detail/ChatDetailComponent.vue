@@ -29,19 +29,25 @@
                         {{ displayDate(message.createdAt) }}
                         <div class="is-default-line">&#8604;<small>&star;</small>&#128312;<small>&star;</small>&#8605;</div>
                     </div>
-                    <div :class="message.createdBy === currentUserId ? 'is-right' : 'is-left'">
-                        <div v-if="message.createdBy === currentUserId" class="chat-detail-item chat-detail-list-right"
+                    <div :class="isDefaultMessage(message) ? 'is-default-message' : (message.createdBy === currentUserId ? 'is-right' : 'is-left')">
+                        <div v-if="isDefaultMessage(message)" class="chat-detail-item chat-detail-list-left">
+                            <div class="message-content text-break" v-linkified
+                                 v-html="'&star; ' + message.message + ' &star;'" />
+                            <span class="message-time">{{ displayTime(message.createdAt) }}</span>
+                        </div>
+                        <div v-else-if="message.createdBy === currentUserId"
+                             class="chat-detail-item chat-detail-list-right"
                              :class="{'is-group-message': isGroupMessage(message, index) }">
                             <div class="message-content text-break" v-linkified v-html="message.message" />
                             <span class="message-time">{{ displayTime(message.createdAt) }}</span>
                         </div>
                         <div v-else class="chat-detail-item chat-detail-list-left"
                              :class="{'is-group-message': isGroupMessage(message, index) }">
-                        <span class="message-user-avatar" :title="displayUserName(message.createdBy)">
-                            <b-avatar class="text-uppercase"
-                                      size="25"
-                                      :text="displayUserName(message.createdBy).charAt(0)"></b-avatar>
-                        </span>
+                            <span class="message-user-avatar" :title="displayUserName(message.createdBy)">
+                                <b-avatar class="text-uppercase"
+                                          size="25"
+                                          :text="displayUserName(message.createdBy).charAt(0)"></b-avatar>
+                            </span>
                             <div class="message-content text-break" v-linkified v-html="message.message" />
                             <span class="message-time">{{ displayTime(message.createdAt) }}</span>
                         </div>
@@ -82,6 +88,7 @@
     import { smartTime, smartDisplayUsername } from "@/utils";
     import ChatDetailUpdateChatroom from "./ChatDetailUpdateChatroom";
     import ChatDetailSetNickname from "./ChatDetailSetNickname";
+    import {MESSAGE_TYPE} from "@/services/constants";
 
     export default {
         name: "ChatDetailComponent",
@@ -160,13 +167,16 @@
                 this.$bvModal.show('chat-detail-update-chatroom-modal');
             },
             updateChatroom(name) {
-                console.log('Update', name)
+                this.$emit('updateChatroom', name)
             },
             openSetNicknameModal() {
                 this.$bvModal.show('chat-detail-set-nickname-modal');
             },
-            setNickname() {
-                console.log('set nickname')
+            setNickname(users) {
+                this.$emit('setNickname', users)
+            },
+            isDefaultMessage(message) {
+                return message.type === MESSAGE_TYPE.DEFAULT
             }
         }
     }
@@ -238,6 +248,22 @@
                     display: none;
                 }
             }
+            .chat-detail-list-left {
+                background-color: #E4E6EB;
+                border-top-right-radius: 0.75rem;
+                border-bottom-right-radius: 0.75rem;
+            }
+        }
+        .is-default-message {
+            display: flex;
+            justify-content: flex-start;
+            .chat-detail-list-left {
+                border-radius: 0.75rem;
+                font-style: italic;
+                background-color: rgba(0,0,0, 0.5);
+                color: #FFFFFF;
+                font-size: 0.85rem;
+            }
         }
         .chat-detail-item {
             padding: 0.35rem 0.5rem 0.45rem;
@@ -249,9 +275,6 @@
             position: relative;
         }
         .chat-detail-list-left {
-            background-color: #E4E6EB;
-            border-top-right-radius: 2rem;
-            border-bottom-right-radius: 2rem;
             .message-user-avatar {
                 position: absolute;
                 bottom: 0;
@@ -277,8 +300,8 @@
         }
         .chat-detail-list-right {
             background-color: rgb(19, 207, 19);
-            border-top-left-radius: 2rem;
-            border-bottom-left-radius: 2rem;
+            border-top-left-radius: 0.75rem;
+            border-bottom-left-radius: 0.75rem;
             color: white;
             .message-time {
                 position: absolute;
