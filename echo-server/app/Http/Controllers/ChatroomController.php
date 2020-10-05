@@ -35,9 +35,7 @@ class ChatroomController extends Controller
             ]);
             if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
                 $body =  json_decode($response->getBody(), true);
-                if ($body) {
-                    event(new UpdateChatroomEvent($data['id'], $data['name'], $body));
-                }
+                event(new UpdateChatroomEvent($data['id'], $data['name'], $body));
                 return ResponseHelper::success(['OK']);
             }
         } catch (ClientException $e) {
@@ -61,9 +59,7 @@ class ChatroomController extends Controller
             ]);
             if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
                 $body =  json_decode($response->getBody(), true);
-                if ($body) {
-                    event(new SetNicknameEvent($data['id'], $data['userList'], $body));
-                }
+                event(new SetNicknameEvent($data['id'], $data['userList'], $body));
                 return ResponseHelper::success(['OK']);
             }
         } catch (ClientException $e) {

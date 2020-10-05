@@ -104,6 +104,12 @@
                     .listen('is-read-message', (data) => {
                         this.handleIsReadMessage(data.message)
                     })
+                    .listen('update-chatroom', (data) => {
+                        this.handleUpdateChatroom(data)
+                    })
+                    .listen('set-nickname', (data) => {
+                        this.handleSetNickname(data)
+                    })
             },
             async createMessage(message) {
                 try {
@@ -171,7 +177,10 @@
             },
             async updateChatroom(name) {
                 try {
-                    const res = await updateChatroom(this.chatroomId, { name: name })
+                    const res = await updateChatroom({
+                        id: this.chatroomId,
+                        name: name
+                    })
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         this.chatroomName = name
                         ToastHelper.message(this.$t('common.message.update_success'))
@@ -184,13 +193,9 @@
             },
             async setNickname(users) {
                 try {
-                    const res = await setNickname(this.chatroomId, {
-                        userList: users.map(u => {
-                            return {
-                                id: u.id,
-                                nickname: u.nickname
-                            }
-                        })
+                    const res = await setNickname({
+                        id: this.chatroomId,
+                        userList: users
                     })
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         this.users = users
@@ -200,6 +205,21 @@
                     }
                 } catch (e) {
                     console.log('set nickname error: ', e)
+                }
+            },
+            handleUpdateChatroom(data) {
+                this.chatroomName = data.chatroomName
+                this.crumbItems[2].text = data.chatroomName || this.$t('common.label.chat_detail')
+                if (data.message) {
+                    this.handleCreatedMessage(data.message)
+                }
+            },
+            handleSetNickname(data) {
+                if (data.userList && data.userList.length) {
+                    this.users = data.userList
+                }
+                if (data.message) {
+                    this.handleCreatedMessage(data.message)
                 }
             }
         }

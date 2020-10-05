@@ -58,6 +58,7 @@ export const API_PATH = {
     CHATROOM_INIT_NORMAL: '/api/chatrooms/init-normal',
     CHATROOM_API: '/api/chatrooms',
     CHATROOM_IS_READ_MESSAGE: '/api/chatrooms/is-read-message',
+    CHATROOM_SET_NICKNAME: '/api/chatrooms/set-nickname',
     ECHO_CREATE_MESSAGE: '/api/create-message',
     ECHO_AUTH_LOGIN: '/api/login',
 };

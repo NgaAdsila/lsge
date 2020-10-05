@@ -19,10 +19,10 @@ export async function isReadMessage(id, req = {}) {
         `${API_PATH.CHATROOM_IS_READ_MESSAGE}/${id}`, req, {}, ECHO_API_URL, store.getters.echoJwt);
 }
 
-export async function updateChatroom(id, req = {}) {
-    return await ApiService.put(`${API_PATH.CHATROOM_API}/${id}`, req, {});
+export async function updateChatroom(req = {}) {
+    return await ApiService.put(API_PATH.CHATROOM_API, req, {}, ECHO_API_URL, store.getters.echoJwt);
 }
 
-export async function setNickname(id, req = {}) {
-    return await ApiService.put(`${API_PATH.CHATROOM_API}/${id}/set-nickname`, req, {});
+export async function setNickname(req = {}) {
+    return await ApiService.put(API_PATH.CHATROOM_SET_NICKNAME, req, {}, ECHO_API_URL, store.getters.echoJwt);
 }

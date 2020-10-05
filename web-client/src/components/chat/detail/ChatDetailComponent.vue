@@ -132,6 +132,7 @@
             isGroupMessage(message, index) {
                 const nextMessage = this.messages[index + 1];
                 return nextMessage && message.createdBy === nextMessage.createdBy
+                    && message.type === nextMessage.type
                     && nextMessage.createdAt - message.createdAt < 60000;
             },
             isReadMessage(message, index) {
@@ -205,7 +206,8 @@
 
     .chat-detail-list {
         height: calc(100% - 4.75rem);
-        overflow: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
         overscroll-behavior: contain;
 
         &::-webkit-scrollbar {
