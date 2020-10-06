@@ -2,16 +2,16 @@ package my.lsge.domain.logic;
 
 import lombok.extern.slf4j.Slf4j;
 import my.lsge.application.dto.ListObjectRes;
+import my.lsge.application.dto.chatroom.ChatroomWithLastMessageDTO;
 import my.lsge.application.dto.relation.AddingFriendReq;
 import my.lsge.application.dto.relation.FriendItemRes;
 import my.lsge.application.dto.relation.FriendListRes;
 import my.lsge.application.dto.relation.UpdatingFriendStatusReq;
 import my.lsge.application.exception.FormValidationException;
+import my.lsge.domain.dao.ChatroomDao;
 import my.lsge.domain.dao.RelationshipDao;
-import my.lsge.domain.entity.Relationship;
-import my.lsge.domain.entity.RelationshipId;
-import my.lsge.domain.entity.RelationshipLog;
-import my.lsge.domain.entity.User;
+import my.lsge.domain.entity.*;
+import my.lsge.domain.enums.ChatroomTypeEnum;
 import my.lsge.domain.enums.RelationShipStatusEnum;
 import my.lsge.domain.repository.RelationshipLogRepository;
 import my.lsge.domain.repository.RelationshipRepository;
@@ -19,8 +19,7 @@ import my.lsge.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -36,6 +35,9 @@ public class RelationshipLogic extends BaseLogic {
     @Autowired
     private RelationshipLogRepository relationshipLogRepository;
 
+    @Autowired
+    private ChatroomDao chatroomDao;
+
     public FriendListRes getFriendList(Long userId) {
         User user = userRepository.getOne(userId);
         validateUser(user);
@@ -44,11 +46,12 @@ public class RelationshipLogic extends BaseLogic {
 
         FriendListRes res = new FriendListRes();
         if (!Utils.isNullOrEmpty(relationships)) {
+            Map<Long, Message> messageList = getLastMessageListByUser(userId);
             res.setFriends(relationships.stream()
                     .filter(r -> r.getStatus().equals(RelationShipStatusEnum.APPROVED))
                     .map(r -> r.getId().getReqUserId().equals(userId) ? r.getRecUser() : r.getReqUser())
                     .sorted(Comparator.comparing(User::getName))
-                    .map(FriendItemRes::by)
+                    .map(u -> FriendItemRes.by(u, messageList))
                     .collect(Collectors.toList()));
             res.setRequestedFriends(relationships.stream()
                     .filter(r -> r.getStatus().equals(RelationShipStatusEnum.PENDING)
@@ -56,6 +59,17 @@ public class RelationshipLogic extends BaseLogic {
                     .sorted(Comparator.comparing(Relationship::getCreatedAt))
                     .map(r -> FriendItemRes.by(r.getReqUser()))
                     .collect(Collectors.toList()));
+        }
+        return res;
+    }
+
+    private Map<Long, Message> getLastMessageListByUser(Long userId) {
+        List<ChatroomWithLastMessageDTO> chatrooms = chatroomDao.findAllByTypeAndUser(ChatroomTypeEnum.NORMAL, userId);
+        Map<Long, Message> res = new HashMap<>();
+        if (!Utils.isNullOrEmpty(chatrooms)) {
+            for (ChatroomWithLastMessageDTO chatroom : chatrooms) {
+                res.put(chatroom.getUser().getId(), chatroom.getLastMessage());
+            }
         }
         return res;
     }

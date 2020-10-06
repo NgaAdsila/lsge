@@ -74,7 +74,8 @@
                     <b-nav-item-dropdown right class="is-desktop">
                         <!-- Using 'button-content' slot -->
                         <template v-slot:button-content>
-                            <b-avatar variant="success" class="text-uppercase"
+                            <b-avatar class="text-uppercase"
+                                      :style="'background-color: ' + ($store.getters.color || '#28a745')"
                                       :text="$store.getters.name ? $store.getters.name.charAt(0) : ''"></b-avatar> <em>{{ $store.getters.name }} </em>
                         </template>
                         <b-dropdown-item @click="redirectTo('/profile')" :active="$route.path === '/profile'">

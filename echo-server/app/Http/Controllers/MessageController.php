@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 
 
 use App\Events\CreateMessageEvent;
+use App\Events\MainIsReadMessageEvent;
+use App\Events\MainNewMessageEvent;
 use App\Events\ReadMessageEvent;
+use App\Helper\EncryptHelper;
 use App\Helper\ResponseHelper;
 use App\Http\Requests\CreateMessageRequest;
-use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\Request;
 
@@ -38,6 +40,7 @@ class MessageController extends Controller
             if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
                 $body =  json_decode($response->getBody(), true);
                 event(new CreateMessageEvent($data['chatroomId'], $body));
+                event(new MainNewMessageEvent(EncryptHelper::encode($body)));
                 return ResponseHelper::success(['OK']);
             }
         } catch (ClientException $e) {
@@ -56,6 +59,7 @@ class MessageController extends Controller
             if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
                 $body =  json_decode($response->getBody(), true);
                 event(new ReadMessageEvent($body['chatroomId'], $body));
+                event(new MainIsReadMessageEvent(EncryptHelper::encode($body)));
                 return ResponseHelper::success(['OK']);
             }
         } catch (ClientException $e) {

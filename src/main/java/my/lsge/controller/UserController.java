@@ -24,7 +24,8 @@ public class UserController extends BaseController {
                 currentUser.getId(),
                 currentUser.getUsername(),
                 currentUser.getName(),
-                currentUser.getEmail()
+                currentUser.getEmail(),
+                currentUser.getColor()
         );
     }
 

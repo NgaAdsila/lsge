@@ -36,6 +36,18 @@
                 : $t('common.validation.invalid_email') }}
             </b-form-invalid-feedback>
         </b-form-group>
+        <b-form-group label-size="sm"
+                      :label="$t('common.label.color')"
+                      label-for="input-color">
+            <b-form-input type="color" id="input-color" size="sm"
+                          v-model="$v.profile.color.$model"
+                          :state="validateState('color')"
+                          aria-describedby="color-live-feedback"
+                          ref="color"></b-form-input>
+            <b-form-invalid-feedback id="color-live-feedback">
+                {{ $t('common.validation.required', { name: $t('common.label.color') }) }}
+            </b-form-invalid-feedback>
+        </b-form-group>
         <div class="text-center mt-4">
             <b-button type="submit"
                       :disabled="!!isLoading"
@@ -71,6 +83,9 @@
                 email: {
                     required,
                     email
+                },
+                color: {
+                    required
                 }
             }
         },

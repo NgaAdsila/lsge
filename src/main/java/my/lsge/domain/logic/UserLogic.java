@@ -60,7 +60,8 @@ public class UserLogic extends BaseLogic {
                 user.getId(),
                 user.getUsername(),
                 user.getName(),
-                user.getEmail());
+                user.getEmail(),
+                user.getColor());
     }
 
     private void mapUpdatingReqToModel(UpdatingUserReq req, User user) {
@@ -68,6 +69,7 @@ public class UserLogic extends BaseLogic {
         if (!user.getEmail().equalsIgnoreCase(req.getEmail())) {
             user.setEmail(req.getEmail());
         }
+        user.setColor(req.getColor());
     }
 
     private void validateUpdatingReq(UpdatingUserReq req, User user) {
@@ -91,7 +93,8 @@ public class UserLogic extends BaseLogic {
                 user.getId(),
                 user.getUsername(),
                 user.getName(),
-                user.getEmail());
+                user.getEmail(),
+                user.getColor());
     }
 
     private void validateChangingPasswordReq(ChangingPasswordReq req, User user) {

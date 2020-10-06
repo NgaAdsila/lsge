@@ -26,3 +26,7 @@ export async function updateChatroom(req = {}) {
 export async function setNickname(req = {}) {
     return await ApiService.put(API_PATH.CHATROOM_SET_NICKNAME, req, {}, ECHO_API_URL, store.getters.echoJwt);
 }
+
+export async function pushAutoReadMessageEvent(req = {}) {
+    return await ApiService.put(API_PATH.CHATROOM_AUTO_READ_EVENT, req, {}, ECHO_API_URL, store.getters.echoJwt);
+}

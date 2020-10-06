@@ -10,12 +10,14 @@ public class ChatroomUserRes {
     private Long id;
     private String name;
     private String nickname;
+    private String color;
 
     public static ChatroomUserRes by(ChatroomUser user) {
         ChatroomUserRes res = new ChatroomUserRes();
         res.setId(user.getUser().getId());
         res.setName(user.getUser().getName());
         res.setNickname(user.getNickname());
+        res.setColor(user.getUser().getColor());
         return res;
     }
 }

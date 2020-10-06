@@ -8,7 +8,9 @@
                       variant="success"
                       :text="'' + countOnlineFriend"></b-avatar>
         </b-button>
-        <b-sidebar id="sidebar-list-friend" :title="$t('common.label.friend-list')" right shadow>
+        <b-sidebar id="sidebar-list-friend" :title="$t('common.label.friend-list')"
+                   v-model="isToggleSidebarOpen"
+                   right shadow>
             <div class="friend-list-wrapper">
                 <b-overlay :show="isLoading" rounded="sm" spinner-variant="primary">
                     <b-tabs content-class="mt-3" justified>
@@ -21,14 +23,20 @@
                                          @click.stop.prevent="createChatRoom(friend)">
                                         <div class="friend-item-avatar">
                                             <b-avatar class="text-uppercase"
-                                                      :style="{ 'background-color': getColor() + ' !important' }"
+                                                      :style="{ 'background-color': getColor(friend) }"
                                                       :text="friend.name ? friend.name.charAt(0) : ''"></b-avatar>
                                             <b-icon v-show="friend.isOnline" icon="dot"
                                                     variant="success"
                                                     scale="4" class="friend-item-status"></b-icon>
                                         </div>
                                         <div class="friend-item-name">
-                                            {{ friend.name }}
+                                            <div class="friend-item-name-text">
+                                                {{ friend.name }}
+                                            </div>
+                                            <div v-show="friend.lastMessage" class="friend-item-last-message"
+                                                 :class="{ 'is-read': isReadLastMessage(friend.lastMessage)}">
+                                                {{ friend.lastMessage ? friend.lastMessage.message : '' }}
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="friend-item-actions">
@@ -56,7 +64,7 @@
                                                     variant="success"
                                                     scale="4" class="friend-item-status"></b-icon>
                                         </div>
-                                        <div class="friend-item-name">
+                                        <div class="friend-item-name-request">
                                             {{ user.name }}
                                         </div>
                                     </div>
@@ -80,6 +88,7 @@
                 </b-overlay>
             </div>
         </b-sidebar>
+        <div v-if="isToggleSidebarOpen" @click="isToggleSidebarOpen = false" class="navbar-backdrop"></div>
     </div>
 </template>
 
@@ -92,8 +101,14 @@
             'friendList',
             'requestedFriends',
             'onlineUserIds',
-            'isLoading'
+            'isLoading',
+            'currentUserId'
         ],
+        data() {
+            return {
+                isToggleSidebarOpen: false
+            }
+        },
         computed: {
             countOnlineFriend: function() {
                 if (this.friendList && this.onlineUserIds && this.onlineUserIds.length > 1) {
@@ -109,14 +124,17 @@
             }
         },
         methods: {
+            getFriendList() {
+                this.$emit('getFriendList')
+            },
             createChatRoom(user) {
                 this.$emit('createChatRoom', user);
             },
             onlineFriend(userId) {
                 return this.onlineUserIds && this.onlineUserIds.includes(userId);
             },
-            getColor() {
-                return randDarkColor()
+            getColor(user) {
+                return user.color || randDarkColor()
             },
             approveFriend(user) {
                 this.$emit('approveFriend', user);
@@ -142,6 +160,9 @@
                     }
                 })
                 return onlineList.concat(offlineList)
+            },
+            isReadLastMessage(lastMessage) {
+                return lastMessage && lastMessage.statuses.some(s => s.userId === this.currentUserId && s.seen)
             }
         }
     }
@@ -149,6 +170,14 @@
 
 <style lang="scss" scoped>
     .friend-list-page {
+        .navbar-backdrop {
+            z-index: 1031;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
         .friend-list-button {
             position: fixed;
             bottom: 5%;
@@ -189,6 +218,28 @@
                         }
                     }
                     .friend-item-name {
+                        white-space: nowrap;
+                        line-height: 1rem;
+                        padding-top: 0.95rem;
+                        width: calc(100% - 3rem);
+                        .friend-item-name-text {
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                        }
+                        .friend-item-last-message {
+                            font-size: 0.65rem;
+                            font-style: italic;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                            &:not(.is-read) {
+                                font-weight: bold;
+                            }
+                            &.is-read {
+                                color: rgba(0,0,0,0.5);
+                            }
+                        }
+                    }
+                    .friend-item-name-request {
                         white-space: nowrap;
                         text-overflow: ellipsis;
                         overflow: hidden;

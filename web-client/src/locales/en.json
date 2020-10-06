@@ -27,7 +27,9 @@
       "chat_detail": "Chat detail",
       "someone": "Someone",
       "friend-list": "Friends",
-      "display_username": "{name} and {count} others"
+      "display_username": "{name} and {count} others",
+      "collapse_all": "Collapse all",
+      "color": "Avatar color"
     },
     "validation": {
       "required": "Field {name} is required.",

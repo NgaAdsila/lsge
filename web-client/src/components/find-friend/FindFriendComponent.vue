@@ -5,6 +5,7 @@
                 <div class="user-info">
                     <div class="user-avatar">
                         <b-avatar class="text-uppercase"
+                                  :style="user.color ? 'background-color: ' + user.color : ''"
                                   :text="user.name ? user.name.charAt(0) : ''"></b-avatar>
                     </div>
                     <div class="user-name">

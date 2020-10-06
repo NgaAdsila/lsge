@@ -3,6 +3,7 @@ package my.lsge.application.dto.auth;
 import lombok.Getter;
 import lombok.Setter;
 import my.lsge.application.security.UserPrincipal;
+import my.lsge.domain.entity.User;
 
 @Getter
 @Setter

@@ -13,22 +13,16 @@ class AddFriendEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $reqUserId;
-    public $recUserId;
-    public $name;
+    public $message;
 
     /**
      * Create a new event instance.
      *
-     * @param $reqUserId
-     * @param $recUserId
-     * @param $name
+     * @param $message
      */
-    public function __construct($reqUserId, $recUserId, $name)
+    public function __construct($message)
     {
-        $this->reqUserId = $reqUserId;
-        $this->recUserId = $recUserId;
-        $this->name = $name;
+        $this->message = $message;
     }
 
     /**

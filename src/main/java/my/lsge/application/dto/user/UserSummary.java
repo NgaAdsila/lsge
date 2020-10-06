@@ -11,11 +11,13 @@ public class UserSummary {
     private String username;
     private String name;
     private String email;
+    protected String color;
 
-    public UserSummary(Long id, String username, String name, String email) {
+    public UserSummary(Long id, String username, String name, String email, String color) {
         this.id = id;
         this.username = username;
         this.name = name;
         this.email = email;
+        this.color = color;
     }
 }

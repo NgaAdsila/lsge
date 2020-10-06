@@ -3,12 +3,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\AutoReadMessageEvent;
 use App\Events\SetNicknameEvent;
 use App\Events\UpdateChatroomEvent;
+use App\Helper\EncryptHelper;
 use App\Helper\ResponseHelper;
 use App\Http\Requests\SettingNicknameRequest;
 use App\Http\Requests\UpdatingChatroomRequest;
 use GuzzleHttp\Exception\ClientException;
+use Illuminate\Http\Request;
 
 class ChatroomController extends Controller
 {
@@ -65,5 +68,15 @@ class ChatroomController extends Controller
         } catch (ClientException $e) {
             return ResponseHelper::fail(json_decode($e->getResponse()->getBody()->getContents()), $e->getCode());
         }
+    }
+
+    public function autoReadMessageEvent(Request $request)
+    {
+        $user = $request->user();
+        event(new AutoReadMessageEvent(EncryptHelper::encode([
+            'chatroomId' => $request->get('chatroomId'),
+            'userId' => $user->id
+        ])));
+        return ResponseHelper::success(['OK']);
     }
 }

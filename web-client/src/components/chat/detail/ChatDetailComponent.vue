@@ -46,6 +46,7 @@
                             <span class="message-user-avatar" :title="displayUserName(message.createdBy)">
                                 <b-avatar class="text-uppercase"
                                           size="25"
+                                          :style="'background-color: ' + displayUserColor(message.createdBy)"
                                           :text="displayUserName(message.createdBy).charAt(0)"></b-avatar>
                             </span>
                             <div class="message-content text-break" v-linkified v-html="message.message" />
@@ -55,7 +56,7 @@
                     <div v-if="isReadMessage(message, index)" class="is-right message-is-seen-avatar">
                         <b-avatar class="text-uppercase"
                                   size="25"
-                                  variant="primary"
+                                  :style="'background-color: ' + currentUserColor"
                                   :text="displayUserName(currentUserId).charAt(0)"></b-avatar>
                     </div>
                 </div>
@@ -98,7 +99,8 @@
             'currentUserId',
             'messages',
             'users',
-            'isSubmitting'
+            'isSubmitting',
+            'currentUserColor'
         ],
         data() {
             return {
@@ -118,6 +120,15 @@
                     return this.$t('common.label.someone');
                 }
                 return user.nickname || user.name;
+            },
+            displayUserColor(userId) {
+                if (this.users.length) {
+                    const user = this.users.find(u => u.id === userId);
+                    if (user && user.color) {
+                        return user.color
+                    }
+                }
+                return '#6c757d'
             },
             displayTime(time) {
                 return smartTime(time);

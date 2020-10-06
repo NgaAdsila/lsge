@@ -30,5 +30,6 @@ Route::group([
         Route::put('chatrooms/is-read-message/{id}', 'MessageController@readMessage');
         Route::put('chatrooms', 'ChatroomController@update');
         Route::put('chatrooms/set-nickname', 'ChatroomController@setNickname');
+        Route::put('chatrooms/auto-read-event', 'ChatroomController@autoReadMessageEvent');
     });
 });
