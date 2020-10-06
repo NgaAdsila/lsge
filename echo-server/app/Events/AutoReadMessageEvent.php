@@ -9,7 +9,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ApproveFriendEvent implements ShouldBroadcast
+class AutoReadMessageEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -42,6 +42,6 @@ class ApproveFriendEvent implements ShouldBroadcast
      */
     public function broadcastAs()
     {
-        return ChannelEnum::EVENT_APPROVE_FRIEND;
+        return ChannelEnum::EVENT_AUTO_READ;
     }
 }

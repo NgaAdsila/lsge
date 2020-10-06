@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Events\AddFriendEvent;
 use App\Events\ApproveFriendEvent;
 use App\Events\CancelFriendEvent;
+use App\Helper\EncryptHelper;
 use App\Helper\ResponseHelper;
 use App\Http\Requests\AddingFriendRequest;
 use App\Http\Requests\UpdatingRelationStatusRequest;
@@ -36,7 +37,11 @@ class RelationshipController extends Controller
             ]);
             if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
                 $user = $request->user();
-                event(new AddFriendEvent($user->id, $data['recUserId'], $user->name));
+                event(new AddFriendEvent(EncryptHelper::encode([
+                    'reqUserId' => $user->id,
+                    'recUserId' => $data['recUserId'],
+                    'name' => $user->name
+                ])));
                 return ResponseHelper::success(['OK']);
             }
         } catch (ClientException $e) {
@@ -59,7 +64,11 @@ class RelationshipController extends Controller
             ]);
             if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
                 $user = $request->user();
-                event(new ApproveFriendEvent($data['userId'], $user->id, $user->name));
+                event(new ApproveFriendEvent(EncryptHelper::encode([
+                    'reqUserId' => $data['userId'],
+                    'recUserId' => $user->id,
+                    'name' => $user->name
+                ])));
                 return ResponseHelper::success(['OK']);
             }
         } catch (ClientException $e) {
@@ -82,7 +91,11 @@ class RelationshipController extends Controller
             ]);
             if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
                 $user = $request->user();
-                event(new CancelFriendEvent($data['userId'], $user->id, $user->name));
+                event(new CancelFriendEvent(EncryptHelper::encode([
+                    'reqUserId' => $data['userId'],
+                    'recUserId' => $user->id,
+                    'name' => $user->name
+                ])));
                 return ResponseHelper::success(['OK']);
             }
         } catch (ClientException $e) {

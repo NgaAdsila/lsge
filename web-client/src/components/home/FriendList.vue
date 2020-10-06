@@ -28,7 +28,13 @@
                                                     scale="4" class="friend-item-status"></b-icon>
                                         </div>
                                         <div class="friend-item-name">
-                                            {{ friend.name }}
+                                            <div class="friend-item-name-text">
+                                                {{ friend.name }}
+                                            </div>
+                                            <div v-show="friend.lastMessage" class="friend-item-last-message"
+                                                 :class="{ 'is-read': isReadLastMessage(friend.lastMessage)}">
+                                                {{ friend.lastMessage ? friend.lastMessage.message : '' }}
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="friend-item-actions">
@@ -56,7 +62,7 @@
                                                     variant="success"
                                                     scale="4" class="friend-item-status"></b-icon>
                                         </div>
-                                        <div class="friend-item-name">
+                                        <div class="friend-item-name-request">
                                             {{ user.name }}
                                         </div>
                                     </div>
@@ -92,7 +98,8 @@
             'friendList',
             'requestedFriends',
             'onlineUserIds',
-            'isLoading'
+            'isLoading',
+            'currentUserId'
         ],
         computed: {
             countOnlineFriend: function() {
@@ -109,6 +116,9 @@
             }
         },
         methods: {
+            getFriendList() {
+                this.$emit('getFriendList')
+            },
             createChatRoom(user) {
                 this.$emit('createChatRoom', user);
             },
@@ -142,6 +152,9 @@
                     }
                 })
                 return onlineList.concat(offlineList)
+            },
+            isReadLastMessage(lastMessage) {
+                return lastMessage && lastMessage.statuses.some(s => s.userId === this.currentUserId && s.seen)
             }
         }
     }
@@ -189,6 +202,28 @@
                         }
                     }
                     .friend-item-name {
+                        white-space: nowrap;
+                        line-height: 1rem;
+                        padding-top: 0.95rem;
+                        width: calc(100% - 3rem);
+                        .friend-item-name-text {
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                        }
+                        .friend-item-last-message {
+                            font-size: 0.65rem;
+                            font-style: italic;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                            &:not(.is-read) {
+                                font-weight: bold;
+                            }
+                            &.is-read {
+                                color: rgba(0,0,0,0.5);
+                            }
+                        }
+                    }
+                    .friend-item-name-request {
                         white-space: nowrap;
                         text-overflow: ellipsis;
                         overflow: hidden;

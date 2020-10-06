@@ -1,5 +1,6 @@
 package my.lsge.util;
 
+import java.awt.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -145,5 +146,11 @@ public final class Utils {
             return null;
         }
         return dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    }
+
+    public static String randomDarkColor() {
+        Color color = Color.getHSBColor(
+                new Random().nextFloat(), new Random().nextFloat(), new Random().nextFloat()).darker();
+        return String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()).toUpperCase();
     }
 }

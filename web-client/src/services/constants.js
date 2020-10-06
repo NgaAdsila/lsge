@@ -59,6 +59,7 @@ export const API_PATH = {
     CHATROOM_API: '/api/chatrooms',
     CHATROOM_IS_READ_MESSAGE: '/api/chatrooms/is-read-message',
     CHATROOM_SET_NICKNAME: '/api/chatrooms/set-nickname',
+    CHATROOM_AUTO_READ_EVENT: '/api/chatrooms/auto-read-event',
     ECHO_CREATE_MESSAGE: '/api/create-message',
     ECHO_AUTH_LOGIN: '/api/login',
 };
@@ -72,9 +73,13 @@ export const ECHO_CHANNEL = {
 
 export const ECHO_EVENT = {
     CREATE_MESSAGE: 'created-message',
+    IS_READ_MESSAGE: 'is-read-message',
+    UPDATE_CHATROOM: 'update-chatroom',
+    SET_NICKNAME: 'set-nickname',
     ADD_FRIEND: 'add-friend',
     APPROVE_FRIEND: 'approve-friend',
-    CANCEL_FRIEND: 'cancel-friend'
+    CANCEL_FRIEND: 'cancel-friend',
+    AUTO_READ: 'auto-read'
 }
 
 export const VARIANT = {

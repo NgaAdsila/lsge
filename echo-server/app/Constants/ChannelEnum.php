@@ -13,4 +13,5 @@ class ChannelEnum
     const EVENT_CANCEL_FRIEND = 'cancel-friend';
     const EVENT_UPDATE_CHATROOM = 'update-chatroom';
     const EVENT_SET_NICKNAME = 'set-nickname';
+    const EVENT_AUTO_READ = 'auto-read';
 }

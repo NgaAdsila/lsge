@@ -12,6 +12,8 @@
                     :requestedFriends="requestedFriends"
                     :onlineUserIds="onlineUserIds"
                     :isLoading="isLoading"
+                    :currentUserId="currentUserId"
+                    @getFriendList="getFriendList"
                     @createChatRoom="createChatRoom"
                     @approveFriend="approveFriend"
                     @cancelFriend="cancelFriend" />
@@ -34,6 +36,7 @@
     import {initEcho} from "@/helper/EchoClientHelper";
     import ToastHelper from "@/helper/ToastHelper";
     import {approveFriend, cancelFriend} from "@/services/relationship_service";
+    import {decode} from "@/utils/encrypt";
     export default {
         name: "default",
         components: {FriendList, ConfirmModal, Footer, Header},
@@ -139,37 +142,49 @@
                         }
                     })
                     .listen(ECHO_EVENT.ADD_FRIEND, data => {
-                        if (data.recUserId === this.currentUserId) {
-                            this.$store.commit('removeFriendApprovedId', data.reqUserId)
-                            this.$store.commit('removeFriendCancelledId', data.reqUserId)
-                            this.$store.commit('addFriendRequestedId', data.reqUserId)
-                            ToastHelper.notify(this.$t('find-friend.message.notify_has_new_request', { name: data.name }))
+                        const res = decode(data.message)
+                        if (res.recUserId === this.currentUserId) {
+                            this.$store.commit('removeFriendApprovedId', res.reqUserId)
+                            this.$store.commit('removeFriendCancelledId', res.reqUserId)
+                            this.$store.commit('addFriendRequestedId', res.reqUserId)
+                            ToastHelper.notify(this.$t('find-friend.message.notify_has_new_request', { name: res.name }))
                             this.getFriendList();
                         }
                     })
                     .listen(ECHO_EVENT.APPROVE_FRIEND, data => {
-                        if (data.reqUserId === this.currentUserId) {
-                            this.$store.commit('removeFriendRequestedId', data.recUserId)
-                            this.$store.commit('removeFriendCancelledId', data.recUserId)
-                            this.$store.commit('addFriendApprovedId', data.recUserId)
+                        const res = decode(data.message)
+                        if (res.reqUserId === this.currentUserId) {
+                            this.$store.commit('removeFriendRequestedId', res.recUserId)
+                            this.$store.commit('removeFriendCancelledId', res.recUserId)
+                            this.$store.commit('addFriendApprovedId', res.recUserId)
                             ToastHelper.notify(
-                                this.$t('find-friend.message.notify_approved_friend', { name: data.name }), VARIANT.SUCCESS)
+                                this.$t('find-friend.message.notify_approved_friend', { name: res.name }), VARIANT.SUCCESS)
                         }
-                        if (data.reqUserId === this.currentUserId || data.recUserId === this.currentUserId) {
+                        if (res.reqUserId === this.currentUserId || res.recUserId === this.currentUserId) {
                             this.getFriendList();
                         }
                     })
                     .listen(ECHO_EVENT.CANCEL_FRIEND, data => {
-                        if (data.reqUserId === this.currentUserId) {
-                            this.$store.commit('removeFriendRequestedId', data.recUserId)
-                            this.$store.commit('removeFriendApprovedId', data.recUserId)
-                            this.$store.commit('addFriendCancelledId', data.recUserId)
+                        const res = decode(data.message)
+                        if (res.reqUserId === this.currentUserId) {
+                            this.$store.commit('removeFriendRequestedId', res.recUserId)
+                            this.$store.commit('removeFriendApprovedId', res.recUserId)
+                            this.$store.commit('addFriendCancelledId', res.recUserId)
                             ToastHelper.notify(
-                                this.$t('find-friend.message.notify_cancelled_friend', { name: data.name }), VARIANT.DANGER)
+                                this.$t('find-friend.message.notify_cancelled_friend', { name: res.name }), VARIANT.DANGER)
                         }
-                        if (data.reqUserId === this.currentUserId || data.recUserId === this.currentUserId) {
+                        if (res.reqUserId === this.currentUserId || res.recUserId === this.currentUserId) {
                             this.getFriendList();
                         }
+                    })
+                    .listen(ECHO_EVENT.CREATE_MESSAGE, data => {
+                        this.handleChangeMessage(decode(data.message))
+                    })
+                    .listen(ECHO_EVENT.IS_READ_MESSAGE, data => {
+                        this.handleChangeMessage(decode(data.message))
+                    })
+                    .listen(ECHO_EVENT.AUTO_READ, data => {
+                        this.handleAutoReadMessage(decode(data.message))
                     })
             },
             async approveFriend(user) {
@@ -209,6 +224,33 @@
                 if (this.$route.name === 'FindFriend') {
                     const query = { ...this.$route.query, _: '' + new Date().getTime() }
                     this.$router.replace({ ...this.$route, query })
+                }
+            },
+            handleChangeMessage(message) {
+                if (!message || message.statuses.every(s => s.userId !== this.currentUserId) || !this.friendList) {
+                    return
+                }
+                let recUser = message.statuses.find(s => s.userId !== this.currentUserId);
+                for (let f of this.friendList) {
+                    if (f.id === recUser.userId) {
+                        f.lastMessage = message
+                        break
+                    }
+                }
+            },
+            handleAutoReadMessage(data) {
+                if (data.userId !== this.currentUserId || !this.friendList) {
+                  return
+                }
+                for (let f of this.friendList) {
+                    if (f.lastMessage && f.lastMessage.chatroomId === data.chatroomId && f.lastMessage.statuses) {
+                        f.lastMessage.statuses.forEach(s => {
+                            if (s.userId === data.userId) {
+                                s.seen = true
+                            }
+                        })
+                        break
+                    }
                 }
             }
         },

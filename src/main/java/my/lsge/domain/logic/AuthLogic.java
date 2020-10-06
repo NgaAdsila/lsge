@@ -59,10 +59,10 @@ public class AuthLogic extends BaseLogic {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        logSignedInHistory(authentication.getPrincipal(), req.getBrowser());
+        User user = logSignedInHistory(authentication.getPrincipal(), req.getBrowser());
 
         String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationRes(authentication.getPrincipal(), jwt));
+        return ResponseEntity.ok(new JwtAuthenticationRes(authentication.getPrincipal(), jwt, user));
     }
 
     private User getCurrentUser(Object principal) {
@@ -79,18 +79,20 @@ public class AuthLogic extends BaseLogic {
         return null;
     }
 
-    private void logSignedInHistory(Object principal, String browser) {
+    private User logSignedInHistory(Object principal, String browser) {
         try {
             User user = getCurrentUser(principal);
             if (user == null || user.getId() == null) {
-                return;
+                return null;
             }
             InetAddress localMachine = InetAddress.getLocalHost();
             LoginHistory loginHistory = new LoginHistory(user, localMachine.getHostAddress(), browser);
             loginHistoryRepository.save(loginHistory);
+            return user;
         } catch (UnknownHostException e) {
             log.error(String.format(language.getString("login.save_history.error"), e));
         }
+        return null;
     }
 
     public ResponseEntity<?> registerUser(SignUpReq req) {

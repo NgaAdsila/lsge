@@ -5,6 +5,7 @@ const getters = {
     id: state => state.id,
     name: state => state.name,
     echoJwt: state => state.echoJwt,
+    color: state => state.color,
 
     friendRequestedIds: state => state.app.friendRequestedIds,
     friendApprovedIds: state => state.app.friendApprovedIds,

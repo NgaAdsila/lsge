@@ -1,6 +1,7 @@
 package my.lsge.domain.entity;
 
 import lombok.Data;
+import my.lsge.util.Utils;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -48,6 +49,9 @@ public class User extends BaseEntity {
     @Email
     private String email;
 
+    @Size(max = 16)
+    private String color;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -63,5 +67,6 @@ public class User extends BaseEntity {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.color = Utils.randomDarkColor();
     }
 }

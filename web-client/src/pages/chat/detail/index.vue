@@ -18,8 +18,11 @@
 
 <script>
     import ChatDetailComponent from "../../../components/chat/detail/ChatDetailComponent";
-    import { findById, createMessage, isReadMessage, updateChatroom, setNickname } from "@/services/chatroom_service";
-    import {RESPONSE, VARIANT} from "@/services/constants";
+    import {
+      findById, createMessage, isReadMessage,
+      updateChatroom, setNickname, pushAutoReadMessageEvent
+    } from "@/services/chatroom_service";
+    import {ECHO_EVENT, RESPONSE, VARIANT} from "@/services/constants";
     import {initEcho} from "@/helper/EchoClientHelper";
     import ToastHelper from "@/helper/ToastHelper";
 
@@ -40,10 +43,6 @@
                     {
                         text: this.$t('common.label.home'),
                         to: { name: 'Home' }
-                    },
-                    {
-                        text: this.$t('common.label.chat_list'),
-                        to: { name: 'ChatList' }
                     },
                     {
                         text: this.$t('common.label.chat_detail'),
@@ -75,10 +74,11 @@
                     const res = await findById(this.chatroomId);
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         if (res.data.name) {
-                            this.chatroomName = this.crumbItems[2].text = res.data.name
+                            this.chatroomName = this.crumbItems[1].text = res.data.name
                         }
                         this.messages = res.data.messages || []
                         this.users = res.data.users || []
+                        this.pushAutoReadMessage()
                     } else {
                         ToastHelper.message(res.message, VARIANT.DANGER)
                         setTimeout(async (self = this) => {
@@ -92,22 +92,31 @@
                 }
                 await this.handleChannelMessage()
             },
+            pushAutoReadMessage() {
+                try {
+                    pushAutoReadMessageEvent({
+                        chatroomId: this.chatroomId
+                    })
+                } catch (e) {
+                    console.log('Push auto read message event error: ', e)
+                }
+            },
             async handleChannelMessage() {
                 this.echoConnect = await initEcho();
                 this.echoConnect.join(this.channelName)
                     .joining(user => {
                         this.handleJoiningMessage(user)
                     })
-                    .listen('created-message', (data) => {
+                    .listen(ECHO_EVENT.CREATE_MESSAGE, (data) => {
                         this.handleCreatedMessage(data.message)
                     })
-                    .listen('is-read-message', (data) => {
+                    .listen(ECHO_EVENT.IS_READ_MESSAGE, (data) => {
                         this.handleIsReadMessage(data.message)
                     })
-                    .listen('update-chatroom', (data) => {
+                    .listen(ECHO_EVENT.UPDATE_CHATROOM, (data) => {
                         this.handleUpdateChatroom(data)
                     })
-                    .listen('set-nickname', (data) => {
+                    .listen(ECHO_EVENT.SET_NICKNAME, (data) => {
                         this.handleSetNickname(data)
                     })
             },
@@ -209,7 +218,7 @@
             },
             handleUpdateChatroom(data) {
                 this.chatroomName = data.chatroomName
-                this.crumbItems[2].text = data.chatroomName || this.$t('common.label.chat_detail')
+                this.crumbItems[1].text = data.chatroomName || this.$t('common.label.chat_detail')
                 if (data.message) {
                     this.handleCreatedMessage(data.message)
                 }

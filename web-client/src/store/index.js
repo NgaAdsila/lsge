@@ -12,7 +12,8 @@ export default new Vuex.Store({
     role: null,
     jwt: '',
     isLogin: false,
-    echoJwt: ''
+    echoJwt: '',
+    color: null
   },
   mutations: {
     initialiseStore(state) {
@@ -27,6 +28,7 @@ export default new Vuex.Store({
       state.jwt = payload.jwt;
       state.name = payload.name;
       state.echoJwt = payload.echoJwt;
+      state.color = payload.color;
     },
     saveRole: (state, payload) => {
       state.role = payload.role;
@@ -41,6 +43,7 @@ export default new Vuex.Store({
       state.userId = null;
       state.name = null;
       state.echoJwt = null;
+      state.color = null;
     },
     saveName: (state, payload) => {
       state.name = payload.name;

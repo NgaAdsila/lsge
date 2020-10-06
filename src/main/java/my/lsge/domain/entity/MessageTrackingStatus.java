@@ -1,5 +1,6 @@
 package my.lsge.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,7 @@ public class MessageTrackingStatus extends BaseEntity {
     @Column(name = "chatroom_id")
     private Long chatroomId;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "message_id", referencedColumnName = "id")
     private Message message;

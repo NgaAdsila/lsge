@@ -1,7 +1,7 @@
 import ApiService from '../helper/ApiService';
 import {API_PATH, RESPONSE, success, fail, ECHO_API_URL} from './constants';
 import store from '../store/index';
-import { getBrowser, getOs } from "../helper/detect_browser";
+import { getBrowser, getOs } from "@/helper/detect_browser";
 
 async function loginEchoServer(user) {
     try {
@@ -30,7 +30,8 @@ export async function login(data = {}) {
                 name: res.data.user.name,
                 role: res.data.user.authorities[0].authority,
                 jwt: res.data.accessToken,
-                isLogin: true
+                isLogin: true,
+                color: res.data.color
             };
             await loginEchoServer(user);
             store.commit('doLogin', user);
