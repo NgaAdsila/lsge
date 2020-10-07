@@ -237,7 +237,7 @@ public class ChatroomLogic extends BaseLogic {
         if (!Utils.isNullOrEmpty(messageTexts)) {
             chatroomUserRepository.saveAll(userList);
             String messageText = String.format(language.getString("message.default.set_nickname"),
-                    user.getName(), "<br/>" + Utils.joinList(messageTexts, "<br/>"));
+                    user.getName(), "\n" + Utils.joinList(messageTexts, "\n"));
             Message message = createNewMessage(id, messageText, userId, userList, MessageTypeEnum.DEFAULT);
             return MessageRes.by(message);
         }

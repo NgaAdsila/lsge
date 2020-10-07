@@ -41,11 +41,23 @@
                       label-for="input-color">
             <b-form-input type="color" id="input-color" size="sm"
                           v-model="$v.profile.color.$model"
-                          :state="validateState('color')"
-                          aria-describedby="color-live-feedback"
                           ref="color"></b-form-input>
-            <b-form-invalid-feedback id="color-live-feedback">
-                {{ $t('common.validation.required', { name: $t('common.label.color') }) }}
+        </b-form-group>
+        <b-form-group label-size="sm"
+                      :label="$t('common.label.avatar')"
+                      label-for="input-avatar">
+            <div v-show="profile && profile.avatar" id="avatar-preview">
+                <b-img v-if="profile && profile.avatar" :src="profile.avatar" />
+            </div>
+            <b-form-file id="input-avatar"
+                         v-model="$v.profile.avatarFile.$model"
+                         plain
+                         @change="onAvatarFileChange"
+                         :state="validateState('avatarFile')"
+                         aria-describedby="avatar-live-feedback"
+                         ref="avatar"></b-form-file>
+            <b-form-invalid-feedback id="avatar-live-feedback">
+                {{ $t('common.validation.invalid_image') }}
             </b-form-invalid-feedback>
         </b-form-group>
         <div class="text-center mt-4">
@@ -60,7 +72,7 @@
 <script>
     import { validationMixin } from 'vuelidate';
     import { required, minLength, maxLength, email } from 'vuelidate/lib/validators';
-    import { strictUserName } from '../../plugins/vuevalidate';
+    import { strictUserName, imageType } from '@/plugins/vuevalidate';
 
     export default {
         name: "ProfileGeneralInformation",
@@ -84,8 +96,9 @@
                     required,
                     email
                 },
-                color: {
-                    required
+                color: {},
+                avatarFile: {
+                    imageType
                 }
             }
         },
@@ -108,11 +121,25 @@
                 if (invalidFields) {
                     this.$refs[invalidFields[0]].$el.focus();
                 }
+            },
+            onAvatarFileChange(e) {
+                const file = e.target.files[0]
+                this.profile.avatar = URL.createObjectURL(file)
             }
         }
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.profile-form {
+    #avatar-preview {
+        margin-bottom: 0.5rem;
+        img {
+            width: 6rem;
+            height: 6rem;
+            border-radius: 100%;
+            object-fit: cover;
+        }
+    }
+}
 </style>

@@ -31,25 +31,30 @@
                     </div>
                     <div :class="isDefaultMessage(message) ? 'is-default-message' : (message.createdBy === currentUserId ? 'is-right' : 'is-left')">
                         <div v-if="isDefaultMessage(message)" class="chat-detail-item chat-detail-list-left">
-                            <div class="message-content text-break" v-linkified
-                                 v-html="'&star; ' + message.message + ' &star;'" />
+                            <div class="message-content text-break" v-linkified>
+                                {{ '&star; ' + message.message + ' &star;' }}
+                            </div>
                             <span class="message-time">{{ displayTime(message.createdAt) }}</span>
                         </div>
                         <div v-else-if="message.createdBy === currentUserId"
                              class="chat-detail-item chat-detail-list-right"
                              :class="{'is-group-message': isGroupMessage(message, index) }">
-                            <div class="message-content text-break" v-linkified v-html="message.message" />
+                            <div class="message-content text-break" v-linkified>
+                                {{ message.message }}
+                            </div>
                             <span class="message-time">{{ displayTime(message.createdAt) }}</span>
                         </div>
                         <div v-else class="chat-detail-item chat-detail-list-left"
                              :class="{'is-group-message': isGroupMessage(message, index) }">
-                            <span class="message-user-avatar" :title="displayUserName(message.createdBy)">
+                            <span class="message-user-avatar" v-b-tooltip.hover="displayUserName(message.createdBy)">
                                 <b-avatar class="text-uppercase"
                                           size="25"
                                           :style="'background-color: ' + displayUserColor(message.createdBy)"
                                           :text="displayUserName(message.createdBy).charAt(0)"></b-avatar>
                             </span>
-                            <div class="message-content text-break" v-linkified v-html="message.message" />
+                            <div class="message-content text-break" v-linkified>
+                                {{ message.message }}
+                            </div>
                             <span class="message-time">{{ displayTime(message.createdAt) }}</span>
                         </div>
                     </div>
@@ -57,6 +62,7 @@
                         <b-avatar class="text-uppercase"
                                   size="25"
                                   :style="'background-color: ' + currentUserColor"
+                                  v-b-tooltip.hover="displayUserName(currentUserId)"
                                   :text="displayUserName(currentUserId).charAt(0)"></b-avatar>
                     </div>
                 </div>
@@ -199,7 +205,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: calc(100vh - 17rem);
+    height: calc(100vh - 14.5rem);
 
     .chat-detail-header {
         text-align: center;
@@ -226,12 +232,17 @@
         }
 
         &::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 0.3rem rgba(0,0,0,0.3);
+            -webkit-box-shadow: inset 0 0 0.3rem transparent;
         }
 
         &::-webkit-scrollbar-thumb {
-            background-color: darkgrey;
+            background-color: transparent;
+            border-radius: 0.5rem;
             outline: none;
+        }
+
+        &:hover::-webkit-scrollbar-thumb {
+            background-color: darkgrey;
         }
 
         .is-default {
@@ -312,7 +323,7 @@
             }
         }
         .chat-detail-list-right {
-            background-color: rgb(19, 207, 19);
+            background-color: green;
             border-top-left-radius: 0.75rem;
             border-bottom-left-radius: 0.75rem;
             color: white;
@@ -339,13 +350,13 @@
     .chat-detail-chat-box {
         position: relative;
         #input-message {
-            height: 4rem;
+            height: 3rem;
             padding-right: 3rem;
         }
         .create-message-button {
             position: absolute;
             right: 0.75rem;
-            top: 1rem;
+            top: 0.75rem;
             padding: 0.1rem 0.25rem;
             background-color: transparent;
             border-color: transparent;

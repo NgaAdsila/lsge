@@ -82,3 +82,20 @@ export function smartDisplayUsername(usernames = []) {
         count: usernames.length - 2
     })
 }
+
+/** mime type image supported: JPG, PNG, BMP, GIF, TIF, WEBP, HEIC, PDF
+ * image/jpeg (.jpg, .jpeg, .jfif, .pjpeg, .pjp), image/tiff (.tif, .tiff)
+ * @param file
+ * @returns {Promise<unknown>}
+ */
+export function convertImageToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            let result = reader.result.replace(/^data:image\/(png|jpg|jpeg|bmp|tiff|webp|gif);base64,/, '');
+            resolve(result);
+        };
+        reader.onerror = error => reject(error);
+    });
+}

@@ -29,7 +29,8 @@
       "friend-list": "Friends",
       "display_username": "{name} and {count} others",
       "collapse_all": "Collapse all",
-      "color": "Avatar color"
+      "color": "Avatar color",
+      "avatar": "Avatar"
     },
     "validation": {
       "required": "Field {name} is required.",
@@ -40,7 +41,8 @@
       "strict_username": "{name} must use all of the following:\n・ Only contains alphanumeric characters, underscore and dot\n・ Start with alphanumeric characters",
       "invalid_email": "Email is invalid.",
       "exception": "Sorry, an error occurred. Please contact the Admin for assistance!",
-      "unauthorized": "Your login session has expired. Please re-login to continue"
+      "unauthorized": "Your login session has expired. Please re-login to continue",
+      "invalid_image": "Image MIME type is not valid. Make sure you are using one of the following image MIME types: image/bmp, image/gif, image/jpeg, image/png, image/tiff, image/webp"
     },
     "toast": {
       "title": "Ge-Lsg Message",
@@ -175,7 +177,11 @@
   "friend-list": {
     "label": {
       "tab-friends": "Friends ({number})",
-      "tab-requests": "Requests ({number})"
+      "tab-requests": "Requests ({number})",
+      "online-number": "You have 1 friend online",
+      "online-numbers": "You have {number} friends online",
+      "new-message-number": "You have 1 new message!",
+      "new-message-numbers": "You have {number} new messages!"
     }
   }
 }

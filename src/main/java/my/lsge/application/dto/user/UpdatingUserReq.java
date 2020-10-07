@@ -22,9 +22,10 @@ public class UpdatingUserReq {
     @Email
     private String email;
 
-    @NotBlank
     @Size(max = 16)
     private String color;
+
+    private String avatar;
 
     public void normalize() {
         if (StringUtils.isNotBlank(this.email)) {

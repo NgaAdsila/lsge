@@ -2,6 +2,7 @@ import ApiService from '../helper/ApiService';
 import {API_PATH, RESPONSE, success, fail, ECHO_API_URL} from './constants';
 import store from '../store/index';
 import { getBrowser, getOs } from "@/helper/detect_browser";
+import {convertImageToBase64} from "@/utils";
 
 async function loginEchoServer(user) {
     try {
@@ -31,7 +32,8 @@ export async function login(data = {}) {
                 role: res.data.user.authorities[0].authority,
                 jwt: res.data.accessToken,
                 isLogin: true,
-                color: res.data.user.color
+                color: res.data.user.color,
+                avatar: res.data.user.avatar
             };
             await loginEchoServer(user);
             store.commit('doLogin', user);
@@ -59,22 +61,29 @@ export async function getCurrentUser() {
 }
 
 export async function update(req = {}) {
+    const avatar = req.avatarFile ? await convertImageToBase64(req.avatarFile) : null;
     const res = await ApiService.put(API_PATH.USER_UPDATE, {
         id: req.id,
         name: req.name,
         email: req.email,
-        color: req.color
+        color: req.color,
+        avatar: avatar
     }, {});
-    if (res.status === RESPONSE.STATUS.SUCCESS && (store.getters.name !== req.name || store.getters.color !== req.color)) {
+    if (res.status === RESPONSE.STATUS.SUCCESS &&
+        (store.getters.name !== req.name || store.getters.color !== req.color || store.getters.avatar !== res.data.avatar)) {
         store.commit('saveName', {
             name: req.name
         });
         store.commit('saveColor', {
             color: req.color
         });
+        store.commit('saveAvatar', {
+            avatar: res.data.avatar
+        });
         const userLocal = JSON.parse(localStorage.getItem('store'));
         userLocal.name = req.name;
         userLocal.color = req.color;
+        userLocal.avatar = req.avatar;
         localStorage.setItem('store', JSON.stringify(userLocal));
     }
     return res;

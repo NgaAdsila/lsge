@@ -29,7 +29,8 @@
       "friend-list": "Danh sách bạn bè",
       "display_username": "{name} và {count} người khác",
       "collapse_all": "Thu gọn toàn bộ",
-      "color": "Màu ảnh đại diện"
+      "color": "Màu ảnh đại diện",
+      "avatar": "Ảnh đại diện"
     },
     "validation": {
       "required": "Trường {name} bắt buộc nhập.",
@@ -40,7 +41,8 @@
       "strict_username": "{name} phải chứa các điều kiện sau:\n・ Chỉ chứa các ký tự chữ và số, gạch dưới và dấu chấm\n・ Bắt đầu bằng các ký tự chữ hoặc số",
       "invalid_email": "Email không hợp lệ.",
       "exception": "Rất tiếc, có lỗi xảy ra. Vui lòng liên hệ Admin để được hỗ trợ",
-      "unauthorized": "Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại để tiếp tục"
+      "unauthorized": "Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại để tiếp tục",
+      "invalid_image": "Định dạng ảnh không hợp lệ. Hãy đảm bảo bạn đang sử dụng một trong số các định dạng ảnh sau: image/bmp, image/gif, image/jpeg, image/png, image/tiff, image/webp"
     },
     "toast": {
       "title": "Ge-Lsg - Thông báo",
@@ -165,7 +167,11 @@
   "friend-list": {
     "label": {
       "tab-friends": "Bạn bè ({number})",
-      "tab-requests": "Yêu cầu ({number})"
+      "tab-requests": "Yêu cầu ({number})",
+      "online-number": "Bạn có 1 người bạn đang trực tuyến",
+      "online-numbers": "Bạn có {number} người bạn đang trực tuyến",
+      "new-message-number": "Bạn có {number} tin nhắn mới!",
+      "new-message-numbers": "Bạn có {number} tin nhắn mới!"
     }
   }
 }

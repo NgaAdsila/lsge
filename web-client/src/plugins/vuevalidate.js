@@ -11,3 +11,11 @@ export const strictUserName = helpers.regex('strictUserName', /^(?=.{4,40}$)[a-z
 export const matchPassword = (value, vm) => (value === vm.password);
 
 export const notMatchOldPassword = (value, vm) => (value !== vm.oldPassword);
+
+export const imageType = (value) => {
+    return value && [
+        'image/bmp', 'image/gif',
+        'image/jpeg', 'image/png',
+        'image/tiff', 'image/webp'
+    ].includes(value.type);
+}

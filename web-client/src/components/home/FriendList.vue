@@ -4,9 +4,26 @@
                   ref="friendListButton"
                   class="friend-list-button">
             <b-icon icon="people"></b-icon>
-            <b-avatar v-show="countOnlineFriend > 0" class="friend-list-count"
-                      variant="success"
-                      :text="'' + countOnlineFriend"></b-avatar>
+            <div class="friend-list-status">
+                <div v-show="countOnlineFriend > 0"
+                     v-b-tooltip.hover.topleft="countOnlineFriend > 1
+                        ? $t('friend-list.label.online-numbers', { number: countOnlineFriend })
+                        : $t('friend-list.label.online-number')"
+                     class="friend-list-count">
+                    <b-icon icon="dot"
+                            animation="throb"
+                            scale="2"></b-icon><span>{{ countOnlineFriend }}</span>
+                </div>
+                <div v-show="countNewMessage > 0"
+                     v-b-tooltip.hover.topleft="countNewMessage > 1
+                        ? $t('friend-list.label.new-message-numbers', { number: countNewMessage })
+                        : $t('friend-list.label.new-message-number')"
+                     class="friend-new-message-count">
+                    <b-icon icon="chat-dots"
+                            animation="throb"
+                            scale="0.5"></b-icon><span>{{ countNewMessage }}</span>
+                </div>
+            </div>
         </b-button>
         <b-sidebar id="sidebar-list-friend" :title="$t('common.label.friend-list')"
                    v-model="isToggleSidebarOpen"
@@ -25,8 +42,8 @@
                                             <b-avatar class="text-uppercase"
                                                       :style="{ 'background-color': getColor(friend) }"
                                                       :text="friend.name ? friend.name.charAt(0) : ''"></b-avatar>
-                                            <b-icon v-show="friend.isOnline" icon="dot"
-                                                    variant="success"
+                                            <b-icon icon="dot"
+                                                    :class="friend.isOnline ? 'is-online' : 'is-offline'"
                                                     scale="4" class="friend-item-status"></b-icon>
                                         </div>
                                         <div class="friend-item-name">
@@ -34,7 +51,7 @@
                                                 {{ friend.name }}
                                             </div>
                                             <div v-show="friend.lastMessage" class="friend-item-last-message"
-                                                 :class="{ 'is-read': isReadLastMessage(friend.lastMessage)}">
+                                                 :class="{ 'is-read': friend.isReadLastMessage}">
                                                 {{ friend.lastMessage ? friend.lastMessage.message : '' }}
                                             </div>
                                         </div>
@@ -60,8 +77,8 @@
                                             <b-avatar class="text-uppercase"
                                                       :style="{ 'background-color': getColor() + ' !important' }"
                                                       :text="user.name ? user.name.charAt(0) : ''"></b-avatar>
-                                            <b-icon v-show="user.isOnline" icon="dot"
-                                                    variant="success"
+                                            <b-icon icon="dot"
+                                                    :class="user.isOnline ? 'is-online' : 'is-offline'"
                                                     scale="4" class="friend-item-status"></b-icon>
                                         </div>
                                         <div class="friend-item-name-request">
@@ -121,6 +138,18 @@
                     return count
                 }
                 return 0
+            },
+            countNewMessage: function () {
+                if (this.friendList) {
+                    let count = 0
+                    this.friendList.forEach(f => {
+                        if (f.lastMessage && f.lastMessage.statuses.some(s => s.userId === this.currentUserId && !s.seen)) {
+                            count++
+                        }
+                    })
+                    return count
+                }
+                return 0
             }
         },
         methods: {
@@ -149,20 +178,22 @@
                 let onlineList = [],
                     offlineList = []
                 friendList.forEach(f => {
+                    f.isReadLastMessage = f.lastMessage
+                        && f.lastMessage.statuses.some(s => s.userId === this.currentUserId && s.seen)
                     if (this.onlineFriend(f.id)) {
                         f.isOnline = true
                         f.isFirst = false
                         onlineList.push(f)
                     } else {
                         f.isOnline = false
-                        f.isFirst = offlineList.length === 0
+                        f.isFirst = false
                         offlineList.push(f)
                     }
                 })
+                if (onlineList.length && offlineList.length) {
+                    offlineList[0].isFirst = true
+                }
                 return onlineList.concat(offlineList)
-            },
-            isReadLastMessage(lastMessage) {
-                return lastMessage && lastMessage.statuses.some(s => s.userId === this.currentUserId && s.seen)
             }
         }
     }
@@ -183,12 +214,31 @@
             bottom: 5%;
             right: 2%;
             z-index: 1000;
-            .friend-list-count {
+            .friend-list-status {
                 position: absolute;
-                top: -0.75rem;
-                width: 1.5rem;
-                height: 1.5rem;
+                left: 2.15rem;
+                top: -0.65rem;
+                font-weight: 600;
                 font-size: 70%;
+                min-width: 1.5rem;
+                white-space: nowrap;
+                text-align: left;
+                .b-icon.bi {
+                  font-size: 100%;
+                  color: #FFFFFF;
+                }
+                .friend-list-count {
+                    background: #28a745;
+                    border-radius: 0.25rem;
+                    margin-bottom: 0.05rem;
+                    padding-right: 0.15rem;
+                }
+                .friend-new-message-count {
+                    background: #007bff;
+                    border-radius: 0.25rem;
+                    margin-bottom: 0.05rem;
+                    padding-right: 0.15rem;
+                }
             }
         }
         .friend-list-wrapper {
@@ -213,8 +263,15 @@
                             position: absolute;
                             right: -4px;
                             bottom: 2px;
-                            background: #FFFFFF;
                             border-radius: 100%;
+                            &.is-online {
+                                background: #FFFFFF;
+                                color: #28a745;
+                            }
+                            &.is-offline {
+                              background: #FFFFFF;
+                              color: rgba(0,0,0,0.1);
+                            }
                         }
                     }
                     .friend-item-name {
@@ -244,14 +301,6 @@
                         text-overflow: ellipsis;
                         overflow: hidden;
                         width: calc(100% - 3rem);
-                    }
-                    &.offline {
-                        .friend-item-avatar {
-                            opacity: 0.5;
-                        }
-                        .friend-item-name {
-                            color: darkgrey;
-                        }
                     }
                 }
                 .friend-item-actions {

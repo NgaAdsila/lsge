@@ -12,37 +12,11 @@
                     <b-nav-item @click="redirectTo('/home')" :active="$route.path === '/home'">
                         {{ $t('common.label.home') }}
                     </b-nav-item>
-                    <b-nav-item-dropdown left class="is-desktop">
-                        <template v-slot:button-content>
-                            {{ $t('common.label.module') }}
-                        </template>
-                        <b-dropdown-item @click="redirectTo('/chat-list')" :active="$route.path === '/chat-list'">
-                            <b-icon icon="chat-dots"></b-icon> {{ $t('common.label.chat_list') }}
-                        </b-dropdown-item>
-                        <b-dropdown-item @click="redirectTo()" :active="$route.path === '/module2'">
-                            <b-icon icon="puzzle"></b-icon> Module 2
-                        </b-dropdown-item>
-                    </b-nav-item-dropdown>
-                    <b-nav-item-dropdown left class="is-desktop">
-                        <template v-slot:button-content>
-                            {{ $t('common.label.help') }}
-                        </template>
-                        <b-dropdown-item @click="redirectTo('/about-me')" :active="$route.path === '/about-me'">
-                            <b-icon icon="emoji-sunglasses" ></b-icon> {{ $t('common.label.about_me') }}
-                        </b-dropdown-item>
-                        <b-dropdown-item @click="redirectTo('/contact-us')" :active="$route.path === '/contact-us'">
-                            <b-icon icon="question-diamond"></b-icon> {{ $t('common.label.contact_us') }}
-                        </b-dropdown-item>
-                    </b-nav-item-dropdown>
-                    <b-nav-item @click="redirectTo('/chat-list')" class="is-mobile"
-                                :active="$route.path === '/chat-list'" >
-                        {{ $t('common.label.chat_list') }}
-                    </b-nav-item>
-                    <b-nav-item @click="redirectTo('/about-me')" class="is-mobile"
+                    <b-nav-item @click="redirectTo('/about-me')"
                                 :active="$route.path === '/about-me'">
                         {{ $t('common.label.about_me') }}
                     </b-nav-item>
-                    <b-nav-item @click="redirectTo('/contact-us')" class="is-mobile"
+                    <b-nav-item @click="redirectTo('/contact-us')"
                                 :active="$route.path === '/contact-us'">
                         {{ $t('common.label.contact_us') }}
                     </b-nav-item>
