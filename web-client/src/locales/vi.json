@@ -27,7 +27,9 @@
       "chat_detail": "Trò chuyện",
       "someone": "Ai đó",
       "friend-list": "Danh sách bạn bè",
-      "display_username": "{name} và {count} người khác"
+      "display_username": "{name} và {count} người khác",
+      "collapse_all": "Thu gọn toàn bộ",
+      "color": "Màu ảnh đại diện"
     },
     "validation": {
       "required": "Trường {name} bắt buộc nhập.",

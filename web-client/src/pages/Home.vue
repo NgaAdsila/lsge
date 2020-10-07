@@ -58,9 +58,9 @@
                 },
                 mostModules: [
                     [{
-                        title: this.$t('common.label.chat_list'),
-                        icon: 'chat-dots',
-                        link: '/chat-list'
+                        title: 'Module1',
+                        icon: 'puzzle',
+                        link: '#'
                     }, {
                         title: 'Module2',
                         icon: 'puzzle',

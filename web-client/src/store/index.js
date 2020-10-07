@@ -47,6 +47,9 @@ export default new Vuex.Store({
     },
     saveName: (state, payload) => {
       state.name = payload.name;
+    },
+    saveColor: (state, payload) => {
+      state.color = payload.color;
     }
   },
   modules: {

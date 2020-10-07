@@ -13,12 +13,14 @@ import java.util.Map;
 public class FriendItemRes {
     private Long id;
     private String name;
+    private String color;
     private MessageRes lastMessage;
 
     public static FriendItemRes by(User user) {
         FriendItemRes res = new FriendItemRes();
         res.setId(user.getId());
         res.setName(user.getName());
+        res.setColor(user.getColor());
         return res;
     }
 

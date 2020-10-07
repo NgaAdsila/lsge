@@ -13,6 +13,7 @@ import java.util.List;
 public class UserWithNameItemRes {
     private Long id;
     private String name;
+    private String color;
     private boolean hasFriendReq;
     private RelationShipStatusEnum status;
     private boolean canApprove;
@@ -26,6 +27,7 @@ public class UserWithNameItemRes {
         UserWithNameItemRes res = new UserWithNameItemRes();
         res.setId(user.getId());
         res.setName(user.getName());
+        res.setColor(user.getColor());
 
         relationships.stream()
                 .filter(r -> r.getId().getReqUserId().equals(user.getId()) ||

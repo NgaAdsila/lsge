@@ -31,7 +31,7 @@ export async function login(data = {}) {
                 role: res.data.user.authorities[0].authority,
                 jwt: res.data.accessToken,
                 isLogin: true,
-                color: res.data.color
+                color: res.data.user.color
             };
             await loginEchoServer(user);
             store.commit('doLogin', user);
@@ -62,14 +62,19 @@ export async function update(req = {}) {
     const res = await ApiService.put(API_PATH.USER_UPDATE, {
         id: req.id,
         name: req.name,
-        email: req.email
+        email: req.email,
+        color: req.color
     }, {});
-    if (res.status === RESPONSE.STATUS.SUCCESS && store.getters.name !== req.name) {
+    if (res.status === RESPONSE.STATUS.SUCCESS && (store.getters.name !== req.name || store.getters.color !== req.color)) {
         store.commit('saveName', {
             name: req.name
         });
+        store.commit('saveColor', {
+            color: req.color
+        });
         const userLocal = JSON.parse(localStorage.getItem('store'));
         userLocal.name = req.name;
+        userLocal.color = req.color;
         localStorage.setItem('store', JSON.stringify(userLocal));
     }
     return res;

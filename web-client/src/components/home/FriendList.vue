@@ -8,7 +8,9 @@
                       variant="success"
                       :text="'' + countOnlineFriend"></b-avatar>
         </b-button>
-        <b-sidebar id="sidebar-list-friend" :title="$t('common.label.friend-list')" right shadow>
+        <b-sidebar id="sidebar-list-friend" :title="$t('common.label.friend-list')"
+                   v-model="isToggleSidebarOpen"
+                   right shadow>
             <div class="friend-list-wrapper">
                 <b-overlay :show="isLoading" rounded="sm" spinner-variant="primary">
                     <b-tabs content-class="mt-3" justified>
@@ -21,7 +23,7 @@
                                          @click.stop.prevent="createChatRoom(friend)">
                                         <div class="friend-item-avatar">
                                             <b-avatar class="text-uppercase"
-                                                      :style="{ 'background-color': getColor() + ' !important' }"
+                                                      :style="{ 'background-color': getColor(friend) }"
                                                       :text="friend.name ? friend.name.charAt(0) : ''"></b-avatar>
                                             <b-icon v-show="friend.isOnline" icon="dot"
                                                     variant="success"
@@ -86,6 +88,7 @@
                 </b-overlay>
             </div>
         </b-sidebar>
+        <div v-if="isToggleSidebarOpen" @click="isToggleSidebarOpen = false" class="navbar-backdrop"></div>
     </div>
 </template>
 
@@ -101,6 +104,11 @@
             'isLoading',
             'currentUserId'
         ],
+        data() {
+            return {
+                isToggleSidebarOpen: false
+            }
+        },
         computed: {
             countOnlineFriend: function() {
                 if (this.friendList && this.onlineUserIds && this.onlineUserIds.length > 1) {
@@ -125,8 +133,8 @@
             onlineFriend(userId) {
                 return this.onlineUserIds && this.onlineUserIds.includes(userId);
             },
-            getColor() {
-                return randDarkColor()
+            getColor(user) {
+                return user.color || randDarkColor()
             },
             approveFriend(user) {
                 this.$emit('approveFriend', user);
@@ -162,6 +170,14 @@
 
 <style lang="scss" scoped>
     .friend-list-page {
+        .navbar-backdrop {
+            z-index: 1031;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
         .friend-list-button {
             position: fixed;
             bottom: 5%;
