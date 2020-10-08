@@ -58,7 +58,8 @@
       "update_success": "Information has been updated successfully"
     },
     "placeholder": {
-      "keyword": "Enter keyword"
+      "keyword": "Enter keyword",
+      "image": "Choose image with type: {types}"
     }
   },
   "login": {

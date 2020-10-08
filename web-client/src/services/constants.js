@@ -100,6 +100,6 @@ export const MESSAGE_TYPE = {
 export const FILE_UPLOAD = {
     MAX_SIZE: 2097152,
     MAX_SIZE_TITLE: '2MB',
-    ALLOWED_EXTENSION_REGEX: /(\\.gif)|(\\.png)|(\\.bmp)|(\\.jpeg)|(\\.jpg)|(\\.ico)$/,
-    ALLOWED_EXTENSION_TITLE: 'GIF, PNG, BMP, JPEG, JPG and ICO'
+    ALLOWED_EXTENSION_REGEX: /(.gif)|(.png)|(.bmp)|(.jpeg)|(.jpg)|(.ico)$/,
+    ALLOWED_EXTENSION_TITLE: 'GIF, PNG, BMP, JPEG, JPG or ICO'
 }

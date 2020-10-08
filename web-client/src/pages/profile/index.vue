@@ -48,6 +48,7 @@
                     const res = await getCurrentUser();
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         this.profile = res.data;
+                        this.profile.avatarFile = null
                         this.oldProfile = {...res.data};
                     } else {
                         console.log('Get profile error: ', res.message);
@@ -69,7 +70,7 @@
                     const res = await update(this.profile);
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         this.oldProfile = {...this.profile};
-                        this.profile.avatarFile = undefined;
+                        this.profile.avatarFile = null
                         ToastHelper.message(this.$t('common.message.update_success'))
                     } else {
                         ToastHelper.message(res.message, VARIANT.DANGER)

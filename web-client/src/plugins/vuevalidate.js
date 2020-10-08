@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';
 import { helpers } from 'vuelidate/lib/validators';
-import {FILE_UPLOAD} from "@/services/constants";
 
 Vue.use(Vuelidate);
 
@@ -12,7 +11,3 @@ export const strictUserName = helpers.regex('strictUserName', /^(?=.{4,40}$)[a-z
 export const matchPassword = (value, vm) => (value === vm.password);
 
 export const notMatchOldPassword = (value, vm) => (value !== vm.oldPassword);
-
-export const imageType = (value) => !helpers.req(value) || FILE_UPLOAD.ALLOWED_EXTENSION_REGEX.test(value.name.toLowerCase());
-
-export const imageSize = (value) => !helpers.req(value) || value.size <= FILE_UPLOAD.MAX_SIZE;

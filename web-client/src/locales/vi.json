@@ -58,7 +58,8 @@
       "update_success": "Thông tin đã được cập nhật thành công"
     },
     "placeholder": {
-      "keyword": "Nhập từ khóa"
+      "keyword": "Nhập từ khóa",
+      "image": "Chọn ảnh có định dạng: {types}"
     }
   },
   "login": {

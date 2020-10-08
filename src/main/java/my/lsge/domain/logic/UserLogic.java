@@ -77,7 +77,7 @@ public class UserLogic extends FileLogic {
                 throw new FormValidationException(language.getString("valid.user.upload_avatar.error"));
             }
             String filePath = String.format(language.getString("dropbox.file_path.avatar"),
-                    user.getId(), names.get(names.size() - 1));
+                    user.getId(), Utils.getNow().getTime(), names.get(names.size() - 1));
             return upload(avatar, filePath);
         } catch (Exception e) {
             throw new FormValidationException(language.getString("valid.user.upload_avatar.error"));

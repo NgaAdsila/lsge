@@ -46,25 +46,26 @@
         <b-form-group label-size="sm"
                       :label="$t('common.label.avatar')"
                       label-for="input-avatarFile">
-            <div v-show="profile && profile.avatar" id="avatar-preview">
-                <b-img v-if="profile && profile.avatar" :src="profile.avatar" />
-            </div>
             <b-form-file id="input-avatarFile"
                          v-model="$v.profile.avatarFile.$model"
+                         :placeholder="$t('common.placeholder.image', { types: allowedExtensionTypes })"
                          @change="onAvatarFileChange"
-                         :state="validateState('avatarFile')"
+                         :state="validateStateAvatar"
                          aria-describedby="avatarFile-live-feedback"
                          ref="avatarFile"></b-form-file>
             <b-form-invalid-feedback id="avatarFile-live-feedback">
-              {{ !$v.profile.avatarFile.imageType
+              {{ avatarFileError.imageType
                     ? $t('common.validation.invalid_image_type', {types: allowedExtensionTypes})
                     : $t('common.validation.invalid_image_size', {name: $t('common.label.avatar'), max: maxFileSize}) }}
             </b-form-invalid-feedback>
+            <div v-show="profile && profile.avatar" id="avatar-preview">
+                <b-img :src="profile ? profile.avatar : ''" />
+            </div>
         </b-form-group>
         <div class="text-center mt-4">
             <b-button type="submit"
-                      :disabled="!!isLoading"
-                      :readonly="!!isLoading"
+                      :disabled="!!isLoading || $v.$anyError || !validateStateAvatar"
+                      :readonly="!!isLoading || $v.$anyError || !validateStateAvatar"
                       variant="outline-primary">{{ $t('common.label.save') }}</b-button>
         </div>
     </b-form>
@@ -73,7 +74,7 @@
 <script>
     import { validationMixin } from 'vuelidate';
     import { required, minLength, maxLength, email } from 'vuelidate/lib/validators';
-    import { strictUserName, imageType, imageSize } from '@/plugins/vuevalidate';
+    import { strictUserName } from '@/plugins/vuevalidate';
     import {FILE_UPLOAD} from "@/services/constants";
 
     export default {
@@ -99,9 +100,15 @@
                     email
                 },
                 color: {},
-                avatarFile: {
-                    imageType,
-                    imageSize
+                avatarFile: {}
+            }
+        },
+        data() {
+            return {
+                validateStateAvatar: true,
+                avatarFileError: {
+                    imageType: false,
+                    imageSize: false
                 }
             }
         },
@@ -120,18 +127,38 @@
             },
             save() {
                 this.$v.$touch();
-                if (this.$v.$anyError) {
+                if (this.$v.$anyError || !this.validateStateAvatar) {
                     return;
                 }
                 this.$emit('save');
             },
             onAvatarFileChange(e) {
-                this.$v.$touch();
-                if (this.$v.profile.avatarFile.$anyError) {
-                  return
-                }
                 const file = e.target.files[0]
-                this.profile.avatar = URL.createObjectURL(file)
+                this.profile.avatarFile = file
+                if (!this.imageType(file)) {
+                    this.validateStateAvatar = false
+                    this.avatarFileError.imageType = true
+                    this.avatarFileError.imageSize = false
+                    return
+                }
+                if (!this.imageSize(file)) {
+                    this.validateStateAvatar = false
+                    this.avatarFileError.imageType = false
+                    this.avatarFileError.imageSize = true
+                    return
+                }
+                this.validateStateAvatar = true
+                this.avatarFileError.imageType = false
+                this.avatarFileError.imageSize = false
+                if (file) {
+                    this.profile.avatar = URL.createObjectURL(file)
+                }
+            },
+            imageType(value) {
+                return !value || FILE_UPLOAD.ALLOWED_EXTENSION_REGEX.test(value.name.toLowerCase())
+            },
+            imageSize(value) {
+                return !value || value.size <= FILE_UPLOAD.MAX_SIZE
             }
         }
     }
@@ -140,7 +167,7 @@
 <style lang="scss" scoped>
 .profile-form {
     #avatar-preview {
-        margin-bottom: 0.5rem;
+        margin-top: 0.5rem;
         img {
             width: 6rem;
             height: 6rem;
