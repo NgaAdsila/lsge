@@ -14,6 +14,7 @@ public class FriendItemRes {
     private Long id;
     private String name;
     private String color;
+    private String avatar;
     private MessageRes lastMessage;
 
     public static FriendItemRes by(User user) {
@@ -21,6 +22,7 @@ public class FriendItemRes {
         res.setId(user.getId());
         res.setName(user.getName());
         res.setColor(user.getColor());
+        res.setAvatar(user.getAvatar());
         return res;
     }
 

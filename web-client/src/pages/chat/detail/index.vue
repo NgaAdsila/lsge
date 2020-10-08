@@ -9,6 +9,7 @@
                     :currentUserId="currentUserId"
                     :isSubmitting="isSubmitting"
                     :currentUserColor="currentUserColor"
+                    :currentUserAvatar="currentUserAvatar"
                     @createMessage="createMessage"
                     @updateChatroom="updateChatroom"
                     @setNickname="setNickname"
@@ -39,6 +40,9 @@
             },
             currentUserColor: function () {
                 return this.$store.getters.color || '#007bff'
+            },
+            currentUserAvatar: function () {
+                return this.$store.getters.avatar
             }
         },
         data() {

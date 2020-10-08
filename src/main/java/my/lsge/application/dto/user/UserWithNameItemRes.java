@@ -14,6 +14,7 @@ public class UserWithNameItemRes {
     private Long id;
     private String name;
     private String color;
+    private String avatar;
     private boolean hasFriendReq;
     private RelationShipStatusEnum status;
     private boolean canApprove;
@@ -28,6 +29,7 @@ public class UserWithNameItemRes {
         res.setId(user.getId());
         res.setName(user.getName());
         res.setColor(user.getColor());
+        res.setAvatar(user.getAvatar());
 
         relationships.stream()
                 .filter(r -> r.getId().getReqUserId().equals(user.getId()) ||

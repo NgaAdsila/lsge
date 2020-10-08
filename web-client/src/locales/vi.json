@@ -42,7 +42,8 @@
       "invalid_email": "Email không hợp lệ.",
       "exception": "Rất tiếc, có lỗi xảy ra. Vui lòng liên hệ Admin để được hỗ trợ",
       "unauthorized": "Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại để tiếp tục",
-      "invalid_image": "Định dạng ảnh không hợp lệ. Hãy đảm bảo bạn đang sử dụng một trong số các định dạng ảnh sau: image/bmp, image/gif, image/jpeg, image/png, image/tiff, image/webp"
+      "invalid_image_type": "Chỉ cho phép các định dạnh ảnh: {types}",
+      "invalid_image_size": "Kích thước {name} không được vượt quá {max}"
     },
     "toast": {
       "title": "Ge-Lsg - Thông báo",

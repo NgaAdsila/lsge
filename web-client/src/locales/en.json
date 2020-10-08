@@ -42,7 +42,8 @@
       "invalid_email": "Email is invalid.",
       "exception": "Sorry, an error occurred. Please contact the Admin for assistance!",
       "unauthorized": "Your login session has expired. Please re-login to continue",
-      "invalid_image": "Image MIME type is not valid. Make sure you are using one of the following image MIME types: image/bmp, image/gif, image/jpeg, image/png, image/tiff, image/webp"
+      "invalid_image_type": "Image only allows file type of {types}",
+      "invalid_image_size": "{name}'s size cannot exceed {max}"
     },
     "toast": {
       "title": "Ge-Lsg Message",

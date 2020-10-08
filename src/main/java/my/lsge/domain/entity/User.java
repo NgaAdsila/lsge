@@ -55,6 +55,9 @@ public class User extends BaseEntity {
     @Size(max = 255)
     private String avatar;
 
+    @Size(max = 255)
+    private String avatarPath;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

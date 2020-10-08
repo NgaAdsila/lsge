@@ -25,8 +25,6 @@ public class UpdatingUserReq {
     @Size(max = 16)
     private String color;
 
-    private String avatar;
-
     public void normalize() {
         if (StringUtils.isNotBlank(this.email)) {
             this.email = this.email.trim().toLowerCase();

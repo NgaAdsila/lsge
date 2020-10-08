@@ -26,9 +26,11 @@
                 <b-navbar-nav class="ml-auto">
                     <b-nav-text class="is-mobile navbar-header-username">
                         <div class="user-name has-link" @click="redirectTo('/profile')">
-                            <b-avatar variant="success" class="text-uppercase"
-                                      :text="$store.getters.name ? $store.getters.name.charAt(0) : ''">
-                            </b-avatar> <em>{{ $store.getters.name }} </em>
+                            <Avatar :avatar="$store.getters.avatar"
+                                    :color="$store.getters.color"
+                                    :name="$store.getters.name"
+                                    default-color="#28a745"
+                            /> <em>{{ $store.getters.name }} </em>
                         </div>
                         <div @click="logout" class="user-action-logout has-link">
                             <b-icon icon="power" scale="1.5"></b-icon>
@@ -48,9 +50,11 @@
                     <b-nav-item-dropdown right class="is-desktop">
                         <!-- Using 'button-content' slot -->
                         <template v-slot:button-content>
-                            <b-avatar class="text-uppercase"
-                                      :style="'background-color: ' + ($store.getters.color || '#28a745')"
-                                      :text="$store.getters.name ? $store.getters.name.charAt(0) : ''"></b-avatar> <em>{{ $store.getters.name }} </em>
+                            <Avatar :avatar="$store.getters.avatar"
+                                    :color="$store.getters.color"
+                                    :name="$store.getters.name"
+                                    default-color="#28a745"
+                            /> <em>{{ $store.getters.name }} </em>
                         </template>
                         <b-dropdown-item @click="redirectTo('/profile')" :active="$route.path === '/profile'">
                             <b-icon icon="person-square"></b-icon> {{ $t('common.label.profile') }}
@@ -70,8 +74,10 @@
 </template>
 
 <script>
+    import Avatar from "@/components/common/Avatar";
     export default {
         name: "Header",
+        components: {Avatar},
         props: [
             'user'
         ],

@@ -39,9 +39,10 @@
                                     <div class="friend-item-info has-link"
                                          @click.stop.prevent="createChatRoom(friend)">
                                         <div class="friend-item-avatar">
-                                            <b-avatar class="text-uppercase"
-                                                      :style="{ 'background-color': getColor(friend) }"
-                                                      :text="friend.name ? friend.name.charAt(0) : ''"></b-avatar>
+                                            <Avatar :avatar="friend.avatar"
+                                                    :color="getColor(friend)"
+                                                    :name="friend.name"
+                                                    default-color="" />
                                             <b-icon icon="dot"
                                                     :class="friend.isOnline ? 'is-online' : 'is-offline'"
                                                     scale="4" class="friend-item-status"></b-icon>
@@ -74,9 +75,10 @@
                                 <div v-for="user in requestedFriends" :key="user.id" class="friend-list-item">
                                     <div class="friend-item-info">
                                         <div class="friend-item-avatar">
-                                            <b-avatar class="text-uppercase"
-                                                      :style="{ 'background-color': getColor() + ' !important' }"
-                                                      :text="user.name ? user.name.charAt(0) : ''"></b-avatar>
+                                            <Avatar :avatar="user.avatar"
+                                                    :color="getColor(user)"
+                                                    :name="user.name"
+                                                    default-color="" />
                                             <b-icon icon="dot"
                                                     :class="user.isOnline ? 'is-online' : 'is-offline'"
                                                     scale="4" class="friend-item-status"></b-icon>
@@ -111,9 +113,11 @@
 
 <script>
     import { randDarkColor } from "@/utils";
+    import Avatar from "@/components/common/Avatar";
 
     export default {
         name: "FriendList",
+        components: {Avatar},
         props: [
             'friendList',
             'requestedFriends',
@@ -221,7 +225,7 @@
                 font-weight: 600;
                 font-size: 70%;
                 min-width: 1.5rem;
-                white-space: nowrap;
+                white-space: noverlapowrap;
                 text-align: left;
                 .b-icon.bi {
                   font-size: 100%;

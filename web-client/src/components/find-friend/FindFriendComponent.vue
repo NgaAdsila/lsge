@@ -4,9 +4,10 @@
             <div v-for="(user, index) in userList" :key="index" class="find-friend-item">
                 <div class="user-info">
                     <div class="user-avatar">
-                        <b-avatar class="text-uppercase"
-                                  :style="user.color ? 'background-color: ' + user.color : ''"
-                                  :text="user.name ? user.name.charAt(0) : ''"></b-avatar>
+                        <Avatar :avatar="user.avatar"
+                                :color="user.color"
+                                :name="user.name"
+                                default-color="" />
                     </div>
                     <div class="user-name">
                         {{ user.name }}
@@ -45,9 +46,11 @@
 
 <script>
     import {RELATION_STATUS} from "@/services/constants";
+    import Avatar from "@/components/common/Avatar";
 
     export default {
         name: "FindFriendComponent",
+        components: {Avatar},
         props: [
             'userList'
         ],

@@ -11,6 +11,7 @@ public class ChatroomUserRes {
     private String name;
     private String nickname;
     private String color;
+    private String avatar;
 
     public static ChatroomUserRes by(ChatroomUser user) {
         ChatroomUserRes res = new ChatroomUserRes();
@@ -18,6 +19,7 @@ public class ChatroomUserRes {
         res.setName(user.getUser().getName());
         res.setNickname(user.getNickname());
         res.setColor(user.getUser().getColor());
+        res.setAvatar(user.getUser().getAvatar());
         return res;
     }
 }

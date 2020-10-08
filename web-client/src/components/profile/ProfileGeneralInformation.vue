@@ -45,19 +45,20 @@
         </b-form-group>
         <b-form-group label-size="sm"
                       :label="$t('common.label.avatar')"
-                      label-for="input-avatar">
+                      label-for="input-avatarFile">
             <div v-show="profile && profile.avatar" id="avatar-preview">
                 <b-img v-if="profile && profile.avatar" :src="profile.avatar" />
             </div>
-            <b-form-file id="input-avatar"
+            <b-form-file id="input-avatarFile"
                          v-model="$v.profile.avatarFile.$model"
-                         plain
                          @change="onAvatarFileChange"
                          :state="validateState('avatarFile')"
-                         aria-describedby="avatar-live-feedback"
-                         ref="avatar"></b-form-file>
-            <b-form-invalid-feedback id="avatar-live-feedback">
-                {{ $t('common.validation.invalid_image') }}
+                         aria-describedby="avatarFile-live-feedback"
+                         ref="avatarFile"></b-form-file>
+            <b-form-invalid-feedback id="avatarFile-live-feedback">
+              {{ !$v.profile.avatarFile.imageType
+                    ? $t('common.validation.invalid_image_type', {types: allowedExtensionTypes})
+                    : $t('common.validation.invalid_image_size', {name: $t('common.label.avatar'), max: maxFileSize}) }}
             </b-form-invalid-feedback>
         </b-form-group>
         <div class="text-center mt-4">
@@ -72,7 +73,8 @@
 <script>
     import { validationMixin } from 'vuelidate';
     import { required, minLength, maxLength, email } from 'vuelidate/lib/validators';
-    import { strictUserName, imageType } from '@/plugins/vuevalidate';
+    import { strictUserName, imageType, imageSize } from '@/plugins/vuevalidate';
+    import {FILE_UPLOAD} from "@/services/constants";
 
     export default {
         name: "ProfileGeneralInformation",
@@ -98,8 +100,17 @@
                 },
                 color: {},
                 avatarFile: {
-                    imageType
+                    imageType,
+                    imageSize
                 }
+            }
+        },
+        computed: {
+            allowedExtensionTypes: function () {
+                return FILE_UPLOAD.ALLOWED_EXTENSION_TITLE
+            },
+            maxFileSize: function () {
+                return FILE_UPLOAD.MAX_SIZE_TITLE
             }
         },
         methods: {
@@ -110,19 +121,15 @@
             save() {
                 this.$v.$touch();
                 if (this.$v.$anyError) {
-                    this.focusFirstError();
                     return;
                 }
                 this.$emit('save');
             },
-            focusFirstError() {
-                const invalidFields = Object.keys(this.$v.$params)
-                    .filter(fn => this.$v[fn].$invalid);
-                if (invalidFields) {
-                    this.$refs[invalidFields[0]].$el.focus();
-                }
-            },
             onAvatarFileChange(e) {
+                this.$v.$touch();
+                if (this.$v.profile.avatarFile.$anyError) {
+                  return
+                }
                 const file = e.target.files[0]
                 this.profile.avatar = URL.createObjectURL(file)
             }

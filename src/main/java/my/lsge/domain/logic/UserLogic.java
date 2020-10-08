@@ -5,31 +5,27 @@ import my.lsge.application.dto.ListObjectRes;
 import my.lsge.application.dto.user.*;
 import my.lsge.application.exception.ForbiddenException;
 import my.lsge.application.exception.FormValidationException;
-import my.lsge.application.service.ImageService;
 import my.lsge.domain.dao.UserDao;
 import my.lsge.domain.entity.Relationship;
 import my.lsge.domain.entity.Role;
-import my.lsge.domain.entity.UploadingImageLog;
 import my.lsge.domain.entity.User;
 import my.lsge.domain.enums.UserRoleEnum;
 import my.lsge.domain.repository.RelationshipRepository;
 import my.lsge.domain.repository.RoleRepository;
-import my.lsge.domain.repository.UploadingImageLogRepository;
-import my.lsge.util.JsonUtils;
 import my.lsge.util.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class UserLogic extends BaseLogic {
+public class UserLogic extends FileLogic {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -42,12 +38,6 @@ public class UserLogic extends BaseLogic {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private ImageService imageService;
-
-    @Autowired
-    private UploadingImageLogRepository uploadingImageLogRepository;
-
     public UserIdentityAvailability checkUsernameAvailability(String username) {
         Boolean isAvailability = !userRepository.existsByUsername(username);
         return new UserIdentityAvailability(isAvailability);
@@ -58,13 +48,12 @@ public class UserLogic extends BaseLogic {
         return new UserIdentityAvailability(isAvailability);
     }
 
-    public UserSummary update(UpdatingUserReq req, Long userId) {
+    public UserSummary update(UpdatingUserReq req, MultipartFile avatar, Long userId) {
         User user = userRepository.getOne(userId);
         validateUser(user);
         req.normalize();
         validateUpdatingReq(req, user);
-        UploadImageRes imageRes = uploadAvatarToStorage(req.getAvatar(), userId);
-        mapUpdatingReqToModel(req, user, imageRes);
+        mapUpdatingReqToModel(req, user, uploadAvatar(avatar, user));
         userRepository.saveAndFlush(user);
         return new UserSummary(
                 user.getId(),
@@ -75,30 +64,35 @@ public class UserLogic extends BaseLogic {
                 user.getAvatar());
     }
 
-    private UploadImageRes uploadAvatarToStorage(String avatar, Long userId) throws FormValidationException {
+    private FileUploadRes uploadAvatar(MultipartFile avatar, User user) {
         try {
-            if (StringUtils.isBlank(avatar)) {
+            if (avatar == null) {
                 return null;
             }
-            UploadImageRes res = imageService.upload(avatar);
-            if (res != null && res.getData() != null) {
-                UploadingImageLog log = new UploadingImageLog(0L, userId, JsonUtils.toJson(res.getData()));
-                uploadingImageLogRepository.save(log);
+            if (StringUtils.isNotBlank(user.getAvatarPath())) {
+                delete(user.getAvatarPath());
             }
-            return res;
+            List<String> names = Utils.convertStringToList(avatar.getOriginalFilename(), "\\.");
+            if (Utils.isNullOrEmpty(names)) {
+                throw new FormValidationException(language.getString("valid.user.upload_avatar.error"));
+            }
+            String filePath = String.format(language.getString("dropbox.file_path.avatar"),
+                    user.getId(), names.get(names.size() - 1));
+            return upload(avatar, filePath);
         } catch (Exception e) {
             throw new FormValidationException(language.getString("valid.user.upload_avatar.error"));
         }
     }
 
-    private void mapUpdatingReqToModel(UpdatingUserReq req, User user, UploadImageRes imageRes) {
+    private void mapUpdatingReqToModel(UpdatingUserReq req, User user, FileUploadRes avatar) {
         user.setName(req.getName());
         if (!user.getEmail().equalsIgnoreCase(req.getEmail())) {
             user.setEmail(req.getEmail());
         }
         user.setColor(req.getColor());
-        if (imageRes != null && imageRes.getData() != null && imageRes.getData().getThumb() != null) {
-            user.setAvatar(imageRes.getData().getThumb().getUrl());
+        if (avatar != null) {
+            user.setAvatar(avatar.getPreviewUrl());
+            user.setAvatarPath(avatar.getFilePath());
         }
     }
 

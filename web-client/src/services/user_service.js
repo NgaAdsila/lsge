@@ -61,14 +61,17 @@ export async function getCurrentUser() {
 }
 
 export async function update(req = {}) {
-    const avatar = req.avatarFile ? await convertImageToBase64(req.avatarFile) : null;
-    const res = await ApiService.put(API_PATH.USER_UPDATE, {
-        id: req.id,
-        name: req.name,
-        email: req.email,
-        color: req.color,
-        avatar: avatar
-    }, {});
+    let data = new FormData();
+    data.append("id", req.id);
+    data.append("name", req.name);
+    data.append("email", req.email);
+    data.append("color", req.color ? req.color : '');
+    data.append("avatar", req.avatarFile);
+    const res = await ApiService.put(API_PATH.USER_UPDATE, data, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
     if (res.status === RESPONSE.STATUS.SUCCESS &&
         (store.getters.name !== req.name || store.getters.color !== req.color || store.getters.avatar !== res.data.avatar)) {
         store.commit('saveName', {
@@ -83,7 +86,7 @@ export async function update(req = {}) {
         const userLocal = JSON.parse(localStorage.getItem('store'));
         userLocal.name = req.name;
         userLocal.color = req.color;
-        userLocal.avatar = req.avatar;
+        userLocal.avatar = res.data.avatar;
         localStorage.setItem('store', JSON.stringify(userLocal));
     }
     return res;

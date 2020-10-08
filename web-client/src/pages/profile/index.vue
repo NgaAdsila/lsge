@@ -69,6 +69,7 @@
                     const res = await update(this.profile);
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         this.oldProfile = {...this.profile};
+                        this.profile.avatarFile = undefined;
                         ToastHelper.message(this.$t('common.message.update_success'))
                     } else {
                         ToastHelper.message(res.message, VARIANT.DANGER)

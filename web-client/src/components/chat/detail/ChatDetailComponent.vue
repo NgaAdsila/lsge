@@ -47,10 +47,11 @@
                         <div v-else class="chat-detail-item chat-detail-list-left"
                              :class="{'is-group-message': isGroupMessage(message, index) }">
                             <span class="message-user-avatar" v-b-tooltip.hover="displayUserName(message.createdBy)">
-                                <b-avatar class="text-uppercase"
-                                          size="25"
-                                          :style="'background-color: ' + displayUserColor(message.createdBy)"
-                                          :text="displayUserName(message.createdBy).charAt(0)"></b-avatar>
+                                <Avatar :avatar="displayUserAvatar(message.createdBy)"
+                                        :color="displayUserColor(message.createdBy)"
+                                        :name="displayUserName(message.createdBy)"
+                                        size="25"
+                                        default-color="" />
                             </span>
                             <div class="message-content text-break" v-linkified>
                                 {{ message.message }}
@@ -59,11 +60,11 @@
                         </div>
                     </div>
                     <div v-if="isReadMessage(message, index)" class="is-right message-is-seen-avatar">
-                        <b-avatar class="text-uppercase"
-                                  size="25"
-                                  :style="'background-color: ' + currentUserColor"
-                                  v-b-tooltip.hover="displayUserName(currentUserId)"
-                                  :text="displayUserName(currentUserId).charAt(0)"></b-avatar>
+                        <Avatar :avatar="currentUserAvatar"
+                                :color="currentUserColor"
+                                :name="displayUserName(currentUserId)"
+                                size="25"
+                                default-color="" />
                     </div>
                 </div>
             </div>
@@ -96,17 +97,19 @@
     import ChatDetailUpdateChatroom from "./ChatDetailUpdateChatroom";
     import ChatDetailSetNickname from "./ChatDetailSetNickname";
     import {MESSAGE_TYPE} from "@/services/constants";
+    import Avatar from "@/components/common/Avatar";
 
     export default {
         name: "ChatDetailComponent",
-        components: {ChatDetailSetNickname, ChatDetailUpdateChatroom},
+        components: {Avatar, ChatDetailSetNickname, ChatDetailUpdateChatroom},
         props: [
             'chatroomName',
             'currentUserId',
             'messages',
             'users',
             'isSubmitting',
-            'currentUserColor'
+            'currentUserColor',
+            'currentUserAvatar'
         ],
         data() {
             return {
@@ -135,6 +138,15 @@
                     }
                 }
                 return '#6c757d'
+            },
+            displayUserAvatar(userId) {
+                if (this.users.length) {
+                    const user = this.users.find(u => u.id === userId);
+                    if (user && user.avatar) {
+                        return user.avatar
+                    }
+                }
+                return null
             },
             displayTime(time) {
                 return smartTime(time);

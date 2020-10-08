@@ -93,7 +93,7 @@ export function convertImageToBase64(file) {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
-            let result = reader.result.replace(/^data:image\/(png|jpg|jpeg|bmp|tiff|webp|gif);base64,/, '');
+            let result = reader.result.replace(/^data:image\/(png|jpg|jpeg|bmp|tiff|webp|gif|ico);base64,/, '');
             resolve(result);
         };
         reader.onerror = error => reject(error);
