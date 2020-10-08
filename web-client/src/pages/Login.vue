@@ -10,8 +10,9 @@
 
 <script>
     import LoginComponent from '../components/LoginComponent';
-    import { login } from '../services/user_service';
-    import { RESPONSE } from '../services/constants';
+    import { login } from '@/services/user_service';
+    import {RESPONSE, VARIANT} from '@/services/constants';
+    import ToastHelper from "@/helper/ToastHelper";
 
     export default {
         name: "Login",
@@ -27,13 +28,7 @@
                     this.isSubmit = true;
                     const res = await login(data);
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
-                        this.$bvToast.toast(this.$t('login.message.success'), {
-                            title: this.$t('common.toast.title'),
-                            toaster: 'b-toaster-top-center',
-                            solid: true,
-                            variant: 'success',
-                            autoHideDelay: 2000
-                        });
+                        ToastHelper.message(this.$t('login.message.success'))
                         setTimeout(async (self = this) => {
                             await self.$router.push('/');
                             this.isSubmit = false;
@@ -44,13 +39,7 @@
                     console.log('Login ERROR: ', e);
                 }
                 this.isSubmit = false;
-                this.$bvToast.toast(this.$t('login.message.error'), {
-                    title: this.$t('common.toast.title'),
-                    toaster: 'b-toaster-top-center',
-                    solid: true,
-                    variant: 'danger',
-                    autoHideDelay: 2000
-                });
+                ToastHelper.message(this.$t('login.message.error'), VARIANT.DANGER)
             }
         }
     }

@@ -3,7 +3,7 @@ package my.lsge.application.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import my.lsge.application.Common.Const;
+import my.lsge.application.common.Const;
 import my.lsge.domain.enums.SortByEnum;
 import my.lsge.domain.enums.SortTypeEnum;
 import org.apache.commons.lang3.StringUtils;

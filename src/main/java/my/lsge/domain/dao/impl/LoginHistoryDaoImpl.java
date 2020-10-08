@@ -1,6 +1,6 @@
 package my.lsge.domain.dao.impl;
 
-import my.lsge.application.Common.Const;
+import my.lsge.application.common.Const;
 import my.lsge.application.dto.loginHistory.LoginHistoryFilterReq;
 import my.lsge.domain.dao.LoginHistoryDao;
 import my.lsge.domain.entity.LoginHistory;

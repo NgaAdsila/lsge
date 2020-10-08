@@ -22,9 +22,15 @@ public class UpdatingUserReq {
     @Email
     private String email;
 
+    @Size(max = 16)
+    private String color;
+
     public void normalize() {
         if (StringUtils.isNotBlank(this.email)) {
             this.email = this.email.trim().toLowerCase();
+        }
+        if (StringUtils.isNotBlank(this.color)) {
+            this.color = this.color.trim().toUpperCase();
         }
     }
 }

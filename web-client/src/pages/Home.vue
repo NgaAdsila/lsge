@@ -58,9 +58,9 @@
                 },
                 mostModules: [
                     [{
-                        title: this.$t('common.label.book_store'),
-                        icon: 'book',
-                        link: '/book-store/old-home'
+                        title: 'Module1',
+                        icon: 'puzzle',
+                        link: '#'
                     }, {
                         title: 'Module2',
                         icon: 'puzzle',
@@ -108,13 +108,6 @@
     #section-my-card {
         padding: 2rem 0.5rem;
         min-height: 60vh;
-        background: linear-gradient(rgba(255,255,255,.7), rgba(255,255,255,.7)), url(/card/my_card_wapper.jpg) no-repeat fixed top;
-        background-size: cover;
-        background-blend-mode: lighten;
-        -ms-background-size: cover;
-        -o-background-size: cover;
-        -moz-background-size: cover;
-        -webkit-background-size: cover;
 
         .shape {
             margin-top: 2.5rem;

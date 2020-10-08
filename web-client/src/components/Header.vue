@@ -1,94 +1,160 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <b-navbar toggleable="lg" type="dark" variant="dark" fixed="top" class="header-container">
-        <b-navbar-brand href="/home">
-            <b-img src="../assets/logo.png" height="50" :alt="$t('common.label.slogan')" />
-        </b-navbar-brand>
+    <div class="navbar-header-wrapper">
+        <b-navbar toggleable="lg" type="dark" variant="dark" fixed="top" class="header-container">
+            <b-navbar-brand @click="redirectTo('/home')" class="has-link">
+              <b-img src="../assets/logo.png" height="50" :alt="$t('common.label.slogan')" />
+            </b-navbar-brand>
 
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+            <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-        <b-collapse id="nav-collapse" is-nav>
-            <b-navbar-nav>
-                <b-nav-item href="/home">{{ $t('common.label.home') }}</b-nav-item>
-                <b-nav-item-dropdown left>
-                    <template v-slot:button-content>
-                        {{ $t('common.label.module') }}
-                    </template>
-                    <b-dropdown-item disabled>
-                        <strong><b-icon icon="book" ></b-icon> {{ $t('common.label.book_store') }}</strong>
-                    </b-dropdown-item>
-                    <b-dropdown-item href="/book-store/old-home" :active="$route.path === '/book-store/old-home'">
-                        <b-icon icon="hash" ></b-icon> {{ $t('common.label.home_page') }}
-                    </b-dropdown-item>
-                    <b-dropdown-item href="/book-store/old-admin" :active="$route.path === '/book-store/old-admin'">
-                        <b-icon icon="hash" ></b-icon> {{ $t('common.label.admin_page') }}
-                    </b-dropdown-item>
-                    <b-dropdown-divider></b-dropdown-divider>
+            <b-collapse id="nav-collapse" v-model="isNavbarCollapseOpen" is-nav>
+                <b-navbar-nav>
+                    <b-nav-item @click="redirectTo('/home')" :active="$route.path === '/home'">
+                        {{ $t('common.label.home') }}
+                    </b-nav-item>
+                    <b-nav-item @click="redirectTo('/about-me')"
+                                :active="$route.path === '/about-me'">
+                        {{ $t('common.label.about_me') }}
+                    </b-nav-item>
+                    <b-nav-item @click="redirectTo('/contact-us')"
+                                :active="$route.path === '/contact-us'">
+                        {{ $t('common.label.contact_us') }}
+                    </b-nav-item>
+                </b-navbar-nav>
 
-                </b-nav-item-dropdown>
-                <b-nav-item-dropdown left>
-                    <template v-slot:button-content>
-                        {{ $t('common.label.help') }}
-                    </template>
-                    <b-dropdown-item href="/about-me" :active="$route.path === '/about-me'">
-                        <b-icon icon="emoji-sunglasses" ></b-icon> {{ $t('common.label.about_me') }}
-                    </b-dropdown-item>
-                    <b-dropdown-item href="/contact-us" :active="$route.path === '/contact-us'">
-                        <b-icon icon="question-diamond"></b-icon> {{ $t('common.label.contact_us') }}
-                    </b-dropdown-item>
-                </b-nav-item-dropdown>
-            </b-navbar-nav>
+                <!-- Right aligned nav items -->
+                <b-navbar-nav class="ml-auto">
+                    <b-nav-text class="is-mobile navbar-header-username">
+                        <div class="user-name has-link" @click="redirectTo('/profile')">
+                            <Avatar :avatar="$store.getters.avatar"
+                                    :color="$store.getters.color"
+                                    :name="$store.getters.name"
+                                    default-color="#28a745"
+                            /> <em>{{ $store.getters.name }} </em>
+                        </div>
+                        <div @click="logout" class="user-action-logout has-link">
+                            <b-icon icon="power" scale="1.5"></b-icon>
+                        </div>
+                    </b-nav-text>
+                    <b-nav-item @click="redirectTo('/login-history')" class="is-mobile"
+                                :active="$route.path === '/login-history'">
+                        {{ $t('common.label.login_history') }}
+                    </b-nav-item>
+                    <b-nav-form @submit.stop.prevent="searchFriend">
+                        <b-form-input size="sm" class="nav-header-search-friend mr-sm-2"
+                                      v-model="keyword"
+                                      type="search"
+                                      :placeholder="$t('common.label.search_friend')"></b-form-input>
+                    </b-nav-form>
 
-            <!-- Right aligned nav items -->
-            <b-navbar-nav class="ml-auto">
-                <b-nav-form @submit.stop.prevent="search">
-                    <b-form-input size="sm" class="mr-sm-2"
-                                  v-model="keyword"
-                                  :placeholder="$t('common.label.search')"></b-form-input>
-                </b-nav-form>
-
-                <b-nav-item-dropdown right>
-                    <!-- Using 'button-content' slot -->
-                    <template v-slot:button-content>
-                        <b-avatar variant="success" class="text-uppercase"
-                                  :text="$store.getters.name ? $store.getters.name.charAt(0) : ''"></b-avatar> <em>{{ $store.getters.name }} </em>
-                    </template>
-                    <b-dropdown-item href="/profile" :active="$route.path === '/profile'">
-                        <b-icon icon="person-square"></b-icon> {{ $t('common.label.profile') }}
-                    </b-dropdown-item>
-                    <b-dropdown-item href="/login-history" :active="$route.path === '/login-history'">
-                        <b-icon icon="arrow-counterclockwise"></b-icon> {{ $t('common.label.login_history') }}
-                    </b-dropdown-item>
-                    <b-dropdown-item @click="logout">
-                        <b-icon icon="power"></b-icon> {{ $t('common.label.sign_out') }}
-                    </b-dropdown-item>
-                </b-nav-item-dropdown>
-            </b-navbar-nav>
-        </b-collapse>
-    </b-navbar>
+                    <b-nav-item-dropdown right class="is-desktop">
+                        <!-- Using 'button-content' slot -->
+                        <template v-slot:button-content>
+                            <Avatar :avatar="$store.getters.avatar"
+                                    :color="$store.getters.color"
+                                    :name="$store.getters.name"
+                                    default-color="#28a745"
+                            /> <em>{{ $store.getters.name }} </em>
+                        </template>
+                        <b-dropdown-item @click="redirectTo('/profile')" :active="$route.path === '/profile'">
+                            <b-icon icon="person-square"></b-icon> {{ $t('common.label.profile') }}
+                        </b-dropdown-item>
+                        <b-dropdown-item @click="redirectTo('/login-history')" :active="$route.path === '/login-history'">
+                            <b-icon icon="arrow-counterclockwise"></b-icon> {{ $t('common.label.login_history') }}
+                        </b-dropdown-item>
+                        <b-dropdown-item @click="logout">
+                            <b-icon icon="power"></b-icon> {{ $t('common.label.sign_out') }}
+                        </b-dropdown-item>
+                    </b-nav-item-dropdown>
+                </b-navbar-nav>
+            </b-collapse>
+        </b-navbar>
+        <div v-if="isNavbarCollapseOpen" @click="isNavbarCollapseOpen = false" class="navbar-backdrop"></div>
+    </div>
 </template>
 
 <script>
+    import Avatar from "@/components/common/Avatar";
     export default {
         name: "Header",
+        components: {Avatar},
         props: [
             'user'
         ],
         data() {
             return {
-                keyword: ''
+                keyword: '',
+                isNavbarCollapseOpen: false
+            }
+        },
+        mounted() {
+            if (this.$route.name === 'FindFriend' && this.keyword === '') {
+                this.keyword = this.$route.query.keyword
             }
         },
         methods: {
             logout() {
                 this.$emit('logout');
             },
-            search() {
-                this.$emit('search', this.keyword);
-            }
+            searchFriend() {
+                this.isNavbarCollapseOpen = false
+                this.$emit('searchFriend', this.keyword);
+            },
+          redirectTo(path = '') {
+              this.isNavbarCollapseOpen = false
+              if (path === '' || path === this.$route.path) {
+                return
+              }
+              this.$router.push(path)
+          }
         }
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.navbar-header-wrapper {
+    .navbar-backdrop {
+        z-index: 1029;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
 
+    @media screen and (min-width: 992px) {
+        .is-desktop {
+            display: block;
+        }
+        .is-mobile {
+            display: none;
+        }
+    }
+    @media screen and (max-width: 991px) {
+        .is-desktop {
+            display: none;
+        }
+        .is-mobile {
+            display: block;
+            &.navbar-header-username {
+                display: flex;
+                justify-content: space-between;
+                border-top: 1px dotted lightgrey;
+                margin-right: 0.25rem;
+                .user-name {
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    width: calc(100vw - 3.5rem);
+                }
+                .user-action-logout {
+                    line-height: 2.125rem;
+                }
+            }
+        }
+        .nav-header-search-friend {
+            width: calc(100vw - 2.5rem);
+        }
+    }
+}
 </style>

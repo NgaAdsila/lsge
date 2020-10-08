@@ -1,7 +1,19 @@
 import ApiService from '../helper/ApiService';
-import {API_PATH, RESPONSE, success, fail} from './constants';
+import {API_PATH, RESPONSE, success, fail, ECHO_API_URL} from './constants';
 import store from '../store/index';
-import { getBrowser, getOs } from "../helper/detect_browser";
+import { getBrowser, getOs } from "@/helper/detect_browser";
+import {convertImageToBase64} from "@/utils";
+
+async function loginEchoServer(user) {
+    try {
+        const echoRes = await ApiService.post(API_PATH.ECHO_AUTH_LOGIN, {}, {}, ECHO_API_URL, user.jwt);
+        if (echoRes.status === RESPONSE.STATUS.SUCCESS) {
+            user.echoJwt = echoRes.data.token;
+        }
+    } catch (e) {
+        console.log('Login echo server error: ', e);
+    }
+}
 
 export async function login(data = {}) {
     try {
@@ -19,8 +31,11 @@ export async function login(data = {}) {
                 name: res.data.user.name,
                 role: res.data.user.authorities[0].authority,
                 jwt: res.data.accessToken,
-                isLogin: true
+                isLogin: true,
+                color: res.data.user.color,
+                avatar: res.data.user.avatar
             };
+            await loginEchoServer(user);
             store.commit('doLogin', user);
             localStorage.setItem('store', JSON.stringify(user));
 
@@ -46,17 +61,32 @@ export async function getCurrentUser() {
 }
 
 export async function update(req = {}) {
-    const res = await ApiService.put(API_PATH.USER_UPDATE, {
-        id: req.id,
-        name: req.name,
-        email: req.email
-    }, {});
-    if (res.status === RESPONSE.STATUS.SUCCESS && store.getters.name !== req.name) {
+    let data = new FormData();
+    data.append("id", req.id);
+    data.append("name", req.name);
+    data.append("email", req.email);
+    data.append("color", req.color ? req.color : '');
+    data.append("avatar", req.avatarFile);
+    const res = await ApiService.put(API_PATH.USER_UPDATE, data, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+    if (res.status === RESPONSE.STATUS.SUCCESS &&
+        (store.getters.name !== req.name || store.getters.color !== req.color || store.getters.avatar !== res.data.avatar)) {
         store.commit('saveName', {
             name: req.name
         });
+        store.commit('saveColor', {
+            color: req.color
+        });
+        store.commit('saveAvatar', {
+            avatar: res.data.avatar
+        });
         const userLocal = JSON.parse(localStorage.getItem('store'));
         userLocal.name = req.name;
+        userLocal.color = req.color;
+        userLocal.avatar = res.data.avatar;
         localStorage.setItem('store', JSON.stringify(userLocal));
     }
     return res;
@@ -84,4 +114,8 @@ export async function refreshToken() {
 
 export async function forgetPassword(req = {}) {
     return await ApiService.post(API_PATH.AUTH_FORGET_PASSWORD, req, {});
+}
+
+export async function getList(keyword) {
+    return await ApiService.get(API_PATH.USER_GET_LIST + (keyword ? `?keyword=${keyword}` : ''), {});
 }

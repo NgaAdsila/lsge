@@ -1,6 +1,7 @@
 package my.lsge.domain.entity;
 
 import lombok.Data;
+import my.lsge.util.Utils;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Entity
 @Data
@@ -46,6 +49,15 @@ public class User extends BaseEntity {
     @Email
     private String email;
 
+    @Size(max = 16)
+    private String color;
+
+    @Size(max = 255)
+    private String avatar;
+
+    @Size(max = 255)
+    private String avatarPath;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -61,5 +73,6 @@ public class User extends BaseEntity {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.color = Utils.randomDarkColor();
     }
 }

@@ -44,7 +44,7 @@
                 crumbItems: [
                     {
                         text: this.$t('common.label.home'),
-                        href: '/home'
+                        to: { name: 'Home' }
                     },
                     {
                         text: this.$t('common.label.login_history'),

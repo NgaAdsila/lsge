@@ -21,10 +21,16 @@
       "reset": "Reset",
       "help": "Help",
       "module": "Modules",
-      "book_store": "Book store",
-      "book_store_old": "Old book store",
-      "home_page": "Home page",
-      "admin_page": "Admin page"
+      "chat_list": "Chat list",
+      "search_friend": "Find friend...",
+      "find-friend": "Find friend",
+      "chat_detail": "Chat detail",
+      "someone": "Someone",
+      "friend-list": "Friends",
+      "display_username": "{name} and {count} others",
+      "collapse_all": "Collapse all",
+      "color": "Avatar color",
+      "avatar": "Avatar"
     },
     "validation": {
       "required": "Field {name} is required.",
@@ -34,10 +40,14 @@
       "strict_password": "Password must use all of the following:\n・ Lowercase half-width alphabet\n・ Uppercase half-width alphabet\n・ Half-width numbers\n・ Symbols (usable symbols !\"# $% & '() * +,-. / :; <=>? @ [] ^ _` {|} ~)",
       "strict_username": "{name} must use all of the following:\n・ Only contains alphanumeric characters, underscore and dot\n・ Start with alphanumeric characters",
       "invalid_email": "Email is invalid.",
-      "exception": "Sorry, an error occurred. Please contact the Admin for assistance!"
+      "exception": "Sorry, an error occurred. Please contact the Admin for assistance!",
+      "unauthorized": "Your login session has expired. Please re-login to continue",
+      "invalid_image_type": "Image only allows file type of {types}",
+      "invalid_image_size": "{name}'s size cannot exceed {max}"
     },
     "toast": {
-      "title": "Ge-Lsg Message"
+      "title": "Ge-Lsg Message",
+      "notify_title": "Ge-Lsg Notification"
     },
     "modal": {
       "confirm_title": "Ge-Lsg Confirm Dialog"
@@ -48,7 +58,8 @@
       "update_success": "Information has been updated successfully"
     },
     "placeholder": {
-      "keyword": "Enter keyword"
+      "keyword": "Enter keyword",
+      "image": "Choose image with type: {types}"
     }
   },
   "login": {
@@ -81,6 +92,9 @@
       "re_password": {
         "not_match": "The Re password field must match the Password field"
       }
+    },
+    "message": {
+      "success": "Register success! Let's login to use our system"
     }
   },
   "footer": {
@@ -139,6 +153,37 @@
       "title": "FORGOT PASSWORD",
       "email": "Registered email",
       "submit": "Submit"
+    }
+  },
+  "find-friend": {
+    "message": {
+      "add_friend_success": "Send a successful friend request. Please wait for your request to be accepted",
+      "approve_friend_success": "You just agreed to {name}'s friend request",
+      "cancel_friend_success": "Unfriend success",
+      "notify_has_new_request": "You have a friend request from {name}",
+      "notify_approved_friend": "{name} has just agreed to your friend request",
+      "notify_cancelled_friend": "{name} has just unfriend with you"
+    }
+  },
+  "chatroom": {
+    "message": {
+      "init_normal_success": "Start chatting with {name}"
+    },
+    "label": {
+      "update_chatroom": "Update chatroom's name",
+      "set_nickname": "Set nickname",
+      "name": "Name",
+      "nickname": "Nickname"
+    }
+  },
+  "friend-list": {
+    "label": {
+      "tab-friends": "Friends ({number})",
+      "tab-requests": "Requests ({number})",
+      "online-number": "You have 1 friend online",
+      "online-numbers": "You have {number} friends online",
+      "new-message-number": "You have 1 new message!",
+      "new-message-numbers": "You have {number} new messages!"
     }
   }
 }

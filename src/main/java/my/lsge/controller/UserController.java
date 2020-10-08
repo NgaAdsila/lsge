@@ -1,15 +1,15 @@
 package my.lsge.controller;
 
-import my.lsge.application.dto.user.ChangingPasswordReq;
-import my.lsge.application.dto.user.UpdatingUserReq;
-import my.lsge.application.dto.user.UserIdentityAvailability;
-import my.lsge.application.dto.user.UserSummary;
+import my.lsge.application.dto.ListObjectRes;
+import my.lsge.application.dto.user.*;
 import my.lsge.application.security.CurrentUser;
 import my.lsge.application.security.UserPrincipal;
 import my.lsge.domain.logic.UserLogic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -26,7 +26,9 @@ public class UserController extends BaseController {
                 currentUser.getId(),
                 currentUser.getUsername(),
                 currentUser.getName(),
-                currentUser.getEmail()
+                currentUser.getEmail(),
+                currentUser.getColor(),
+                currentUser.getAvatar()
         );
     }
 
@@ -45,13 +47,23 @@ public class UserController extends BaseController {
         return "USER";
     }
 
-    @PutMapping("/update")
-    public UserSummary update(@Valid @RequestBody UpdatingUserReq req) {
-        return userLogic.update(req, getUserId());
+    @RequestMapping(value = "/update",
+            consumes = { MediaType.MULTIPART_FORM_DATA_VALUE },
+            produces = { MediaType.APPLICATION_JSON_VALUE },
+            method = RequestMethod.PUT
+    )
+    public UserSummary update(@Valid UpdatingUserReq req,
+                              @RequestParam(value ="avatar", required=false) MultipartFile avatar) {
+        return userLogic.update(req, avatar, getUserId());
     }
 
     @PutMapping("/change-password")
     public UserSummary changePassword(@Valid @RequestBody ChangingPasswordReq req) {
         return userLogic.changePassword(req, getUserId());
+    }
+
+    @GetMapping("/user-list")
+    public ListObjectRes<UserWithNameItemRes> getUserList(FindUserReq req) {
+        return userLogic.getUserList(req, getUserId());
     }
 }

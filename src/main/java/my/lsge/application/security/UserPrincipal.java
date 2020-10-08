@@ -29,15 +29,23 @@ public class UserPrincipal implements UserDetails {
     @JsonIgnore
     private String password;
 
+    private String color;
+
+    private String avatar;
+
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(Long id, String name, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
-        this.id = id;
-        this.name = name;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.authorities = authorities;
+    public UserPrincipal(Long id, String name, String username, String email,
+                         String password, String color, String avatar,
+                         Collection<? extends GrantedAuthority> authorities) {
+        this.id             = id;
+        this.name           = name;
+        this.username       = username;
+        this.email          = email;
+        this.password       = password;
+        this.color          = color;
+        this.avatar         = avatar;
+        this.authorities    = authorities;
     }
 
     public static UserPrincipal create(User user) {
@@ -51,6 +59,8 @@ public class UserPrincipal implements UserDetails {
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
+                user.getColor(),
+                user.getAvatar(),
                 authorities
         );
     }

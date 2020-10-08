@@ -18,7 +18,19 @@
       "save": "Lưu",
       "about_me": "Giới thiệu",
       "contact_us": "Liên hệ",
-      "reset": "Thiết lập lại"
+      "reset": "Thiết lập lại",
+      "help": "Trợ giúp",
+      "module": "Tính năng",
+      "chat_list": "Danh sách trò chuyện",
+      "search_friend": "Tìm kiếm bạn bè...",
+      "find-friend": "Tìm kiếm bạn bè",
+      "chat_detail": "Trò chuyện",
+      "someone": "Ai đó",
+      "friend-list": "Danh sách bạn bè",
+      "display_username": "{name} và {count} người khác",
+      "collapse_all": "Thu gọn toàn bộ",
+      "color": "Màu ảnh đại diện",
+      "avatar": "Ảnh đại diện"
     },
     "validation": {
       "required": "Trường {name} bắt buộc nhập.",
@@ -28,10 +40,14 @@
       "strict_password": "Mật khẩu phải chứa các điều kiện sau:\n・ Chữ cái viết thường\n・ Chữ cái viết hoa\n・ Chữ số\n・ Ký tự (Cho phép !\"# $% & '() * +,-. / :; <=>? @ [] ^ _` {|} ~)",
       "strict_username": "{name} phải chứa các điều kiện sau:\n・ Chỉ chứa các ký tự chữ và số, gạch dưới và dấu chấm\n・ Bắt đầu bằng các ký tự chữ hoặc số",
       "invalid_email": "Email không hợp lệ.",
-      "exception": "Rất tiếc, có lỗi xảy ra. Vui lòng liên hệ Admin để được hỗ trợ"
+      "exception": "Rất tiếc, có lỗi xảy ra. Vui lòng liên hệ Admin để được hỗ trợ",
+      "unauthorized": "Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại để tiếp tục",
+      "invalid_image_type": "Chỉ cho phép các định dạnh ảnh: {types}",
+      "invalid_image_size": "Kích thước {name} không được vượt quá {max}"
     },
     "toast": {
-      "title": "Ge-Lsg - Thông báo"
+      "title": "Ge-Lsg - Thông báo",
+      "notify_title": "Ge-Lsg - Thông báo"
     },
     "modal": {
       "confirm_title": "Ge-Lsg - Xác nhận"
@@ -42,7 +58,8 @@
       "update_success": "Thông tin đã được cập nhật thành công"
     },
     "placeholder": {
-      "keyword": "Nhập từ khóa"
+      "keyword": "Nhập từ khóa",
+      "image": "Chọn ảnh có định dạng: {types}"
     }
   },
   "login": {
@@ -75,6 +92,9 @@
       "re_password": {
         "not_match": "Trường \"Nhập lại mật khẩu\" phải trùng khớp với trường \"Mật khẩu\""
       }
+    },
+    "message": {
+      "success": "Đăng ký thành công. Hãy đăng nhập để sử dụng hệ thống của chúng tôi"
     }
   },
   "footer": {
@@ -123,6 +143,37 @@
       "sign_title": "Chữ ký,",
       "sign": "Hà Quang Ngà",
       "view_detail": "Xem chi tiết"
+    }
+  },
+  "find-friend": {
+    "message": {
+      "add_friend_success": "Gửi yêu cầu kết bạn thành công. Vui lòng đợi yêu cầu được chấp nhận",
+      "approve_friend_success": "Bạn vừa đồng ý yêu cầu kết bạn của {name}",
+      "cancel_friend_success": "Hủy kết bạn thành công",
+      "notify_has_new_request": "Bạn có một yêu cầu kết bạn từ {name}",
+      "notify_approved_friend": "{name} vừa đồng ý yêu cầu kết bạn của bạn",
+      "notify_cancelled_friend": "{name} vừa hủy kết bạn với bạn"
+    }
+  },
+  "chatroom": {
+    "message": {
+      "init_normal_success": "Bắt đầu trò chuyện với {name}"
+    },
+    "label": {
+      "update_chatroom": "Cập nhật tên cuộc trò chuyện",
+      "set_nickname": "Thiết lập biệt danh",
+      "name": "Tên cuộc trò chuyện",
+      "nickname": "Biệt danh"
+    }
+  },
+  "friend-list": {
+    "label": {
+      "tab-friends": "Bạn bè ({number})",
+      "tab-requests": "Yêu cầu ({number})",
+      "online-number": "Bạn có 1 người bạn đang trực tuyến",
+      "online-numbers": "Bạn có {number} người bạn đang trực tuyến",
+      "new-message-number": "Bạn có {number} tin nhắn mới!",
+      "new-message-numbers": "Bạn có {number} tin nhắn mới!"
     }
   }
 }

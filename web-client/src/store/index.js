@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import app from './modules/app'
+import getters from "./getters";
 
 Vue.use(Vuex);
 
@@ -9,14 +11,10 @@ export default new Vuex.Store({
     name: null,
     role: null,
     jwt: '',
-    isLogin: false
-  },
-  getters: {
-    isLogin: state => state.isLogin,
-    jwt: state => state.jwt,
-    role: state => state.role,
-    id: state => state.id,
-    name: state => state.name
+    isLogin: false,
+    echoJwt: '',
+    color: null,
+    avatar: null,
   },
   mutations: {
     initialiseStore(state) {
@@ -30,6 +28,9 @@ export default new Vuex.Store({
       state.userId = payload.userId;
       state.jwt = payload.jwt;
       state.name = payload.name;
+      state.echoJwt = payload.echoJwt;
+      state.color = payload.color;
+      state.avatar = payload.avatar;
     },
     saveRole: (state, payload) => {
       state.role = payload.role;
@@ -43,9 +44,22 @@ export default new Vuex.Store({
       state.jwt = '';
       state.userId = null;
       state.name = null;
+      state.echoJwt = null;
+      state.color = null;
+      state.avatar = null;
     },
     saveName: (state, payload) => {
       state.name = payload.name;
+    },
+    saveColor: (state, payload) => {
+      state.color = payload.color;
+    },
+    saveAvatar: (state, payload) => {
+      state.avatar = payload.avatar;
     }
-  }
+  },
+  modules: {
+    app
+  },
+  getters
 })

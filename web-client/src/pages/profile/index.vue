@@ -13,9 +13,10 @@
 
 <script>
     import {changePassword, getCurrentUser, signOut} from "../../services/user_service";
-    import {RESPONSE} from "../../services/constants";
+    import {RESPONSE, VARIANT} from "../../services/constants";
     import ProfileComponent from "../../components/profile/ProfileComponent";
     import { update } from "../../services/user_service";
+    import ToastHelper from "@/helper/ToastHelper";
 
     export default {
         name: "Profile",
@@ -27,7 +28,7 @@
                 crumbItems: [
                     {
                         text: this.$t('common.label.home'),
-                        href: '/home'
+                        to: { name: 'Home' }
                     },
                     {
                         text: this.$t('common.label.profile'),
@@ -47,6 +48,7 @@
                     const res = await getCurrentUser();
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         this.profile = res.data;
+                        this.profile.avatarFile = null
                         this.oldProfile = {...res.data};
                     } else {
                         console.log('Get profile error: ', res.message);
@@ -61,34 +63,17 @@
                 try {
                     this.isLoading = true;
                     if (JSON.stringify(this.profile) === JSON.stringify(this.oldProfile)) {
-                        this.$bvToast.toast(this.$t('common.message.update_success'), {
-                            title: this.$t('common.toast.title'),
-                            toaster: 'b-toaster-top-center',
-                            solid: true,
-                            variant: 'success',
-                            autoHideDelay: 2000
-                        });
+                        ToastHelper.message(this.$t('common.message.update_success'))
                         return;
                     }
 
                     const res = await update(this.profile);
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         this.oldProfile = {...this.profile};
-                        this.$bvToast.toast(this.$t('common.message.update_success'), {
-                            title: this.$t('common.toast.title'),
-                            toaster: 'b-toaster-top-center',
-                            solid: true,
-                            variant: 'success',
-                            autoHideDelay: 2000
-                        });
+                        this.profile.avatarFile = null
+                        ToastHelper.message(this.$t('common.message.update_success'))
                     } else {
-                        this.$bvToast.toast(res.message, {
-                            title: this.$t('common.toast.title'),
-                            toaster: 'b-toaster-top-center',
-                            solid: true,
-                            variant: 'danger',
-                            autoHideDelay: 2000
-                        });
+                        ToastHelper.message(res.message, VARIANT.DANGER)
                     }
                 } catch (e) {
                     console.log('Update User error: ', e);
@@ -105,26 +90,14 @@
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         this.oldProfile = {...this.profile};
                         await signOut();
-                        await this.$bvToast.toast(this.$t('profile.message.change_password_success'), {
-                            title: this.$t('common.toast.title'),
-                            toaster: 'b-toaster-top-center',
-                            solid: true,
-                            variant: 'success',
-                            autoHideDelay: 2000
-                        });
+                        await ToastHelper.message(this.$t('profile.message.change_password_success'))
                         setTimeout(async (self = this) => {
                             await self.$router.push('/login');
                             this.isLoading = false;
                         }, 2000);
                     } else {
                         this.isLoading = false;
-                        this.$bvToast.toast(res.message, {
-                            title: this.$t('common.toast.title'),
-                            toaster: 'b-toaster-top-center',
-                            solid: true,
-                            variant: 'danger',
-                            autoHideDelay: 2000
-                        });
+                        ToastHelper.message(res.message, VARIANT.DANGER)
                     }
                 } catch (e) {
                     console.log('Change password error: ', e);

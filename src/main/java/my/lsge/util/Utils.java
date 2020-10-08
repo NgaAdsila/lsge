@@ -1,7 +1,9 @@
 package my.lsge.util;
 
+import java.awt.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -12,7 +14,7 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-import my.lsge.application.Common.Const;
+import my.lsge.application.common.Const;
 import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
@@ -137,5 +139,18 @@ public final class Utils {
     public static boolean isValidEmail(String email) {
         return StringUtils.isNotEmpty(email) && //
                 Pattern.compile(Const.EMAIL_VALID_REGEX).matcher(email).matches();
+    }
+
+    public static Long parseDateTimeToMilliSecond(LocalDateTime dateTime) {
+        if (dateTime == null) {
+            return null;
+        }
+        return dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+    }
+
+    public static String randomDarkColor() {
+        Color color = Color.getHSBColor(
+                new Random().nextFloat(), new Random().nextFloat(), new Random().nextFloat()).darker();
+        return String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()).toUpperCase();
     }
 }
