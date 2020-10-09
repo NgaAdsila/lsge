@@ -5,6 +5,7 @@ import store from '../store/index'
 import ApiService from '../helper/ApiService'
 import { API_PATH } from '@/services/constants'
 import { checkRole } from '@/services/role'
+import AdminLayout from "@/layouts/AdminLayout";
 
 Vue.use(VueRouter);
 
@@ -21,7 +22,7 @@ const routes = [
       },
       {
         path: '/login-history',
-        name: 'Login history',
+        name: 'LoginHistory',
         component: () => import(/* webpackChunkName: "login-history" */ '../pages/login-history/index')
       },
       {
@@ -57,6 +58,18 @@ const routes = [
       {
         path: '/',
         redirect: '/home'
+      }
+    ]
+  },
+  {
+    path: '/manager',
+    component: AdminLayout,
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: '',
+        name: 'ManagerHome',
+        component: () => import(/* webpackChunkName: "manager-home" */ '../pages/manager/Home')
       }
     ]
   },
@@ -114,7 +127,7 @@ router.beforeEach((to, from, next) => {
   } else if (store.getters.isLogin && to.path !== '/login') {
     ApiService.getAxios().get(API_PATH.USER_ROLE)
         .then(function (res) {
-          if (!checkRole(to.path, res.data)) {
+          if (!checkRole(to.name, res.data)) {
             next({ path: '/' })
           }
         })

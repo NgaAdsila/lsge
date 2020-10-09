@@ -2,6 +2,9 @@ package my.lsge.domain.logic;
 
 import lombok.extern.slf4j.Slf4j;
 import my.lsge.application.dto.ListObjectRes;
+import my.lsge.application.dto.admin.user.UserFilterItemRes;
+import my.lsge.application.dto.admin.user.UserFilterReq;
+import my.lsge.application.dto.admin.user.UserFilterRes;
 import my.lsge.application.dto.user.*;
 import my.lsge.application.exception.ForbiddenException;
 import my.lsge.application.exception.FormValidationException;
@@ -143,6 +146,23 @@ public class UserLogic extends FileLogic {
                 .map(u -> UserWithNameItemRes.by(u, relationships))
                 .collect(Collectors.toList()));
         }
+        return res;
+    }
+
+    public UserFilterRes filter(UserFilterReq req, Long userId) {
+        validateUser(userId, UserRoleEnum.ROLE_ADMIN);
+
+        req.normalize();
+        UserFilterRes res = new UserFilterRes();
+        long count = userDao.filterCount(req, userId);
+        if (count > 0) {
+            res.setCount(count);
+            List<User> users = userDao.filter(req, userId);
+            if (!Utils.isNullOrEmpty(users)) {
+                res.setResponses(users.stream().map(UserFilterItemRes::by).collect(Collectors.toList()));
+            }
+        }
+        res.setPaging(req);
         return res;
     }
 }

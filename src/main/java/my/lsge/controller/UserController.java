@@ -1,17 +1,23 @@
 package my.lsge.controller;
 
 import my.lsge.application.dto.ListObjectRes;
+import my.lsge.application.dto.admin.user.UserFilterReq;
+import my.lsge.application.dto.admin.user.UserFilterRes;
 import my.lsge.application.dto.user.*;
 import my.lsge.application.security.CurrentUser;
 import my.lsge.application.security.UserPrincipal;
 import my.lsge.domain.logic.UserLogic;
+import my.lsge.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
@@ -43,8 +49,13 @@ public class UserController extends BaseController {
     }
 
     @GetMapping("/get-role")
-    public String getRole() {
-        return "USER";
+    public ListObjectRes<String> getRole(@CurrentUser UserPrincipal currentUser) {
+        Collection<? extends GrantedAuthority> auths = currentUser.getAuthorities();
+        ListObjectRes<String> res = new ListObjectRes<>();
+        if (!Utils.isNullOrEmptyObject(auths)) {
+            res.setResponses(auths.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
+        }
+        return res;
     }
 
     @RequestMapping(value = "/update",
@@ -65,5 +76,10 @@ public class UserController extends BaseController {
     @GetMapping("/user-list")
     public ListObjectRes<UserWithNameItemRes> getUserList(FindUserReq req) {
         return userLogic.getUserList(req, getUserId());
+    }
+
+    @PostMapping("/filter")
+    public UserFilterRes filter(@RequestBody UserFilterReq req) {
+        return userLogic.filter(req, getUserId());
     }
 }

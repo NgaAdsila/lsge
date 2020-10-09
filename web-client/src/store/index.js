@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import app from './modules/app'
 import getters from "./getters";
+import StorageHelper from "@/helper/StorageHelper";
 
 Vue.use(Vuex);
 
@@ -18,8 +19,9 @@ export default new Vuex.Store({
   },
   mutations: {
     initialiseStore(state) {
-      if (localStorage.getItem('store')) {
-        this.replaceState(Object.assign(state, JSON.parse(localStorage.getItem('store'))));
+      const store = StorageHelper.getValue(StorageHelper.STORAGE_KEY);
+      if (store) {
+        this.replaceState(Object.assign(state, store));
       }
     },
     doLogin: (state, payload) => {

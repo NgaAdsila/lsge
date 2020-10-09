@@ -2,7 +2,7 @@ import ApiService from '../helper/ApiService';
 import {API_PATH, RESPONSE, success, fail, ECHO_API_URL} from './constants';
 import store from '../store/index';
 import { getBrowser, getOs } from "@/helper/detect_browser";
-import {convertImageToBase64} from "@/utils";
+import StorageHelper from "@/helper/StorageHelper";
 
 async function loginEchoServer(user) {
     try {
@@ -37,7 +37,7 @@ export async function login(data = {}) {
             };
             await loginEchoServer(user);
             store.commit('doLogin', user);
-            localStorage.setItem('store', JSON.stringify(user));
+            StorageHelper.setValue(StorageHelper.STORAGE_KEY, user);
 
             return success(user);
         }
@@ -53,7 +53,7 @@ export async function register(data = {}) {
 
 export async function signOut() {
     await store.commit('reset');
-    await localStorage.removeItem('store');
+    await StorageHelper.removeByKey(StorageHelper.STORAGE_KEY);
 }
 
 export async function getCurrentUser() {
@@ -83,11 +83,11 @@ export async function update(req = {}) {
         store.commit('saveAvatar', {
             avatar: res.data.avatar
         });
-        const userLocal = JSON.parse(localStorage.getItem('store'));
+        const userLocal = StorageHelper.getValue(StorageHelper.STORAGE_KEY);
         userLocal.name = req.name;
         userLocal.color = req.color;
         userLocal.avatar = res.data.avatar;
-        localStorage.setItem('store', JSON.stringify(userLocal));
+        StorageHelper.setValue(StorageHelper.STORAGE_KEY, userLocal);
     }
     return res;
 }
@@ -101,9 +101,9 @@ export async function refreshToken() {
         const res = await ApiService.post(API_PATH.AUTH_REFRESH_TOKEN, { id: store.getters.id }, {});
         if (res.status === RESPONSE.STATUS.SUCCESS) {
             store.commit('saveJwt', res.data.message);
-            const userLocal = JSON.parse(localStorage.getItem('store'));
+            const userLocal = StorageHelper.getValue(StorageHelper.STORAGE_KEY);
             userLocal.jwt = res.data.message;
-            localStorage.setItem('store', JSON.stringify(userLocal));
+            StorageHelper.setValue(StorageHelper.STORAGE_KEY, userLocal);
             return success('Refresh Token success!');
         }
         return res;

@@ -37,6 +37,17 @@ public final class Utils {
                 .collect(Collectors.toList());
     }
 
+    public static List<String> toListUpperCase(List<String> strs) {
+        if (isNullOrEmpty(strs)) {
+            return strs;
+        }
+        return strs.stream()
+                .filter(StringUtils::isNotEmpty)
+                .map(t -> t.toUpperCase().trim())
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
     public static Date getNow() {
         return Date.from(ZonedDateTime.now().toInstant());
     }

@@ -41,10 +41,17 @@
                         {{ $t('common.label.login_history') }}
                     </b-nav-item>
                     <b-nav-form @submit.stop.prevent="searchFriend">
-                        <b-form-input size="sm" class="nav-header-search-friend mr-sm-2"
-                                      v-model="keyword"
-                                      type="search"
-                                      :placeholder="$t('common.label.search_friend')"></b-form-input>
+                        <b-input-group class=" mr-sm-2">
+                            <b-form-input size="sm" class="nav-header-search-friend"
+                                          v-model="keyword"
+                                          type="search"
+                                          :placeholder="$t('common.label.search_friend')"></b-form-input>
+                            <b-input-group-append>
+                                <b-button size="sm" type="submit" variant="outline-secondary">
+                                    <b-icon icon="search" scale="0.8"></b-icon>
+                                </b-button>
+                            </b-input-group-append>
+                        </b-input-group>
                     </b-nav-form>
 
                     <b-nav-item-dropdown right class="is-desktop">
@@ -152,9 +159,9 @@
                 }
             }
         }
-        .nav-header-search-friend {
-            width: calc(100vw - 2.5rem);
-        }
+        //.nav-header-search-friend {
+        //    width: calc(100vw - 2.5rem);
+        //}
     }
 }
 </style>
