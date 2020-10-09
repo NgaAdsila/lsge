@@ -64,5 +64,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'locale' => \App\Http\Middleware\LocaleMiddleware::class,
         'jwt.auth' => \App\Http\Middleware\VerifyJWTToken::class,
+        'auth.with-basic' => \App\Http\Middleware\HttpBasicAuthenticate::class,
     ];
 }
