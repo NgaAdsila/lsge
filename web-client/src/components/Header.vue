@@ -1,7 +1,7 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <div class="navbar-header-wrapper">
         <b-navbar toggleable="lg" type="dark" variant="dark" fixed="top" class="header-container">
-            <b-navbar-brand @click="redirectTo('/home')" class="has-link">
+            <b-navbar-brand @click="redirectTo('Home')" class="has-link">
               <b-img src="../assets/logo.png" height="50" :alt="$t('common.label.slogan')" />
             </b-navbar-brand>
 
@@ -9,15 +9,15 @@
 
             <b-collapse id="nav-collapse" v-model="isNavbarCollapseOpen" is-nav>
                 <b-navbar-nav>
-                    <b-nav-item @click="redirectTo('/home')" :active="$route.path === '/home'">
+                    <b-nav-item @click="redirectTo('Home')" :active="$route.name === 'Home'">
                         {{ $t('common.label.home') }}
                     </b-nav-item>
-                    <b-nav-item @click="redirectTo('/about-me')"
-                                :active="$route.path === '/about-me'">
+                    <b-nav-item @click="redirectTo('AboutMe')"
+                                :active="$route.name === 'AboutMe'">
                         {{ $t('common.label.about_me') }}
                     </b-nav-item>
-                    <b-nav-item @click="redirectTo('/contact-us')"
-                                :active="$route.path === '/contact-us'">
+                    <b-nav-item @click="redirectTo('ContactUs')"
+                                :active="$route.name === 'ContactUs'">
                         {{ $t('common.label.contact_us') }}
                     </b-nav-item>
                 </b-navbar-nav>
@@ -25,7 +25,7 @@
                 <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto">
                     <b-nav-text class="is-mobile navbar-header-username">
-                        <div class="user-name has-link" @click="redirectTo('/profile')">
+                        <div class="user-name has-link" @click="redirectTo('Profile')">
                             <Avatar :avatar="$store.getters.avatar"
                                     :color="$store.getters.color"
                                     :name="$store.getters.name"
@@ -36,8 +36,8 @@
                             <b-icon icon="power" scale="1.5"></b-icon>
                         </div>
                     </b-nav-text>
-                    <b-nav-item @click="redirectTo('/login-history')" class="is-mobile"
-                                :active="$route.path === '/login-history'">
+                    <b-nav-item @click="redirectTo('LoginHistory')" class="is-mobile"
+                                :active="$route.name === 'LoginHistory'">
                         {{ $t('common.label.login_history') }}
                     </b-nav-item>
                     <b-nav-form @submit.stop.prevent="searchFriend">
@@ -63,11 +63,15 @@
                                     default-color="#28a745"
                             /> <em>{{ $store.getters.name }} </em>
                         </template>
-                        <b-dropdown-item @click="redirectTo('/profile')" :active="$route.path === '/profile'">
+                        <b-dropdown-item @click="redirectTo('Profile')" :active="$route.name === 'Profile'">
                             <b-icon icon="person-square"></b-icon> {{ $t('common.label.profile') }}
                         </b-dropdown-item>
-                        <b-dropdown-item @click="redirectTo('/login-history')" :active="$route.path === '/login-history'">
+                        <b-dropdown-item @click="redirectTo('LoginHistory')" :active="$route.name === 'LoginHistory'">
                             <b-icon icon="arrow-counterclockwise"></b-icon> {{ $t('common.label.login_history') }}
+                        </b-dropdown-item>
+                        <b-dropdown-item v-if="isManagementUser"
+                                         @click="redirectTo('ManagerHome')" :active="$route.name === 'ManagerHome'">
+                            <b-icon icon="gear"></b-icon> {{ $t('manager.label.button_title') }}
                         </b-dropdown-item>
                         <b-dropdown-item @click="logout">
                             <b-icon icon="power"></b-icon> {{ $t('common.label.sign_out') }}
@@ -82,11 +86,12 @@
 
 <script>
     import Avatar from "@/components/common/Avatar";
+    import {USER_ROLES} from "@/services/role";
     export default {
         name: "Header",
         components: {Avatar},
         props: [
-            'user'
+            'currentUserRole'
         ],
         data() {
             return {
@@ -107,13 +112,16 @@
                 this.isNavbarCollapseOpen = false
                 this.$emit('searchFriend', this.keyword);
             },
-          redirectTo(path = '') {
-              this.isNavbarCollapseOpen = false
-              if (path === '' || path === this.$route.path) {
-                return
-              }
-              this.$router.push(path)
-          }
+            redirectTo(name = '') {
+                  this.isNavbarCollapseOpen = false
+                  if (name === '' || name === this.$route.name) {
+                        return
+                  }
+                  this.$router.push({name: name})
+            },
+            isManagementUser() {
+                return this.currentUserRole === USER_ROLES.ADMIN.ROLE
+            }
         }
     }
 </script>

@@ -2,6 +2,7 @@ package my.lsge.domain.logic;
 
 import lombok.extern.slf4j.Slf4j;
 import my.lsge.application.dto.ListObjectRes;
+import my.lsge.application.dto.OptionRes;
 import my.lsge.application.dto.admin.user.UserFilterItemRes;
 import my.lsge.application.dto.admin.user.UserFilterReq;
 import my.lsge.application.dto.admin.user.UserFilterRes;
@@ -22,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -163,6 +165,20 @@ public class UserLogic extends FileLogic {
             }
         }
         res.setPaging(req);
+        return res;
+    }
+
+    public ListObjectRes<OptionRes> getRoleOptions(Long userId) {
+        validateUser(userId, UserRoleEnum.ROLE_ADMIN);
+
+        ListObjectRes<OptionRes> res = new ListObjectRes<>();
+        List<Role> roles = roleRepository.findAll();
+        if (!Utils.isNullOrEmpty(roles)) {
+            res.setResponses(roles.stream()
+                    .map(r -> new OptionRes(r.getId(), r.getName().getTitle()))
+                    .sorted(Comparator.comparing(OptionRes::getText))
+                    .collect(Collectors.toList()));
+        }
         return res;
     }
 }

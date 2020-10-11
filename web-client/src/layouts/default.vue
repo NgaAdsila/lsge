@@ -1,7 +1,7 @@
 <template>
     <div>
         <Header
-                :user="user"
+                :currentUserRole="currentUserRole"
                 @searchFriend="searchFriend"
                 @logout="logout"/>
         <b-container fluid>
@@ -42,9 +42,6 @@
         components: {FriendList, ConfirmModal, Footer, Header},
         data() {
             return {
-                user: {
-                    name: this.$store.getters.name
-                },
                 confirmMessage: '',
                 refreshToken: undefined,
                 friendList: [],
@@ -58,6 +55,9 @@
         computed: {
             currentUserId: function () {
                 return this.$store.getters.id
+            },
+            currentUserRole: function () {
+                return this.$store.getters.role
             }
         },
         mounted() {

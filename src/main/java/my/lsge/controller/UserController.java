@@ -1,6 +1,7 @@
 package my.lsge.controller;
 
 import my.lsge.application.dto.ListObjectRes;
+import my.lsge.application.dto.OptionRes;
 import my.lsge.application.dto.admin.user.UserFilterReq;
 import my.lsge.application.dto.admin.user.UserFilterRes;
 import my.lsge.application.dto.user.*;
@@ -50,8 +51,8 @@ public class UserController extends BaseController {
 
     @GetMapping("/get-role")
     public ListObjectRes<String> getRole(@CurrentUser UserPrincipal currentUser) {
-        Collection<? extends GrantedAuthority> auths = currentUser.getAuthorities();
         ListObjectRes<String> res = new ListObjectRes<>();
+        Collection<? extends GrantedAuthority> auths = currentUser == null ? null : currentUser.getAuthorities();
         if (!Utils.isNullOrEmptyObject(auths)) {
             res.setResponses(auths.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
         }
@@ -81,5 +82,10 @@ public class UserController extends BaseController {
     @PostMapping("/filter")
     public UserFilterRes filter(@RequestBody UserFilterReq req) {
         return userLogic.filter(req, getUserId());
+    }
+
+    @GetMapping("/role-options")
+    public ListObjectRes<OptionRes> getRoleOptions() {
+        return userLogic.getRoleOptions(getUserId());
     }
 }

@@ -39,5 +39,8 @@ export default {
 </script>
 
 <style scoped>
-
+.manager-layout-header {
+  white-space: nowrap;
+  overflow: hidden;
+}
 </style>

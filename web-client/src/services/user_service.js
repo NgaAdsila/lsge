@@ -119,3 +119,12 @@ export async function forgetPassword(req = {}) {
 export async function getList(keyword) {
     return await ApiService.get(API_PATH.USER_GET_LIST + (keyword ? `?keyword=${keyword}` : ''), {});
 }
+
+export async function filter(req = {}) {
+    return await ApiService.post(API_PATH.USER_FILTER, req, {});
+}
+
+export async function getRoleOptions() {
+    return await ApiService.get(API_PATH.USER_ROLE_OPTION, {});
+
+}

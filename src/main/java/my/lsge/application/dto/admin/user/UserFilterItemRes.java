@@ -2,11 +2,11 @@ package my.lsge.application.dto.admin.user;
 
 import lombok.Getter;
 import lombok.Setter;
-import my.lsge.domain.entity.Role;
+import my.lsge.application.common.Const;
 import my.lsge.domain.entity.User;
+import my.lsge.util.Utils;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -15,10 +15,11 @@ public class UserFilterItemRes {
     private String name;
     private String username;
     private String email;
-    private Set<Role> roles;
+    private String roles;
+    private boolean isDeleted;
+    private String createdAt;
 
     public UserFilterItemRes() {
-        this.roles = new HashSet<>();
     }
 
     public static UserFilterItemRes by(User user) {
@@ -27,7 +28,11 @@ public class UserFilterItemRes {
         res.setName(user.getName());
         res.setUsername(user.getUsername());
         res.setEmail(user.getEmail());
-        res.setRoles(user.getRoles());
+        if (!user.getRoles().isEmpty()) {
+            res.setRoles(Utils.joinList(user.getRoles().stream().map(r -> r.getName().getTitle()).collect(Collectors.toList()), ", "));
+        }
+        res.setDeleted(user.isDeleted());
+        res.setCreatedAt(Utils.formatDateTime(user.getCreatedAt(), Const.DISPLAY_DATE_TIME_FORMAT));
         return res;
     }
 }

@@ -50,6 +50,8 @@ export const API_PATH = {
     USER_UPDATE: '/api/users/update',
     USER_CHANGE_PASSWORD: '/api/users/change-password',
     USER_GET_LIST: '/api/users/user-list',
+    USER_FILTER: '/api/users/filter',
+    USER_ROLE_OPTION: '/api/users/role-options',
     LOGIN_HISTORY_FILTER_BY_USER: '/api/login-histories/filter-by-user',
     RELATIONSHIP_ADD_FRIEND: '/api/relationships',
     RELATIONSHIP_CANCEL_FRIEND: '/api/relationships/cancel',

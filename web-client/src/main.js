@@ -11,6 +11,11 @@ import linkify from 'vue-linkify'
 Vue.config.productionTip = false;
 Vue.directive('linkified', linkify)
 
+Vue.filter('reverse', function(value) {
+  // slice to make a copy of array, then reverse the copy
+  return value.slice().reverse();
+});
+
 new Vue({
   router,
   i18n,

@@ -70,6 +70,11 @@ const routes = [
         path: '',
         name: 'ManagerHome',
         component: () => import(/* webpackChunkName: "manager-home" */ '../pages/manager/Home')
+      },
+      {
+        path: '/manager/user',
+        name: 'ManagerUser',
+        component: () => import(/* webpackChunkName: "manager-home" */ '../pages/manager/user')
       }
     ]
   },

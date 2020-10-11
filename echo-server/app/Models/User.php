@@ -39,6 +39,16 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
     ];
 
+    public function loginHistories()
+    {
+        return $this->hasMany(LoginHistory::class, 'user_id', 'id');
+    }
+
+    public function lastLogin()
+    {
+        return $this->loginHistories()->latest()->first();
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

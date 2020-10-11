@@ -26,7 +26,7 @@ public class UserFilterReq extends BasePaginationFilterReq {
     }
 
     public void normalize() {
-        this.setSortBy(SortByEnum.createdAt.name());
+        this.setSortBy(SortByEnum.id.name());
         this.setSortType(SortTypeEnum.DESC.name());
         super.normalize();
 

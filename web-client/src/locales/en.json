@@ -30,7 +30,8 @@
       "display_username": "{name} and {count} others",
       "collapse_all": "Collapse all",
       "color": "Avatar color",
-      "avatar": "Avatar"
+      "avatar": "Avatar",
+      "search_form": "Search Form"
     },
     "validation": {
       "required": "Field {name} is required.",
@@ -110,8 +111,7 @@
   },
   "login_history": {
     "label": {
-      "login_time": "Login time",
-      "search_form": "Search Form"
+      "login_time": "Login time"
     }
   },
   "profile": {
@@ -184,6 +184,30 @@
       "online-numbers": "You have {number} friends online",
       "new-message-number": "You have 1 new message!",
       "new-message-numbers": "You have {number} new messages!"
+    }
+  },
+  "manager": {
+    "label": {
+      "home": "LsgeManagement",
+      "short_name": "LsM",
+      "dashboard": "Dashboard",
+      "user_list": "User list",
+      "button_title": "Management System",
+      "online": {
+        "on": "ON",
+        "off": "OFF"
+      },
+      "search": {
+        "status": "Only active user",
+        "role": "Roles"
+      },
+      "member_online": "Members online."
+    },
+    "action": {
+      "reset_password": "Reset password",
+      "band_user": "Band user",
+      "active_user": "Active user",
+      "update_role": "Update roles"
     }
   }
 }

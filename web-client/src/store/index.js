@@ -58,6 +58,9 @@ export default new Vuex.Store({
     },
     saveAvatar: (state, payload) => {
       state.avatar = payload.avatar;
+    },
+    setUserRole: (state, payload) => {
+      state.role = payload
     }
   },
   modules: {
