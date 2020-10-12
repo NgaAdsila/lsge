@@ -17,6 +17,7 @@
     "socket.io-client": "^2.3.0",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.1",
+    "vue-doc-preview": "^0.3.2",
     "vue-i18n": "^8.17.3",
     "vue-linkify": "^1.0.1",
     "vue-property-decorator": "^8.4.2",

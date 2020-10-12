@@ -64,6 +64,8 @@ export const API_PATH = {
     CHATROOM_AUTO_READ_EVENT: '/api/chatrooms/auto-read-event',
     ECHO_CREATE_MESSAGE: '/api/create-message',
     ECHO_AUTH_LOGIN: '/api/login',
+    FILE_GET_LIST: '/api/files/get-list',
+    FILE_READ: '/api/files/read'
 };
 
 export const ECHO_API_URL = process.env.LARAVEL_ECHO_SERVER_API_URL || 'http://localhost:8000';

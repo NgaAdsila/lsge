@@ -191,13 +191,23 @@
         "status": "Chỉ hiện người dùng đang hoạt động",
         "role": "Quyền người dùng"
       },
-      "member_online": "Trực tuyến."
+      "member_online": "Trực tuyến.",
+      "file": "Files"
     },
     "action": {
       "reset_password": "Đặt lại mật khẩu",
       "band_user": "Xóa tài khoản",
       "active_user": "Khôi phục tài khoản",
       "update_role": "Cập nhật quyền"
+    },
+    "file": {
+      "label": {
+        "list-header": "Danh sách file",
+        "preview-header": "Xem file",
+        "list-empty": "Vui lòng chọn file để xem...",
+        "add-input-placeholder": "Chọn file",
+        "add-button": "Mở"
+      }
     }
   }
 }

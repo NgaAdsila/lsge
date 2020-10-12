@@ -36,6 +36,10 @@ export default {
           name: this.$t('manager.label.user_list'),
           icon: 'people',
           routeName: 'ManagerUser'
+        }, {
+          name: this.$t('manager.label.file'),
+          icon: 'folder',
+          routeName: 'ManagerFile'
         }
       ]
     }

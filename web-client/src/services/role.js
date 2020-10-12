@@ -25,7 +25,8 @@ export const USER_ROLES = {
             'FindFriend',
             'ChatDetail',
             'ManagerHome',
-            'ManagerUser'
+            'ManagerUser',
+            'ManagerFile'
         ]
     }
 }

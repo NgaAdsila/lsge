@@ -21,8 +21,8 @@
 import Header from "@/components/manager/Header";
 import LeftSideBar from "@/components/manager/LeftSideBar";
 import Footer from "@/components/manager/Footer";
-import {ECHO_CHANNEL} from "../services/constants";
-import {initEcho} from "../helper/EchoClientHelper";
+import {ECHO_CHANNEL} from "@/services/constants";
+import {initEcho} from "@/helper/EchoClientHelper";
 export default {
   name: "AdminLayout",
   components: {Footer, LeftSideBar, Header},

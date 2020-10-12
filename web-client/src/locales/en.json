@@ -201,13 +201,23 @@
         "status": "Only active user",
         "role": "Roles"
       },
-      "member_online": "Members online."
+      "member_online": "Members online.",
+      "file": "Files"
     },
     "action": {
       "reset_password": "Reset password",
       "band_user": "Band user",
       "active_user": "Active user",
       "update_role": "Update roles"
+    },
+    "file": {
+      "label": {
+        "list-header": "List file",
+        "preview-header": "Preview file",
+        "list-empty": "Please choose file to view...",
+        "add-input-placeholder": "Input file/folder path",
+        "add-button": "Open"
+      }
     }
   }
 }
