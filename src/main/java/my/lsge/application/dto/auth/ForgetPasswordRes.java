@@ -10,13 +10,10 @@ import org.springframework.http.ResponseEntity;
 public class ForgetPasswordRes {
     private User user;
 
-    private String rawPassword;
-
     private ResponseEntity<?> response;
 
-    public ForgetPasswordRes(User user, String rawPassword, ResponseEntity<?> response) {
+    public ForgetPasswordRes(User user, ResponseEntity<?> response) {
         this.user = user;
-        this.rawPassword = rawPassword;
         this.response = response;
     }
 }

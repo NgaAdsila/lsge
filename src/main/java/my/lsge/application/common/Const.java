@@ -36,4 +36,6 @@ public class Const {
             "php", "vue", "java", "c", "class", "cpp", "h", "sh", "swift", "vb",
             "sql", "dat", "db", "dbf", "mdb", "log", "sav", "xml"
     );
+
+    public static final long ONE_DAY_TIME_IN_MS = 86400000;
 }

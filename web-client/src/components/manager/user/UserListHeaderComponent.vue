@@ -2,8 +2,30 @@
     <div class="manager-user-header-component">
         <h4 class="text-center text-uppercase font-weight-bold">{{ ($t('manager.label.user_list')) }}</h4>
         <div class="d-flex justify-content-sm-between">
-            <div class="font-weight-bold user-list-total-record">
+            <div v-if="!selectedRows.length" class="font-weight-bold user-list-total-record">
                 {{ $t('common.message.total_record', { number: paging.total }) }}
+            </div>
+            <div v-else>
+                <b-button-group>
+                    <b-button variant="outline-primary"
+                              v-b-tooltip.hover="$t('manager.action.selected.reset_password', { number: selectedRows.length })">
+                        <b-icon icon="lock-fill"></b-icon>
+                    </b-button>
+                    <b-button variant="outline-primary"
+                              v-b-tooltip.hover="$t('manager.action.selected.update_role', { number: selectedRows.length })">
+                        <b-icon icon="shield-lock-fill"></b-icon>
+                    </b-button>
+                    <b-button v-if="deletedUsers.length"
+                              variant="outline-primary"
+                              v-b-tooltip.hover="$t('manager.action.selected.active_user', { number: deletedUsers.length })">
+                        <b-icon icon="person-check-fill"></b-icon>
+                    </b-button>
+                    <b-button v-if="activeUsers.length"
+                              variant="outline-primary"
+                              v-b-tooltip.hover="$t('manager.action.selected.band_user', { number: activeUsers.length })">
+                        <b-icon icon="person-x-fill"></b-icon>
+                    </b-button>
+                </b-button-group>
             </div>
             <div class="text-right">
                 <b-input-group class="search-key-word">
@@ -69,8 +91,17 @@
         props: [
             'req',
             'paging',
-            'roleOptions'
+            'roleOptions',
+            'selectedRows'
         ],
+        computed: {
+            deletedUsers: function () {
+                return this.selectedRows.filter(u => u.status) || []
+            },
+            activeUsers: function () {
+                return this.selectedRows.filter(u => !u.status) || []
+            }
+        },
         methods: {
             search() {
                 this.$emit('search', this.req);

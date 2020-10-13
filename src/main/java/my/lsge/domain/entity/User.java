@@ -39,6 +39,9 @@ public class User extends BaseEntity {
     @Size(max = 100)
     private String password;
 
+    @Size(max = 512)
+    private String resetPasswordToken;
+
     @NotBlank
     @Size(max = 15)
     private String username;

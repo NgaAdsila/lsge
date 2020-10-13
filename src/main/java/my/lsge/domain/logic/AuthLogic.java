@@ -1,8 +1,11 @@
 package my.lsge.domain.logic;
 
 import lombok.extern.slf4j.Slf4j;
+import my.lsge.application.common.Const;
 import my.lsge.application.dto.ApiResponse;
 import my.lsge.application.dto.auth.*;
+import my.lsge.application.exception.ForbiddenException;
+import my.lsge.application.exception.FormValidationException;
 import my.lsge.application.security.JwtTokenProvider;
 import my.lsge.domain.entity.LoginHistory;
 import my.lsge.domain.entity.Role;
@@ -138,22 +141,56 @@ public class AuthLogic extends BaseLogic {
     public ForgetPasswordRes forgetPassword(ForgetPasswordReq req) {
         Optional<User> userOpt = userRepository.findByEmail(req.getEmail());
         if (!userOpt.isPresent()) {
-            return new ForgetPasswordRes(null, null, new ResponseEntity(
+            return new ForgetPasswordRes(null, new ResponseEntity(
                     new ApiResponse(false, language.getString("valid.user.email.is_not_existed")),
                     HttpStatus.NOT_FOUND));
         }
         User user = userOpt.get();
         if (user.isDeleted()) {
-            return new ForgetPasswordRes(null, null, new ResponseEntity(
+            return new ForgetPasswordRes(null, new ResponseEntity(
                     new ApiResponse(false, language.getString("valid.user.is_not_existed")),
                     HttpStatus.NOT_FOUND));
         }
 
-        String password = Utils.randomPassword();
-        user.setPassword(passwordEncoder.encode(password));
+        String token = tokenProvider.generateTokenByUserIdAndExpiredTime(user.getId(), Const.ONE_DAY_TIME_IN_MS);
+        user.setResetPasswordToken(token);
         user = userRepository.save(user);
 
-        return new ForgetPasswordRes(user, password, ResponseEntity.ok(
+        return new ForgetPasswordRes(user, ResponseEntity.ok(
                 new ApiResponse(false, language.getString("forget_password.save.successfully"))));
+    }
+
+    public ResponseEntity<?> initResetPassword(InitResetPasswordReq req) {
+        User user = userRepository.findByEmail(req.getEmail()).orElse(null);
+        if (user == null || user.isDeleted() || user.getResetPasswordToken() == null ||
+                !user.getResetPasswordToken().equalsIgnoreCase(req.getToken())) {
+            return new ResponseEntity(new ApiResponse(false, null), HttpStatus.FORBIDDEN);
+        }
+
+        if (!tokenProvider.validateToken(req.getToken())) {
+            return new ResponseEntity(new ApiResponse(
+                    false, language.getString("reset_password.token.invalid")), HttpStatus.BAD_REQUEST);
+        }
+
+        return ResponseEntity.ok(new ApiResponse(true, "OK"));
+    }
+
+    public ForgetPasswordRes resetPassword(ResetPasswordReq req) {
+        User user = userRepository.findByEmail(req.getEmail()).orElse(null);
+        if (user == null || user.isDeleted() || user.getResetPasswordToken() == null ||
+                !user.getResetPasswordToken().equalsIgnoreCase(req.getToken())) {
+            return new ForgetPasswordRes(null, new ResponseEntity(
+                    new ApiResponse(false, null), HttpStatus.FORBIDDEN));
+        }
+
+        if (!tokenProvider.validateToken(req.getToken())) {
+            return new ForgetPasswordRes(null, new ResponseEntity(new ApiResponse(
+                    false, language.getString("reset_password.token.invalid")), HttpStatus.BAD_REQUEST));
+        }
+        user.setPassword(passwordEncoder.encode(req.getPassword()));
+        user.setResetPasswordToken(null);
+        user = userRepository.save(user);
+        return new ForgetPasswordRes(user, ResponseEntity.ok(
+                new ApiResponse(false, language.getString("reset_password.save.successfully"))));
     }
 }

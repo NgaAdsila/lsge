@@ -23,12 +23,15 @@ public class JwtTokenProvider {
     }
 
     public String generateTokenByUserId(long userId) {
-        Date now  = new Date();
-        Date expiredDate = new Date(now.getTime() + jwtExpirationInMs);
+        return generateTokenByUserIdAndExpiredTime(userId, jwtExpirationInMs);
+    }
 
+    public String generateTokenByUserIdAndExpiredTime(long userId, long expiredTime) {
+        Date now  = new Date();
+        Date expiredDate = new Date(now.getTime() + expiredTime);
         return Jwts.builder()
                 .setSubject(Long.toString(userId))
-                .setIssuedAt(new Date())
+                .setIssuedAt(now)
                 .setExpiration(expiredDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();

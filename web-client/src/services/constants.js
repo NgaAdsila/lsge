@@ -45,6 +45,8 @@ export const API_PATH = {
     AUTH_SIGNUP: '/api/auth/signup',
     AUTH_REFRESH_TOKEN: '/api/auth/refresh-token',
     AUTH_FORGET_PASSWORD: '/api/auth/forget-password',
+    AUTH_INIT_RESET_PASSWORD: '/api/auth/init-reset-password',
+    AUTH_RESET_PASSWORD: '/api/auth/reset-password',
     USER_ROLE: '/api/users/get-role',
     CURRENT_USER: '/api/users/current-user',
     USER_UPDATE: '/api/users/update',
@@ -117,3 +119,9 @@ export const TEXT_FILE_EXTENSIONS = [
     "php", "vue", "java", "c", "class", "cpp", "h", "sh", "swift", "vb",
     "sql", "dat", "db", "dbf", "mdb", "log", "sav", "xml"
 ]
+
+export const SELECTED_MODE = {
+    NONE: 'none',
+    SOME: 'some',
+    ALL: 'all'
+}

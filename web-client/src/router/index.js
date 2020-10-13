@@ -99,6 +99,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "forget-password" */ '../pages/forget-password')
   },
   {
+    path: '/reset-password',
+    name: 'ResetPassword',
+    component: () => import(/* webpackChunkName: "reset-password" */ '../pages/ResetPassword')
+  },
+  {
     path: '*',
     redirect: '/'
   }
@@ -132,7 +137,7 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
-  if (store.getters.isLogin && ['/forget-password', '/login', '/register'].some(t => t === to.path)) {
+  if (store.getters.isLogin && ['/forget-password', '/login', '/register', '/reset-password'].some(t => t === to.path)) {
     next({ path: '/' });
   } else if (store.getters.isLogin && to.path !== '/login') {
     ApiService.getAxios().get(API_PATH.USER_ROLE)

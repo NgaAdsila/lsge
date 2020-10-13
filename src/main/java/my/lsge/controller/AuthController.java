@@ -5,12 +5,10 @@ import my.lsge.domain.logic.AuthLogic;
 import my.lsge.domain.logic.MailLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -40,9 +38,22 @@ public class AuthController {
     }
 
     @PostMapping("/forget-password")
-    public ResponseEntity<?> forgetPassword(@Valid @RequestBody ForgetPasswordReq req) {
+    public ResponseEntity<?> forgetPassword(@Valid @RequestBody ForgetPasswordReq req)
+            throws UnsupportedEncodingException {
         ForgetPasswordRes res = authLogic.forgetPassword(req);
         mailLogic.sendForgetPasswordMail(res);
+        return res.getResponse();
+    }
+
+    @PostMapping("/init-reset-password")
+    public ResponseEntity<?> initResetPassword(@Valid @RequestBody InitResetPasswordReq req) {
+        return authLogic.initResetPassword(req);
+    }
+
+    @PutMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordReq req) {
+        ForgetPasswordRes res = authLogic.resetPassword(req);
+        mailLogic.sendResetPasswordSuccessMail(res);
         return res.getResponse();
     }
 }

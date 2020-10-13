@@ -1,6 +1,9 @@
 package my.lsge.util;
 
 import java.awt.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -163,5 +166,9 @@ public final class Utils {
         Color color = Color.getHSBColor(
                 new Random().nextFloat(), new Random().nextFloat(), new Random().nextFloat()).darker();
         return String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue()).toUpperCase();
+    }
+
+    public static String encodeValue(String value) throws UnsupportedEncodingException {
+        return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
     }
 }

@@ -6,6 +6,7 @@
                     :req="req"
                     :paging="paging"
                     :roleOptions="roleOptions"
+                    :selectedRows="selectedRows"
                     @resetReq="resetReq"
                     @search="search" />
             <ManagerUserListComponent
@@ -13,14 +14,16 @@
                     :paging="paging"
                     :fields="fields"
                     :onlineUsers="onlineUsers"
+                    :selectedAll="selectedAll"
                     @changePage="getUserList"
+                    @onRowSelected="onRowSelected"
             />
         </b-overlay>
     </div>
 </template>
 
 <script>
-    import {PAGINATION} from "@/services/constants";
+import {PAGINATION, SELECTED_MODE} from "@/services/constants";
     import {filter} from "@/services/user_service";
     import {RESPONSE} from "@/services/constants";
     import ManagerUserListComponent from "../../../components/manager/user/UserListComponent";
@@ -59,7 +62,12 @@
                     }
                 ],
                 isLoading: true,
-                fields: ['no', 'username', 'fullName', 'email', 'roles', 'onlineStatus', 'createdAt', 'action']
+                selectedRows: [],
+                selectedAll: 'none',
+                fields: [{
+                  key: 'selected',
+                  label: ''
+                }, 'no', 'username', 'fullName', 'email', 'roles', 'onlineStatus', 'createdAt', 'action']
             }
         },
         computed: {
@@ -72,6 +80,7 @@
             async getUserList(page = PAGINATION.DEFAULT_PAGE) {
                 try {
                     this.isLoading = true
+                    this.selectedAll = SELECTED_MODE.NONE
                     const res = await filter({...this.req, ...{page: page || this.paging.page}})
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         let userList = []
@@ -119,6 +128,12 @@
                 this.req.keyword = null;
                 this.req.status = null;
                 this.req.roles = [];
+            },
+            onRowSelected(items) {
+                this.selectedRows = items
+                this.selectedAll = items.length === 0
+                    ? SELECTED_MODE.NONE
+                    : (items.length === this.userList.length ? SELECTED_MODE.ALL : SELECTED_MODE.SOME);
             }
         }
     }

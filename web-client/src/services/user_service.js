@@ -126,5 +126,12 @@ export async function filter(req = {}) {
 
 export async function getRoleOptions() {
     return await ApiService.get(API_PATH.USER_ROLE_OPTION, {});
+}
 
+export async function initResetPassword(req = {}) {
+    return await ApiService.post(API_PATH.AUTH_INIT_RESET_PASSWORD, req, {});
+}
+
+export async function resetPassword(req = {}) {
+    return await ApiService.put(API_PATH.AUTH_RESET_PASSWORD, req, {});
 }

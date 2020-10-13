@@ -57,7 +57,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
     @Override
     public List<User> filter(UserFilterReq req, long userId) {
         String query = "SELECT u FROM User u JOIN u.roles r " + buildFilterCondition(req, userId) +
-                " ORDER BY u." + req.getSortBy() + " " + req.getSortType();
+                " ORDER BY u.isDeleted ASC, u." + req.getSortBy() + " " + req.getSortType();
         return entityManager.createQuery(query, User.class)
                 .setFirstResult((req.getPage() - 1) * req.getLimit())
                 .setMaxResults(req.getLimit())

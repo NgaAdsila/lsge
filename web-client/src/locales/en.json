@@ -122,7 +122,7 @@
       "new_password": "New password"
     },
     "message": {
-      "change_password_success": "Password has been successfully updated. Please log in again"
+      "change_password_success": "Password has been successfully updated. Please login again"
     },
     "validation": {
       "match_old_password": "The Password field must not match the Old Password field"
@@ -152,6 +152,12 @@
     "label": {
       "title": "FORGOT PASSWORD",
       "email": "Registered email",
+      "submit": "Submit"
+    }
+  },
+  "reset_password": {
+    "label": {
+      "title": "RESET PASSWORD",
       "submit": "Submit"
     }
   },
@@ -208,7 +214,13 @@
       "reset_password": "Reset password",
       "band_user": "Band user",
       "active_user": "Active user",
-      "update_role": "Update roles"
+      "update_role": "Update roles",
+      "selected": {
+        "reset_password": "Reset password for {number} users",
+        "band_user": "Band {number} users",
+        "active_user": "Active {number} users",
+        "update_role": "Update roles for {number} users"
+      }
     },
     "file": {
       "label": {

@@ -198,7 +198,13 @@
       "reset_password": "Đặt lại mật khẩu",
       "band_user": "Xóa tài khoản",
       "active_user": "Khôi phục tài khoản",
-      "update_role": "Cập nhật quyền"
+      "update_role": "Cập nhật quyền",
+      "selected": {
+        "reset_password": "Đặt lại mật khẩu cho {number} tài khoản",
+        "band_user": "Xóa {number} tài khoản",
+        "active_user": "Khôi phục {number} tài khoản",
+        "update_role": "Cập nhật quyền cho {number} tài khoản"
+      }
     },
     "file": {
       "label": {

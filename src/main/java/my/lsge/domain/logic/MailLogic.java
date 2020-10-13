@@ -5,12 +5,16 @@ import my.lsge.application.dto.auth.SignUpReq;
 import my.lsge.application.service.EmailService;
 import my.lsge.application.service.contexts.ForgetPasswordMailContext;
 import my.lsge.application.service.contexts.RegisterMailContext;
+import my.lsge.application.service.contexts.ResetPasswordMailContext;
+import my.lsge.util.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+
+import java.io.UnsupportedEncodingException;
 
 @Component
 public class MailLogic extends BaseLogic {
@@ -40,12 +44,26 @@ public class MailLogic extends BaseLogic {
     }
 
     @Async
-    public void sendForgetPasswordMail(ForgetPasswordRes res) {
+    public void sendForgetPasswordMail(ForgetPasswordRes res) throws UnsupportedEncodingException {
         if (!res.getResponse().getStatusCode().equals(HttpStatus.OK) || res.getUser() == null
                 || StringUtils.isBlank(res.getUser().getEmail())) {
             return;
         }
+        String resetLink = String.format("%s/reset-password?email=%s&token=%s",
+                homePageLink,
+                Utils.encodeValue(res.getUser().getEmail()),
+                res.getUser().getResetPasswordToken());
         ForgetPasswordMailContext context = new ForgetPasswordMailContext(res, language.getString("mail.subject.forget_password"),
+                systemShortName, systemFullName, homePageName, homePageLink, resetLink);
+        emailService.sendMailHtml(context);
+    }
+
+    public void sendResetPasswordSuccessMail(ForgetPasswordRes res) {
+        if (!res.getResponse().getStatusCode().equals(HttpStatus.OK) || res.getUser() == null
+                || StringUtils.isBlank(res.getUser().getEmail())) {
+            return;
+        }
+        ResetPasswordMailContext context = new ResetPasswordMailContext(res, language.getString("mail.subject.reset_password"),
                 systemShortName, systemFullName, homePageName, homePageLink);
         emailService.sendMailHtml(context);
     }
