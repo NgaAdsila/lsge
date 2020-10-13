@@ -50,6 +50,8 @@ export const API_PATH = {
     USER_UPDATE: '/api/users/update',
     USER_CHANGE_PASSWORD: '/api/users/change-password',
     USER_GET_LIST: '/api/users/user-list',
+    USER_FILTER: '/api/users/filter',
+    USER_ROLE_OPTION: '/api/users/role-options',
     LOGIN_HISTORY_FILTER_BY_USER: '/api/login-histories/filter-by-user',
     RELATIONSHIP_ADD_FRIEND: '/api/relationships',
     RELATIONSHIP_CANCEL_FRIEND: '/api/relationships/cancel',
@@ -62,6 +64,8 @@ export const API_PATH = {
     CHATROOM_AUTO_READ_EVENT: '/api/chatrooms/auto-read-event',
     ECHO_CREATE_MESSAGE: '/api/create-message',
     ECHO_AUTH_LOGIN: '/api/login',
+    FILE_GET_LIST: '/api/files/get-list',
+    FILE_READ: '/api/files/read'
 };
 
 export const ECHO_API_URL = process.env.LARAVEL_ECHO_SERVER_API_URL || 'http://localhost:8000';
@@ -103,3 +107,13 @@ export const FILE_UPLOAD = {
     ALLOWED_EXTENSION_REGEX: /(.gif)|(.png)|(.bmp)|(.jpeg)|(.jpg)|(.ico)$/,
     ALLOWED_EXTENSION_TITLE: 'GIF, PNG, BMP, JPEG, JPG or ICO'
 }
+
+export const TEXT_FILE_EXTENSIONS = [
+    "txt", "md",
+    "csv", "ssh", "pem",
+    "yml", "yaml", "properties",
+    "asp", "aspx", "cer", "cfm", "cgi", "pl", "css", "scss", "sass", "htm", "html", "phtml",
+    "js", "jsp", "part", "py", "rss", "xhtml", "json", "ts",
+    "php", "vue", "java", "c", "class", "cpp", "h", "sh", "swift", "vb",
+    "sql", "dat", "db", "dbf", "mdb", "log", "sav", "xml"
+]

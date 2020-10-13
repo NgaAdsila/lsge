@@ -175,5 +175,41 @@
       "new-message-number": "Bạn có {number} tin nhắn mới!",
       "new-message-numbers": "Bạn có {number} tin nhắn mới!"
     }
+  },
+  "manager": {
+    "label": {
+      "home": "Quản lý",
+      "short_name": "LsM",
+      "dashboard": "Tổng quan",
+      "user_list": "Người dùng",
+      "button_title": "Màn hình quản lý",
+      "online": {
+        "on": "ON",
+        "off": "OFF"
+      },
+      "search": {
+        "status": "Chỉ hiện người dùng đang hoạt động",
+        "role": "Quyền người dùng"
+      },
+      "member_online": "Trực tuyến.",
+      "file": "Đọc files"
+    },
+    "action": {
+      "reset_password": "Đặt lại mật khẩu",
+      "band_user": "Xóa tài khoản",
+      "active_user": "Khôi phục tài khoản",
+      "update_role": "Cập nhật quyền"
+    },
+    "file": {
+      "label": {
+        "list-header": "Danh sách file",
+        "preview-header": "Xem file",
+        "list-empty": "Vui lòng chọn file để xem...",
+        "add-input-placeholder": "Chọn file hoặc thư mục",
+        "add-button": "Mở",
+        "cant_read": "Không thể đọc file!",
+        "allowed_extension": "Bạn có thể đọc file có phần mở rộng sau: {list}"
+      }
+    }
   }
 }

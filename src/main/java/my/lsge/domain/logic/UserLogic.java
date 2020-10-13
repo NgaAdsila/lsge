@@ -2,6 +2,10 @@ package my.lsge.domain.logic;
 
 import lombok.extern.slf4j.Slf4j;
 import my.lsge.application.dto.ListObjectRes;
+import my.lsge.application.dto.OptionRes;
+import my.lsge.application.dto.admin.user.UserFilterItemRes;
+import my.lsge.application.dto.admin.user.UserFilterReq;
+import my.lsge.application.dto.admin.user.UserFilterRes;
 import my.lsge.application.dto.user.*;
 import my.lsge.application.exception.ForbiddenException;
 import my.lsge.application.exception.FormValidationException;
@@ -19,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -142,6 +147,37 @@ public class UserLogic extends FileLogic {
             res.setResponses(users.stream()
                 .map(u -> UserWithNameItemRes.by(u, relationships))
                 .collect(Collectors.toList()));
+        }
+        return res;
+    }
+
+    public UserFilterRes filter(UserFilterReq req, Long userId) {
+        validateUser(userId, UserRoleEnum.ROLE_ADMIN);
+
+        req.normalize();
+        UserFilterRes res = new UserFilterRes();
+        long count = userDao.filterCount(req, userId);
+        if (count > 0) {
+            res.setCount(count);
+            List<User> users = userDao.filter(req, userId);
+            if (!Utils.isNullOrEmpty(users)) {
+                res.setResponses(users.stream().map(UserFilterItemRes::by).collect(Collectors.toList()));
+            }
+        }
+        res.setPaging(req);
+        return res;
+    }
+
+    public ListObjectRes<OptionRes> getRoleOptions(Long userId) {
+        validateUser(userId, UserRoleEnum.ROLE_ADMIN);
+
+        ListObjectRes<OptionRes> res = new ListObjectRes<>();
+        List<Role> roles = roleRepository.findAll();
+        if (!Utils.isNullOrEmpty(roles)) {
+            res.setResponses(roles.stream()
+                    .map(r -> new OptionRes(r.getId(), r.getName().getTitle()))
+                    .sorted(Comparator.comparing(OptionRes::getText))
+                    .collect(Collectors.toList()));
         }
         return res;
     }

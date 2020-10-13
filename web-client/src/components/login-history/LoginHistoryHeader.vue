@@ -14,7 +14,7 @@
                                   @keydown.enter.native="search"></b-form-input>
                     <template v-slot:append>
                         <b-button v-b-toggle.sidebar-search><b-icon icon="list"></b-icon></b-button>
-                        <b-sidebar id="sidebar-search" :title="$t('login_history.label.search_form')" right shadow>
+                        <b-sidebar id="sidebar-search" :title="$t('common.label.search_form')" right shadow>
                             <b-form @submit.stop.prevent="search" class="text-justify search-form">
                                 <hr/>
                                 <b-form-group :label="$t('common.label.keyword')"
