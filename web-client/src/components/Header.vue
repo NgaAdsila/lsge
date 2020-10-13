@@ -40,6 +40,11 @@
                                 :active="$route.name === 'LoginHistory'">
                         {{ $t('common.label.login_history') }}
                     </b-nav-item>
+                    <b-nav-item v-if="isManagementUser" class="is-mobile"
+                                @click="redirectTo('ManagerHome')"
+                                :active="$route.name === 'ManagerHome'">
+                        {{ $t('manager.label.button_title') }}
+                    </b-nav-item>
                     <b-nav-form @submit.stop.prevent="searchFriend">
                         <b-input-group class=" mr-sm-2">
                             <b-form-input size="sm" class="nav-header-search-friend"

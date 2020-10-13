@@ -2,7 +2,7 @@
     <div class="manager-dashboard-state-component">
         <b-row>
             <b-col sm="6" lg="3"
-                   class="mb-sm-2"
+                   class="mb-2"
                    v-for="(v, index) in ['primary', 'secondary', 'success', 'info']"
                    :key="index">
                 <b-card :bg-variant="v" text-variant="white"
