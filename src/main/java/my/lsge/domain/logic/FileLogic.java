@@ -45,7 +45,12 @@ public class FileLogic extends BaseLogic {
         try (Stream<Path> paths = Files.walk(Paths.get(req.getFilePath()))) {
             FileListRes res = new FileListRes();
             res.setRoot(req.getFilePath());
-            paths.forEach(path -> res.getFiles().add(FileItemRes.by(path, req.getFilePath())));
+            paths.forEach(path -> {
+                FileItemRes item = FileItemRes.by(path, req.getFilePath());
+                if (item != null) {
+                    res.getFiles().add(item);
+                }
+            });
             return res;
         } catch (Exception e) {
             throw new NotFoundException(language.getString("file.not_found"));

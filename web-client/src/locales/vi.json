@@ -192,7 +192,7 @@
         "role": "Quyền người dùng"
       },
       "member_online": "Trực tuyến.",
-      "file": "Files"
+      "file": "Đọc files"
     },
     "action": {
       "reset_password": "Đặt lại mật khẩu",
@@ -205,8 +205,10 @@
         "list-header": "Danh sách file",
         "preview-header": "Xem file",
         "list-empty": "Vui lòng chọn file để xem...",
-        "add-input-placeholder": "Chọn file",
-        "add-button": "Mở"
+        "add-input-placeholder": "Chọn file hoặc thư mục",
+        "add-button": "Mở",
+        "cant_read": "Không thể đọc file!",
+        "allowed_extension": "Bạn có thể đọc file có phần mở rộng sau: {list}"
       }
     }
   }

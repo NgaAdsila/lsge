@@ -16,6 +16,7 @@
                class="file-list-item"
                :style="{ 'margin-left': `${0.75 * file.deep}rem` }"
                @click="selectFile(file, index)"
+               v-b-tooltip.bottomright.hover="file.name"
           >
             <span v-if="file.folder" class="mr-1">
               <b-icon icon="folder2-open"></b-icon>
@@ -44,12 +45,19 @@
             {{ $t('manager.file.label.add-button') }}
           </b-button>
         </div>
+        <b-card class="mt-3 font-italic text-color-gray">
+          <b-card-text>
+            {{ $t('manager.file.label.allowed_extension', { list: fileExtensions }) }}
+          </b-card-text>
+        </b-card>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import {TEXT_FILE_EXTENSIONS} from "@/services/constants";
+
 export default {
   name: "ManagerFileListComponent",
   props: [
@@ -58,6 +66,11 @@ export default {
       'chooseFile',
       'isLoading'
   ],
+  computed: {
+    fileExtensions: function () {
+      return '.' + TEXT_FILE_EXTENSIONS.join(', .')
+    }
+  },
   data() {
     return  {
       filePath: ''
@@ -98,6 +111,25 @@ export default {
   .file-list-content {
     height: calc(100% - 2.75rem);
     overflow-y: auto;
+    overscroll-behavior: contain;
+
+    &::-webkit-scrollbar {
+      width: 0.5rem;
+    }
+
+    &::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 0.3rem transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+      border-radius: 0.5rem;
+      outline: none;
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+      background-color: darkgrey;
+    }
     .file-list-item {
       line-height: 1.75rem;
       white-space: nowrap;

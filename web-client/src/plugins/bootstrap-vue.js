@@ -15,3 +15,7 @@ Vue.filter('reverse', function(value) {
 Vue.filter('uppercase', function (value) {
     return value ? value.toUpperCase().trim() : value;
 });
+
+Vue.filter('json_pretty', function (value) {
+    return (typeof value === 'object') ? JSON.stringify(value, null, 2) : value;
+});

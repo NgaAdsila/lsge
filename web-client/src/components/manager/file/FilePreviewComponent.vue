@@ -5,8 +5,8 @@
     </div>
     <div class="file-list-content mt-2">
       <div v-if="chooseFile">
-        <VueDocPreview v-if="fileType !== ''" :value="chooseFile" :type="fileType" />
-        <b-alert v-else variant="warning" show>Not show file</b-alert>
+        <VueDocPreview v-if="fileType !== ''" :value="chooseFile | json_pretty" :type="fileType" />
+        <b-alert v-else variant="warning" show>{{ $t('manager.file.label.cant_read') }}</b-alert>
       </div>
     </div>
   </div>
@@ -28,20 +28,10 @@ export default {
         return 'text'
       }
       let extension = this.fileList.files[this.chooseFileId].extension
-      if (!extension || extension === '') {
+      if (!extension || extension === '' || extension.toLowerCase() !== 'md') {
         return 'text'
       }
-      extension = extension.toLowerCase()
-      if (extension === 'md') {
-        return 'markdown'
-      }
-      if (extension === 'docx') {
-        return 'office'
-      }
-      if (extension === 'pdf') {
-        return 'pdf'
-      }
-      return 'text'
+      return 'markdown'
     }
   }
 }
@@ -58,6 +48,25 @@ export default {
   .file-list-content {
     height: calc(100% - 2.75rem);
     overflow: auto;
+    overscroll-behavior: contain;
+
+    &::-webkit-scrollbar {
+      width: 0.5rem;
+    }
+
+    &::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 0.3rem transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+      border-radius: 0.5rem;
+      outline: none;
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+      background-color: darkgrey;
+    }
   }
 }
 </style>

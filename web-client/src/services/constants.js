@@ -107,3 +107,13 @@ export const FILE_UPLOAD = {
     ALLOWED_EXTENSION_REGEX: /(.gif)|(.png)|(.bmp)|(.jpeg)|(.jpg)|(.ico)$/,
     ALLOWED_EXTENSION_TITLE: 'GIF, PNG, BMP, JPEG, JPG or ICO'
 }
+
+export const TEXT_FILE_EXTENSIONS = [
+    "txt", "md",
+    "csv", "ssh", "pem",
+    "yml", "yaml", "properties",
+    "asp", "aspx", "cer", "cfm", "cgi", "pl", "css", "scss", "sass", "htm", "html", "phtml",
+    "js", "jsp", "part", "py", "rss", "xhtml", "json", "ts",
+    "php", "vue", "java", "c", "class", "cpp", "h", "sh", "swift", "vb",
+    "sql", "dat", "db", "dbf", "mdb", "log", "sav", "xml"
+]

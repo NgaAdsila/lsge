@@ -202,7 +202,7 @@
         "role": "Roles"
       },
       "member_online": "Members online.",
-      "file": "Files"
+      "file": "Reading files"
     },
     "action": {
       "reset_password": "Reset password",
@@ -216,7 +216,9 @@
         "preview-header": "Preview file",
         "list-empty": "Please choose file to view...",
         "add-input-placeholder": "Input file/folder path",
-        "add-button": "Open"
+        "add-button": "Open",
+        "cant_read": "Can not read file!",
+        "allowed_extension": "You can read file with extensions: {list}"
       }
     }
   }
