@@ -7,22 +7,28 @@
             </div>
             <div v-else>
                 <b-button-group>
-                    <b-button variant="outline-primary"
-                              v-b-tooltip.hover="$t('manager.action.selected.reset_password', { number: selectedRows.length })">
+                    <b-button v-show="activatedUsers.length"
+                              variant="outline-primary"
+                              @click="resetPasswordUsers(activatedUsers)"
+                              v-b-tooltip.hover="$t('manager.action.selected.reset_password', { number: activatedUsers.length })">
                         <b-icon icon="lock-fill"></b-icon>
                     </b-button>
-                    <b-button variant="outline-primary"
-                              v-b-tooltip.hover="$t('manager.action.selected.update_role', { number: selectedRows.length })">
+                    <b-button v-show="activatedUsers.length"
+                              variant="outline-primary"
+                              @click="updateRoleUsers(activatedUsers)"
+                              v-b-tooltip.hover="$t('manager.action.selected.update_role', { number: activatedUsers.length })">
                         <b-icon icon="shield-lock-fill"></b-icon>
                     </b-button>
-                    <b-button v-if="deletedUsers.length"
+                    <b-button v-show="deletedUsers.length"
                               variant="outline-primary"
+                              @click="activeUsers(deletedUsers)"
                               v-b-tooltip.hover="$t('manager.action.selected.active_user', { number: deletedUsers.length })">
                         <b-icon icon="person-check-fill"></b-icon>
                     </b-button>
-                    <b-button v-if="activeUsers.length"
+                    <b-button v-show="activatedUsers.length"
                               variant="outline-primary"
-                              v-b-tooltip.hover="$t('manager.action.selected.band_user', { number: activeUsers.length })">
+                              @click="bandUsers(activatedUsers)"
+                              v-b-tooltip.hover="$t('manager.action.selected.band_user', { number: activatedUsers.length })">
                         <b-icon icon="person-x-fill"></b-icon>
                     </b-button>
                 </b-button-group>
@@ -98,7 +104,7 @@
             deletedUsers: function () {
                 return this.selectedRows.filter(u => u.status) || []
             },
-            activeUsers: function () {
+            activatedUsers: function () {
                 return this.selectedRows.filter(u => !u.status) || []
             }
         },
@@ -108,6 +114,18 @@
             },
             resetReq() {
                 this.$emit('resetReq');
+            },
+            activeUsers(users) {
+                this.$emit('activeUsers', users)
+            },
+            bandUsers(users) {
+                this.$emit('bandUsers', users)
+            },
+            resetPasswordUsers(users) {
+                this.$emit('resetPasswordUsers', users)
+            },
+            updateRoleUsers(users) {
+                this.$emit('updateRoleUsers', users)
             }
         }
     }

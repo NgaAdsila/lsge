@@ -12,11 +12,12 @@
     export default {
         name: "ConfirmModal",
         props: [
-            'message'
+            'message',
+            'data'
         ],
         methods: {
             onOk() {
-                this.$emit('onOk');
+                this.$emit('onOk', this.data);
             },
             cancel() {
                 this.$emit('cancel');

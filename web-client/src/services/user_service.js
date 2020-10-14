@@ -135,3 +135,23 @@ export async function initResetPassword(req = {}) {
 export async function resetPassword(req = {}) {
     return await ApiService.put(API_PATH.AUTH_RESET_PASSWORD, req, {});
 }
+
+export async function bandUsers(req = {}) {
+    return await ApiService.put(API_PATH.USER_BAND, req, {}, ECHO_API_URL, store.getters.echoJwt);
+}
+
+export async function activeUsers(req = {}) {
+    return await ApiService.put(API_PATH.USER_ACTIVE, req, {});
+}
+
+export async function resetPasswordUsers(req = {}) {
+    return await ApiService.put(API_PATH.USER_RESET_PASSWORD, req, {}, ECHO_API_URL, store.getters.echoJwt);
+}
+
+export async function updateRoleUsers(req = {}) {
+    return await ApiService.put(API_PATH.USER_UPDATE_ROLE, req, {}, ECHO_API_URL, store.getters.echoJwt);
+}
+
+export async function getRole() {
+    return await ApiService.get(API_PATH.USER_ROLE, {});
+}

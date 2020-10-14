@@ -1,10 +1,13 @@
 package my.lsge.domain.logic;
 
+import my.lsge.application.dto.admin.user.UpdatingUserPasswordRes;
+import my.lsge.application.dto.admin.user.UserPasswordRes;
 import my.lsge.application.dto.auth.ForgetPasswordRes;
 import my.lsge.application.dto.auth.SignUpReq;
 import my.lsge.application.service.EmailService;
 import my.lsge.application.service.contexts.ForgetPasswordMailContext;
 import my.lsge.application.service.contexts.RegisterMailContext;
+import my.lsge.application.service.contexts.ResetPasswordByManagerMailContext;
 import my.lsge.application.service.contexts.ResetPasswordMailContext;
 import my.lsge.util.Utils;
 import org.apache.commons.lang3.StringUtils;
@@ -58,6 +61,7 @@ public class MailLogic extends BaseLogic {
         emailService.sendMailHtml(context);
     }
 
+    @Async
     public void sendResetPasswordSuccessMail(ForgetPasswordRes res) {
         if (!res.getResponse().getStatusCode().equals(HttpStatus.OK) || res.getUser() == null
                 || StringUtils.isBlank(res.getUser().getEmail())) {
@@ -66,5 +70,22 @@ public class MailLogic extends BaseLogic {
         ResetPasswordMailContext context = new ResetPasswordMailContext(res, language.getString("mail.subject.reset_password"),
                 systemShortName, systemFullName, homePageName, homePageLink);
         emailService.sendMailHtml(context);
+    }
+
+    @Async
+    public void sendResetPasswordByManager(UpdatingUserPasswordRes res) {
+        if (Utils.isNullOrEmpty(res.getUserList())) {
+            return;
+        }
+        res.getUserList().forEach(up -> {
+            if (up.getUser() == null || up.getUser().isDeleted()
+                    || StringUtils.isBlank(up.getUser().getEmail())) {
+                return;
+            }
+            ResetPasswordByManagerMailContext context = new ResetPasswordByManagerMailContext(
+                    up, language.getString("mail.subject.reset_password_by_manager"),
+                    systemShortName, systemFullName, homePageName, homePageLink);
+            emailService.sendMailHtml(context);
+        });
     }
 }

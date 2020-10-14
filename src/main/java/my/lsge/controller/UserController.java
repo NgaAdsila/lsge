@@ -2,11 +2,11 @@ package my.lsge.controller;
 
 import my.lsge.application.dto.ListObjectRes;
 import my.lsge.application.dto.OptionRes;
-import my.lsge.application.dto.admin.user.UserFilterReq;
-import my.lsge.application.dto.admin.user.UserFilterRes;
+import my.lsge.application.dto.admin.user.*;
 import my.lsge.application.dto.user.*;
 import my.lsge.application.security.CurrentUser;
 import my.lsge.application.security.UserPrincipal;
+import my.lsge.domain.logic.MailLogic;
 import my.lsge.domain.logic.UserLogic;
 import my.lsge.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,9 @@ import java.util.stream.Collectors;
 public class UserController extends BaseController {
     @Autowired
     private UserLogic userLogic;
+
+    @Autowired
+    private MailLogic mailLogic;
 
     @GetMapping("/current-user")
     @PreAuthorize("hasRole('USER')")
@@ -87,5 +90,27 @@ public class UserController extends BaseController {
     @GetMapping("/role-options")
     public ListObjectRes<OptionRes> getRoleOptions() {
         return userLogic.getRoleOptions(getUserId());
+    }
+
+    @PutMapping("/band")
+    public Integer bandUsers(@Valid @RequestBody UpdatingUserListReq req) {
+        return userLogic.bandUsers(req, getUserId());
+    }
+
+    @PutMapping("/active")
+    public Integer activeUsers(@Valid @RequestBody UpdatingUserListReq req) {
+        return userLogic.activeUsers(req, getUserId());
+    }
+
+    @PutMapping("/reset-password")
+    public Integer resetPasswordUsers(@Valid @RequestBody UpdatingUserListReq req) {
+        UpdatingUserPasswordRes res = userLogic.resetPasswordUsers(req, getUserId());
+        mailLogic.sendResetPasswordByManager(res);
+        return res.getUserList().size();
+    }
+
+    @PutMapping("/update-role")
+    public Integer updateRoleForUsers(@Valid @RequestBody UpdatingUserRoleReq req) {
+        return userLogic.updateRoleForUsers(req, getUserId());
     }
 }

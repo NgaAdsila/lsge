@@ -12,7 +12,7 @@
                           :label="user.name"
                           :key="index"
                           :label-for="'input-name-' + index">
-                <b-form-input :id="'input-name' + index" size="sm"
+                <b-form-input :id="'input-name-' + index" size="sm"
                               v-model="$v.nicknames.$each[index].nickname.$model"
                               maxlength="100"
                               :state="validateState('nickname', index)"
@@ -58,7 +58,7 @@
         },
         methods: {
             validateState(name, index) {
-                const { $dirty, $error } = this.$v.nicknames.$each[index]['nickname']
+                const { $dirty, $error } = this.$v.nicknames.$each[index][name]
                 return $dirty ? !$error : null
             },
             onOk() {

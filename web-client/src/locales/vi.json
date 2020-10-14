@@ -43,7 +43,8 @@
       "exception": "Rất tiếc, có lỗi xảy ra. Vui lòng liên hệ Admin để được hỗ trợ",
       "unauthorized": "Phiên đăng nhập của bạn đã hết hạn. Vui lòng đăng nhập lại để tiếp tục",
       "invalid_image_type": "Chỉ cho phép các định dạnh ảnh: {types}",
-      "invalid_image_size": "Kích thước {name} không được vượt quá {max}"
+      "invalid_image_size": "Kích thước {name} không được vượt quá {max}",
+      "request_invalid": "Tham số không đúng."
     },
     "toast": {
       "title": "Ge-Lsg - Thông báo",
@@ -192,7 +193,8 @@
         "role": "Quyền người dùng"
       },
       "member_online": "Trực tuyến.",
-      "file": "Đọc files"
+      "file": "Đọc files",
+      "roles": "Quyền"
     },
     "action": {
       "reset_password": "Đặt lại mật khẩu",
@@ -216,6 +218,24 @@
         "cant_read": "Không thể đọc file!",
         "allowed_extension": "Bạn có thể đọc file có phần mở rộng sau: {list}"
       }
+    },
+    "modal": {
+      "message": {
+        "active_user": "Bạn có chắc chắn muốn khôi phục tài khoản: {accounts} không?",
+        "band_user": "Bạn có chắc chắn muốn xóa tài khoản: {accounts} không?",
+        "reset_password": "Bạn có chắc chắn muốn dặt lại mật khẩu cho tài khoản: {accounts} không?",
+        "success": {
+          "active_user": "Khôi phục thành công {number} tài khoản",
+          "band_user": "Xóa thành công {number} tài khoản",
+          "reset_password": "Đặt lại mật khẩu thành công {number} tài khoản",
+          "update_role": "Cập nhật quyền thành công {number} tài khoản"
+        }
+      }
+    },
+    "notify": {
+      "band_user": "Quản lý hệ thống đã xóa tài khoản của bạn",
+      "reset_password": "Quản lý hệ thống đã đặt lại mật khẩu tài khoản của bạn. Vui lòng kiểm tra email để lấy mật khẩu mới",
+      "update_role": "Quản lý hệ thống đã cập nhật quyền tài khoản của bạn"
     }
   }
 }

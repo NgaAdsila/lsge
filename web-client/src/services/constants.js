@@ -54,6 +54,10 @@ export const API_PATH = {
     USER_GET_LIST: '/api/users/user-list',
     USER_FILTER: '/api/users/filter',
     USER_ROLE_OPTION: '/api/users/role-options',
+    USER_BAND: '/api/users/band',
+    USER_ACTIVE: '/api/users/active',
+    USER_RESET_PASSWORD: '/api/users/reset-password',
+    USER_UPDATE_ROLE: '/api/users/update-role',
     LOGIN_HISTORY_FILTER_BY_USER: '/api/login-histories/filter-by-user',
     RELATIONSHIP_ADD_FRIEND: '/api/relationships',
     RELATIONSHIP_CANCEL_FRIEND: '/api/relationships/cancel',
@@ -85,7 +89,10 @@ export const ECHO_EVENT = {
     ADD_FRIEND: 'add-friend',
     APPROVE_FRIEND: 'approve-friend',
     CANCEL_FRIEND: 'cancel-friend',
-    AUTO_READ: 'auto-read'
+    AUTO_READ: 'auto-read',
+    BAND_USER: 'band-user',
+    RESET_PASSWORD_USER: 'reset-password',
+    UPDATE_ROLE_USER: 'update-role'
 }
 
 export const VARIANT = {

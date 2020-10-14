@@ -31,5 +31,8 @@ Route::group([
         Route::put('chatrooms', 'ChatroomController@update');
         Route::put('chatrooms/set-nickname', 'ChatroomController@setNickname');
         Route::put('chatrooms/auto-read-event', 'ChatroomController@autoReadMessageEvent');
+        Route::put('users/band', 'UserController@band');
+        Route::put('users/reset-password', 'UserController@resetPassword');
+        Route::put('users/update-role', 'UserController@updateRole');
     });
 });

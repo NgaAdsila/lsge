@@ -26,7 +26,7 @@
 <script>
     import Header from "../components/Header";
     import Footer from "../components/Footer";
-    import { signOut, refreshToken } from '@/services/user_service';
+    import {signOut, refreshToken, getRole} from '@/services/user_service';
     import ConfirmModal from "../components/modal/ConfirmModal";
     import {parseJwt} from "@/utils";
     import {ECHO_CHANNEL, ECHO_EVENT, RESPONSE, VARIANT} from "@/services/constants";
@@ -37,6 +37,7 @@
     import ToastHelper from "@/helper/ToastHelper";
     import {approveFriend, cancelFriend} from "@/services/relationship_service";
     import {decode} from "@/utils/encrypt";
+    import {checkRole} from "@/services/role";
     export default {
         name: "default",
         components: {FriendList, ConfirmModal, Footer, Header},
@@ -186,6 +187,15 @@
                     .listen(ECHO_EVENT.AUTO_READ, data => {
                         this.handleAutoReadMessage(decode(data.message))
                     })
+                    .listen(ECHO_EVENT.BAND_USER, data => {
+                        this.handleBandUser(decode(data.message))
+                    })
+                    .listen(ECHO_EVENT.RESET_PASSWORD_USER, data => {
+                        this.handleResetPasswordUser(decode(data.message))
+                    })
+                    .listen(ECHO_EVENT.UPDATE_ROLE_USER, data => {
+                        this.handleUpdateRoleUser(decode(data.message))
+                    })
             },
             async approveFriend(user) {
                 try {
@@ -251,6 +261,39 @@
                         })
                         break
                     }
+                }
+            },
+            handleBandUser(data) {
+                if (!data.userIds || data.userIds.length === 0 || !data.userIds.includes(this.currentUserId)) {
+                    return
+                }
+                ToastHelper.notify(this.$t('manager.notify.band_user'), VARIANT.DANGER)
+                this.onOk()
+            },
+            handleResetPasswordUser(data) {
+                if (!data.userIds || data.userIds.length === 0 || !data.userIds.includes(this.currentUserId)) {
+                    return
+                }
+                ToastHelper.notify(this.$t('manager.notify.reset_password'), VARIANT.DANGER)
+                this.onOk()
+            },
+            async handleUpdateRoleUser(data) {
+                if (!data.userIds || data.userIds.length === 0 || !data.userIds.includes(this.currentUserId)) {
+                    return
+                }
+                ToastHelper.notify(this.$t('manager.notify.update_role'), VARIANT.DANGER)
+                if (this.$route.path === '/') {
+                    return
+                }
+                try {
+                    const res = await getRole()
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        if (!checkRole(this.$route.name, res.data)) {
+                            return this.$router.push('/')
+                        }
+                    }
+                } catch (e) {
+                    console.log('Get role error: ', e)
                 }
             }
         },

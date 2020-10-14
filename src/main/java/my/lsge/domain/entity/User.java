@@ -61,7 +61,7 @@ public class User extends BaseEntity {
     @Size(max = 255)
     private String avatarPath;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -77,5 +77,10 @@ public class User extends BaseEntity {
         this.email = email;
         this.password = password;
         this.color = Utils.randomDarkColor();
+    }
+
+    public void removeRole(Role role) {
+        this.roles.remove(role);
+        role.getUsers().remove(this);
     }
 }

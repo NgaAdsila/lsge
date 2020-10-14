@@ -44,7 +44,8 @@
       "exception": "Sorry, an error occurred. Please contact the Admin for assistance!",
       "unauthorized": "Your login session has expired. Please re-login to continue",
       "invalid_image_type": "Image only allows file type of {types}",
-      "invalid_image_size": "{name}'s size cannot exceed {max}"
+      "invalid_image_size": "{name}'s size cannot exceed {max}",
+      "request_invalid": "The parameter is incorrect."
     },
     "toast": {
       "title": "Ge-Lsg Message",
@@ -208,7 +209,8 @@
         "role": "Roles"
       },
       "member_online": "Members online.",
-      "file": "Reading files"
+      "file": "Reading files",
+      "roles": "Roles"
     },
     "action": {
       "reset_password": "Reset password",
@@ -232,6 +234,24 @@
         "cant_read": "Can not read file!",
         "allowed_extension": "You can read file with extensions: {list}"
       }
+    },
+    "modal": {
+      "message": {
+        "active_user": "Are you sure you want to activate for the account: {accounts}?",
+        "band_user": "Are you sure you want to band for the account: {accounts}?",
+        "reset_password": "Are you sure you want to reset password for the account: {accounts}?",
+        "success": {
+          "active_user": "Active successfully {number} users",
+          "band_user": "Band successfully {number} users",
+          "reset_password": "Reset password successfully {number} users",
+          "update_role": "Update role successfully {number} users"
+        }
+      }
+    },
+    "notify": {
+      "band_user": "The system manager has banded your account",
+      "reset_password": "The system manager has reset your account password. Please check your email for a new password",
+      "update_role": "The system manager has updated your account's role"
     }
   }
 }

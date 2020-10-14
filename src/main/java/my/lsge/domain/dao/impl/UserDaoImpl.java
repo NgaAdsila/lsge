@@ -34,7 +34,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
     @Override
     public long filterCount(UserFilterReq req, long userId) {
         String condition = buildFilterCondition(req, userId);
-        Query query = entityManager.createQuery("SELECT COUNT(u.id) FROM User u JOIN u.roles r " + condition);
+        Query query = entityManager.createQuery("SELECT COUNT(DISTINCT u.id) FROM User u JOIN u.roles r " + condition);
         return (long) query.getSingleResult();
     }
 
@@ -56,7 +56,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
     @Override
     public List<User> filter(UserFilterReq req, long userId) {
-        String query = "SELECT u FROM User u JOIN u.roles r " + buildFilterCondition(req, userId) +
+        String query = "SELECT DISTINCT u FROM User u JOIN u.roles r " + buildFilterCondition(req, userId) +
                 " ORDER BY u.isDeleted ASC, u." + req.getSortBy() + " " + req.getSortType();
         return entityManager.createQuery(query, User.class)
                 .setFirstResult((req.getPage() - 1) * req.getLimit())

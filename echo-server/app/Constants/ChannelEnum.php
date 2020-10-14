@@ -14,4 +14,7 @@ class ChannelEnum
     const EVENT_UPDATE_CHATROOM = 'update-chatroom';
     const EVENT_SET_NICKNAME = 'set-nickname';
     const EVENT_AUTO_READ = 'auto-read';
+    const EVENT_BAND_USER = 'band-user';
+    const EVENT_UPDATE_ROLE_USER = 'update-role';
+    const EVENT_RESET_PASSWORD = 'reset-password';
 }
