@@ -40,7 +40,7 @@
                                 :active="$route.name === 'LoginHistory'">
                         {{ $t('common.label.login_history') }}
                     </b-nav-item>
-                    <b-nav-item v-if="isManagementUser" class="is-mobile"
+                    <b-nav-item v-if="isManagementUser()" class="is-mobile"
                                 @click="redirectTo('ManagerHome')"
                                 :active="$route.name === 'ManagerHome'">
                         {{ $t('manager.label.button_title') }}
@@ -74,7 +74,7 @@
                         <b-dropdown-item @click="redirectTo('LoginHistory')" :active="$route.name === 'LoginHistory'">
                             <b-icon icon="arrow-counterclockwise"></b-icon> {{ $t('common.label.login_history') }}
                         </b-dropdown-item>
-                        <b-dropdown-item v-if="isManagementUser"
+                        <b-dropdown-item v-if="isManagementUser()"
                                          @click="redirectTo('ManagerHome')" :active="$route.name === 'ManagerHome'">
                             <b-icon icon="gear"></b-icon> {{ $t('manager.label.button_title') }}
                         </b-dropdown-item>

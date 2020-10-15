@@ -9,7 +9,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ResetPasswordUserEvent implements ShouldBroadcast
+class MainMessageEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -42,6 +42,6 @@ class ResetPasswordUserEvent implements ShouldBroadcast
      */
     public function broadcastAs()
     {
-        return ChannelEnum::EVENT_RESET_PASSWORD;
+        return ChannelEnum::EVENT_MAIN_MESSAGE;
     }
 }

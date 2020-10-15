@@ -5,6 +5,7 @@ import my.lsge.domain.entity.User;
 import my.lsge.domain.enums.UserRoleEnum;
 import my.lsge.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;
 
 import java.util.ResourceBundle;
@@ -24,7 +25,7 @@ public class BaseLogic {
 
     void validateUser(User user) {
         if (user == null || user.isDeleted()) {
-            throw new ForbiddenException();
+            throw new BadCredentialsException("Unauthorized!");
         }
     }
 
@@ -34,7 +35,8 @@ public class BaseLogic {
     }
 
     void validateUser(User user, UserRoleEnum role) {
-        if (user == null || user.isDeleted() || user.getRoles().stream().noneMatch(r -> r.getName().equals(role))) {
+        this.validateUser(user);
+        if (user.getRoles().stream().noneMatch(r -> r.getName().equals(role))) {
             throw new ForbiddenException();
         }
     }

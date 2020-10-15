@@ -27,6 +27,7 @@
     import {ECHO_EVENT, RESPONSE, VARIANT} from "@/services/constants";
     import {initEcho} from "@/helper/EchoClientHelper";
     import ToastHelper from "@/helper/ToastHelper";
+    import {decode} from "@/utils/encrypt";
 
     export default {
         name: "ChatDetail",
@@ -115,22 +116,33 @@
                     .joining(user => {
                         this.handleJoiningMessage(user)
                     })
-                    .listen(ECHO_EVENT.CREATE_MESSAGE, (data) => {
-                        this.handleCreatedMessage(data.message)
+                    .listen(ECHO_EVENT.MESSAGE, (data) => {
+                        this.handleChatEvent(decode(data.message))
                     })
-                    .listen(ECHO_EVENT.IS_READ_MESSAGE, (data) => {
-                        this.handleIsReadMessage(data.message)
-                    })
-                    .listen(ECHO_EVENT.UPDATE_CHATROOM, (data) => {
-                        this.handleUpdateChatroom(data)
-                    })
-                    .listen(ECHO_EVENT.SET_NICKNAME, (data) => {
-                        this.handleSetNickname(data)
-                    })
+            },
+            handleChatEvent(res) {
+                if (!res || !res.hasOwnProperty("type") || !res.hasOwnProperty("data")) {
+                    return
+                }
+                switch (res.type) {
+                  case ECHO_EVENT.CREATE_MESSAGE:
+                      return this.handleCreatedMessage(res.data)
+                  case ECHO_EVENT.IS_READ_MESSAGE:
+                      return this.handleIsReadMessage(res.data)
+                  case ECHO_EVENT.UPDATE_CHATROOM:
+                      return this.handleUpdateChatroom(res.data)
+                  case ECHO_EVENT.SET_NICKNAME:
+                      return this.handleSetNickname(res.data)
+                  default:
+                    return
+                }
             },
             async createMessage(message) {
                 try {
                     this.isSubmitting = true
+                    if (!message || message.trim() === '') {
+                        return true
+                    }
                     await createMessage({
                         chatroomId: this.chatroomId,
                         message: message

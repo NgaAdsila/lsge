@@ -3,10 +3,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\BandUserEvent;
-use App\Events\ResetPasswordUserEvent;
+use App\Constants\ChannelEnum;
+use App\Events\MainMessageEvent;
 use App\Helper\EncryptHelper;
 use App\Helper\ResponseHelper;
+use App\Http\Requests\ChannelEventReq;
 use App\Http\Requests\UserIdListRequest;
 use App\Http\Requests\UserRoleListRequest;
 use GuzzleHttp\Exception\ClientException;
@@ -35,9 +36,9 @@ class UserController extends Controller
                 ]
             ]);
             if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
-                event(new BandUserEvent(EncryptHelper::encode([
-                    'userIds' => $data['userIds']
-                ])));
+                event(new MainMessageEvent(EncryptHelper::encode(
+                    new ChannelEventReq(ChannelEnum::EVENT_BAND_USER, ['userIds' => $data['userIds']])
+                )));
                 return ResponseHelper::success(['OK']);
             }
         } catch (ClientException $e) {
@@ -60,9 +61,9 @@ class UserController extends Controller
                 ]
             ]);
             if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
-                event(new ResetPasswordUserEvent(EncryptHelper::encode([
-                    'userIds' => $data['userIds']
-                ])));
+                event(new MainMessageEvent(EncryptHelper::encode(
+                    new ChannelEventReq(ChannelEnum::EVENT_RESET_PASSWORD, ['userIds' => $data['userIds']])
+                )));
                 return ResponseHelper::success(['OK']);
             }
         } catch (ClientException $e) {
@@ -85,9 +86,9 @@ class UserController extends Controller
                 ]
             ]);
             if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
-                event(new ResetPasswordUserEvent(EncryptHelper::encode([
-                    'userIds' => array_column($data['userRoleList'], 'id')
-                ])));
+                event(new MainMessageEvent(EncryptHelper::encode(
+                    new ChannelEventReq(ChannelEnum::EVENT_UPDATE_ROLE_USER, ['userIds' => $data['userIds']])
+                )));
                 return ResponseHelper::success(['OK']);
             }
         } catch (ClientException $e) {

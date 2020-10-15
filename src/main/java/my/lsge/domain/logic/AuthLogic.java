@@ -7,6 +7,7 @@ import my.lsge.application.dto.auth.*;
 import my.lsge.application.exception.ForbiddenException;
 import my.lsge.application.exception.FormValidationException;
 import my.lsge.application.security.JwtTokenProvider;
+import my.lsge.application.security.UserPrincipal;
 import my.lsge.domain.entity.LoginHistory;
 import my.lsge.domain.entity.Role;
 import my.lsge.domain.entity.User;
@@ -61,8 +62,13 @@ public class AuthLogic extends BaseLogic {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        User user = getCurrentUser(authentication.getPrincipal());
+        if (user == null || user.isDeleted()) {
+            return new ResponseEntity(new ApiResponse(false, language.getString("valid.user.is_not_existed")),
+                    HttpStatus.NOT_FOUND);
+        }
 
-        User user = logSignedInHistory(authentication.getPrincipal(), req.getBrowser());
+        logSignedInHistory(user, req.getBrowser());
 
         String jwt = tokenProvider.generateToken(authentication);
         return ResponseEntity.ok(new JwtAuthenticationRes(authentication.getPrincipal(), jwt, user));
@@ -82,20 +88,17 @@ public class AuthLogic extends BaseLogic {
         return null;
     }
 
-    private User logSignedInHistory(Object principal, String browser) {
+    private void logSignedInHistory(User user, String browser) {
         try {
-            User user = getCurrentUser(principal);
             if (user == null || user.getId() == null) {
-                return null;
+                return;
             }
             InetAddress localMachine = InetAddress.getLocalHost();
             LoginHistory loginHistory = new LoginHistory(user, localMachine.getHostAddress(), browser);
             loginHistoryRepository.save(loginHistory);
-            return user;
         } catch (UnknownHostException e) {
             log.error(String.format(language.getString("login.save_history.error"), e));
         }
-        return null;
     }
 
     public ResponseEntity<?> registerUser(SignUpReq req) {

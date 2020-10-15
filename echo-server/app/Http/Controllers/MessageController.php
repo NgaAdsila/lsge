@@ -4,12 +4,12 @@
 namespace App\Http\Controllers;
 
 
-use App\Events\CreateMessageEvent;
-use App\Events\MainIsReadMessageEvent;
-use App\Events\MainNewMessageEvent;
-use App\Events\ReadMessageEvent;
+use App\Constants\ChannelEnum;
+use App\Events\ChatMessageEvent;
+use App\Events\MainMessageEvent;
 use App\Helper\EncryptHelper;
 use App\Helper\ResponseHelper;
+use App\Http\Requests\ChannelEventReq;
 use App\Http\Requests\CreateMessageRequest;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\Request;
@@ -39,8 +39,10 @@ class MessageController extends Controller
             ]);
             if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
                 $body =  json_decode($response->getBody(), true);
-                event(new CreateMessageEvent($data['chatroomId'], $body));
-                event(new MainNewMessageEvent(EncryptHelper::encode($body)));
+                event(new ChatMessageEvent($data['chatroomId'], EncryptHelper::encode(
+                    new ChannelEventReq(ChannelEnum::EVENT_CREATE_MESSAGE, $body))));
+                event(new MainMessageEvent(EncryptHelper::encode(
+                    new ChannelEventReq(ChannelEnum::EVENT_CREATE_MESSAGE, $body))));
                 return ResponseHelper::success(['OK']);
             }
         } catch (ClientException $e) {
@@ -58,8 +60,10 @@ class MessageController extends Controller
             ]);
             if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
                 $body =  json_decode($response->getBody(), true);
-                event(new ReadMessageEvent($body['chatroomId'], $body));
-                event(new MainIsReadMessageEvent(EncryptHelper::encode($body)));
+                event(new ChatMessageEvent($body['chatroomId'], EncryptHelper::encode(
+                    new ChannelEventReq(ChannelEnum::EVENT_READ_MESSAGE, $body))));
+                event(new MainMessageEvent(EncryptHelper::encode(
+                    new ChannelEventReq(ChannelEnum::EVENT_READ_MESSAGE, $body))));
                 return ResponseHelper::success(['OK']);
             }
         } catch (ClientException $e) {

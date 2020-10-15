@@ -92,7 +92,8 @@ export const ECHO_EVENT = {
     AUTO_READ: 'auto-read',
     BAND_USER: 'band-user',
     RESET_PASSWORD_USER: 'reset-password',
-    UPDATE_ROLE_USER: 'update-role'
+    UPDATE_ROLE_USER: 'update-role',
+    MESSAGE: 'message'
 }
 
 export const VARIANT = {

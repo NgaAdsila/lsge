@@ -17,4 +17,6 @@ class ChannelEnum
     const EVENT_BAND_USER = 'band-user';
     const EVENT_UPDATE_ROLE_USER = 'update-role';
     const EVENT_RESET_PASSWORD = 'reset-password';
+
+    const EVENT_MAIN_MESSAGE = 'message';
 }

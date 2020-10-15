@@ -9,13 +9,11 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UpdateChatroomEvent implements ShouldBroadcast
+class ChatMessageEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private $id;
-
-    public $chatroomName;
 
     public $message;
 
@@ -23,20 +21,18 @@ class UpdateChatroomEvent implements ShouldBroadcast
      * Create a new event instance.
      *
      * @param $id
-     * @param $chatroomName
      * @param $message
      */
-    public function __construct($id, $chatroomName, $message)
+    public function __construct($id, $message)
     {
         $this->id = $id;
-        $this->chatroomName = $chatroomName;
         $this->message = $message;
     }
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return \Illuminate\Broadcasting\PresenceChannel|array
      */
     public function broadcastOn()
     {
@@ -50,6 +46,6 @@ class UpdateChatroomEvent implements ShouldBroadcast
      */
     public function broadcastAs()
     {
-        return ChannelEnum::EVENT_UPDATE_CHATROOM;
+        return ChannelEnum::EVENT_MAIN_MESSAGE;
     }
 }

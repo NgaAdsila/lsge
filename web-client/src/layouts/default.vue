@@ -29,7 +29,7 @@
     import {signOut, refreshToken, getRole} from '@/services/user_service';
     import ConfirmModal from "../components/modal/ConfirmModal";
     import {parseJwt} from "@/utils";
-    import {ECHO_CHANNEL, ECHO_EVENT, RESPONSE, VARIANT} from "@/services/constants";
+    import {ECHO_CHANNEL, ECHO_EVENT, MESSAGE_TYPE, RESPONSE, VARIANT} from "@/services/constants";
     import FriendList from "../components/home/FriendList";
     import {getFriendList} from "@/services/relationship_service";
     import {initNormalChatroom} from "@/services/chatroom_service";
@@ -142,59 +142,8 @@
                             this.onlineUserIds.splice(index, 1);
                         }
                     })
-                    .listen(ECHO_EVENT.ADD_FRIEND, data => {
-                        const res = decode(data.message)
-                        if (res.recUserId === this.currentUserId) {
-                            this.$store.commit('removeFriendApprovedId', res.reqUserId)
-                            this.$store.commit('removeFriendCancelledId', res.reqUserId)
-                            this.$store.commit('addFriendRequestedId', res.reqUserId)
-                            ToastHelper.notify(this.$t('find-friend.message.notify_has_new_request', { name: res.name }))
-                            this.getFriendList();
-                        }
-                    })
-                    .listen(ECHO_EVENT.APPROVE_FRIEND, data => {
-                        const res = decode(data.message)
-                        if (res.reqUserId === this.currentUserId) {
-                            this.$store.commit('removeFriendRequestedId', res.recUserId)
-                            this.$store.commit('removeFriendCancelledId', res.recUserId)
-                            this.$store.commit('addFriendApprovedId', res.recUserId)
-                            ToastHelper.notify(
-                                this.$t('find-friend.message.notify_approved_friend', { name: res.name }), VARIANT.SUCCESS)
-                        }
-                        if (res.reqUserId === this.currentUserId || res.recUserId === this.currentUserId) {
-                            this.getFriendList();
-                        }
-                    })
-                    .listen(ECHO_EVENT.CANCEL_FRIEND, data => {
-                        const res = decode(data.message)
-                        if (res.reqUserId === this.currentUserId) {
-                            this.$store.commit('removeFriendRequestedId', res.recUserId)
-                            this.$store.commit('removeFriendApprovedId', res.recUserId)
-                            this.$store.commit('addFriendCancelledId', res.recUserId)
-                            ToastHelper.notify(
-                                this.$t('find-friend.message.notify_cancelled_friend', { name: res.name }), VARIANT.DANGER)
-                        }
-                        if (res.reqUserId === this.currentUserId || res.recUserId === this.currentUserId) {
-                            this.getFriendList();
-                        }
-                    })
-                    .listen(ECHO_EVENT.CREATE_MESSAGE, data => {
-                        this.handleChangeMessage(decode(data.message))
-                    })
-                    .listen(ECHO_EVENT.IS_READ_MESSAGE, data => {
-                        this.handleChangeMessage(decode(data.message))
-                    })
-                    .listen(ECHO_EVENT.AUTO_READ, data => {
-                        this.handleAutoReadMessage(decode(data.message))
-                    })
-                    .listen(ECHO_EVENT.BAND_USER, data => {
-                        this.handleBandUser(decode(data.message))
-                    })
-                    .listen(ECHO_EVENT.RESET_PASSWORD_USER, data => {
-                        this.handleResetPasswordUser(decode(data.message))
-                    })
-                    .listen(ECHO_EVENT.UPDATE_ROLE_USER, data => {
-                        this.handleUpdateRoleUser(decode(data.message))
+                    .listen(ECHO_EVENT.MESSAGE, data => {
+                      this.handleMainEvent(decode(data.message))
                     })
             },
             async approveFriend(user) {
@@ -237,7 +186,8 @@
                 }
             },
             handleChangeMessage(message) {
-                if (!message || message.statuses.every(s => s.userId !== this.currentUserId) || !this.friendList) {
+                if (!message || message.type === MESSAGE_TYPE.DEFAULT ||
+                    message.statuses.every(s => s.userId !== this.currentUserId) || !this.friendList) {
                     return
                 }
                 let recUser = message.statuses.find(s => s.userId !== this.currentUserId);
@@ -294,6 +244,66 @@
                     }
                 } catch (e) {
                     console.log('Get role error: ', e)
+                }
+            },
+            handleMainEvent(res) {
+                if (!res || !res.hasOwnProperty("type") || !res.hasOwnProperty("data")) {
+                    return
+                }
+                switch (res.type) {
+                    case ECHO_EVENT.ADD_FRIEND:
+                        return this.handleAddFriend(res.data)
+                    case ECHO_EVENT.APPROVE_FRIEND:
+                      return this.handleApproveFriend(res.data)
+                    case ECHO_EVENT.CANCEL_FRIEND:
+                      return this.handleCancelFriend(res.data)
+                    case ECHO_EVENT.CREATE_MESSAGE:
+                    case ECHO_EVENT.IS_READ_MESSAGE:
+                        return this.handleChangeMessage(res.data)
+                    case ECHO_EVENT.AUTO_READ:
+                        return this.handleAutoReadMessage(res.data)
+                    case ECHO_EVENT.BAND_USER:
+                        return this.handleBandUser(res.data)
+                    case ECHO_EVENT.RESET_PASSWORD_USER:
+                        return this.handleResetPasswordUser(res.data)
+                    case ECHO_EVENT.UPDATE_ROLE_USER:
+                        return this.handleUpdateRoleUser(res.data)
+                    default:
+                        return
+                }
+            },
+            handleAddFriend(res) {
+                if (res.recUserId !== this.currentUserId) {
+                    return
+                }
+                this.$store.commit('removeFriendApprovedId', res.reqUserId)
+                this.$store.commit('removeFriendCancelledId', res.reqUserId)
+                this.$store.commit('addFriendRequestedId', res.reqUserId)
+                ToastHelper.notify(this.$t('find-friend.message.notify_has_new_request', { name: res.name }))
+                this.getFriendList()
+            },
+            handleApproveFriend(res) {
+                if (res.reqUserId === this.currentUserId) {
+                    this.$store.commit('removeFriendRequestedId', res.recUserId)
+                    this.$store.commit('removeFriendCancelledId', res.recUserId)
+                    this.$store.commit('addFriendApprovedId', res.recUserId)
+                    ToastHelper.notify(
+                        this.$t('find-friend.message.notify_approved_friend', { name: res.name }), VARIANT.SUCCESS)
+                }
+                if (res.reqUserId === this.currentUserId || res.recUserId === this.currentUserId) {
+                    this.getFriendList();
+                }
+            },
+            handleCancelFriend(res) {
+                if (res.reqUserId === this.currentUserId) {
+                    this.$store.commit('removeFriendRequestedId', res.recUserId)
+                    this.$store.commit('removeFriendApprovedId', res.recUserId)
+                    this.$store.commit('addFriendCancelledId', res.recUserId)
+                    ToastHelper.notify(
+                        this.$t('find-friend.message.notify_cancelled_friend', { name: res.name }), VARIANT.DANGER)
+                }
+                if (res.reqUserId === this.currentUserId || res.recUserId === this.currentUserId) {
+                    this.getFriendList();
                 }
             }
         },

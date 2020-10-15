@@ -3,11 +3,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\AutoReadMessageEvent;
-use App\Events\SetNicknameEvent;
-use App\Events\UpdateChatroomEvent;
+use App\Constants\ChannelEnum;
+use App\Events\ChatMessageEvent;
+use App\Events\MainMessageEvent;
 use App\Helper\EncryptHelper;
 use App\Helper\ResponseHelper;
+use App\Http\Requests\ChannelEventReq;
 use App\Http\Requests\SettingNicknameRequest;
 use App\Http\Requests\UpdatingChatroomRequest;
 use GuzzleHttp\Exception\ClientException;
@@ -38,7 +39,12 @@ class ChatroomController extends Controller
             ]);
             if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
                 $body =  json_decode($response->getBody(), true);
-                event(new UpdateChatroomEvent($data['id'], $data['name'], $body));
+                event(new ChatMessageEvent($data['id'],
+                    EncryptHelper::encode(new ChannelEventReq(ChannelEnum::EVENT_UPDATE_CHATROOM, [
+                        'chatroomName' => $data['name'],
+                        'message' => $body
+                    ]))
+                ));
                 return ResponseHelper::success(['OK']);
             }
         } catch (ClientException $e) {
@@ -62,7 +68,12 @@ class ChatroomController extends Controller
             ]);
             if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
                 $body =  json_decode($response->getBody(), true);
-                event(new SetNicknameEvent($data['id'], $data['userList'], $body));
+                event(new ChatMessageEvent($data['id'],
+                    EncryptHelper::encode(new ChannelEventReq(ChannelEnum::EVENT_SET_NICKNAME, [
+                        'userList' => $data['userList'],
+                        'message' => $body
+                    ]))
+                ));
                 return ResponseHelper::success(['OK']);
             }
         } catch (ClientException $e) {
@@ -73,10 +84,12 @@ class ChatroomController extends Controller
     public function autoReadMessageEvent(Request $request)
     {
         $user = $request->user();
-        event(new AutoReadMessageEvent(EncryptHelper::encode([
-            'chatroomId' => $request->get('chatroomId'),
-            'userId' => $user->id
-        ])));
+        event(new MainMessageEvent(EncryptHelper::encode(
+            new ChannelEventReq(ChannelEnum::EVENT_AUTO_READ, [
+                'chatroomId' => $request->get('chatroomId'),
+                'userId' => $user->id
+            ])
+        )));
         return ResponseHelper::success(['OK']);
     }
 }

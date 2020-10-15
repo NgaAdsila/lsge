@@ -4,12 +4,12 @@
 namespace App\Http\Controllers;
 
 
-use App\Events\AddFriendEvent;
-use App\Events\ApproveFriendEvent;
-use App\Events\CancelFriendEvent;
+use App\Constants\ChannelEnum;
+use App\Events\MainMessageEvent;
 use App\Helper\EncryptHelper;
 use App\Helper\ResponseHelper;
 use App\Http\Requests\AddingFriendRequest;
+use App\Http\Requests\ChannelEventReq;
 use App\Http\Requests\UpdatingRelationStatusRequest;
 use GuzzleHttp\Exception\ClientException;
 
@@ -37,11 +37,13 @@ class RelationshipController extends Controller
             ]);
             if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
                 $user = $request->user();
-                event(new AddFriendEvent(EncryptHelper::encode([
-                    'reqUserId' => $user->id,
-                    'recUserId' => $data['recUserId'],
-                    'name' => $user->name
-                ])));
+                event(new MainMessageEvent(EncryptHelper::encode(
+                    new ChannelEventReq(ChannelEnum::EVENT_ADD_FRIEND, [
+                        'reqUserId' => $user->id,
+                        'recUserId' => $data['recUserId'],
+                        'name' => $user->name
+                    ])
+                )));
                 return ResponseHelper::success(['OK']);
             }
         } catch (ClientException $e) {
@@ -64,11 +66,13 @@ class RelationshipController extends Controller
             ]);
             if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
                 $user = $request->user();
-                event(new ApproveFriendEvent(EncryptHelper::encode([
-                    'reqUserId' => $data['userId'],
-                    'recUserId' => $user->id,
-                    'name' => $user->name
-                ])));
+                event(new MainMessageEvent(EncryptHelper::encode(
+                    new ChannelEventReq(ChannelEnum::EVENT_APPROVE_FRIEND, [
+                        'reqUserId' => $data['userId'],
+                        'recUserId' => $user->id,
+                        'name' => $user->name
+                    ])
+                )));
                 return ResponseHelper::success(['OK']);
             }
         } catch (ClientException $e) {
@@ -91,11 +95,13 @@ class RelationshipController extends Controller
             ]);
             if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
                 $user = $request->user();
-                event(new CancelFriendEvent(EncryptHelper::encode([
-                    'reqUserId' => $data['userId'],
-                    'recUserId' => $user->id,
-                    'name' => $user->name
-                ])));
+                event(new MainMessageEvent(EncryptHelper::encode(
+                    new ChannelEventReq(ChannelEnum::EVENT_CANCEL_FRIEND, [
+                        'reqUserId' => $data['userId'],
+                        'recUserId' => $user->id,
+                        'name' => $user->name
+                    ])
+                )));
                 return ResponseHelper::success(['OK']);
             }
         } catch (ClientException $e) {

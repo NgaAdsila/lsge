@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {RESPONSE, success, fail, VARIANT} from '../services/constants'
+import {RESPONSE, success, fail, VARIANT} from '@/services/constants'
 import store from '../store/index'
 import i18n from '../plugins/i18n';
 import ToastHelper from "@/helper/ToastHelper";
@@ -61,7 +61,7 @@ export default {
             e.status === RESPONSE.CODE.EXCEPTION || e.status === RESPONSE.CODE.FORBIDDEN) {
             return fail(i18n.t('common.validation.exception'), RESPONSE.CODE.EXCEPTION);
         }
-        if (e.status === RESPONSE.CODE.UNAUTHORIZED) {
+        if (e.status === RESPONSE.CODE.UNAUTHORIZED && router.currentRoute.matched.some(r => r.meta.requiresAuth)) {
             await ToastHelper.message(i18n.t('common.validation.unauthorized'), VARIANT.DANGER)
             await signOut()
             return router.push({ name: 'Login' })

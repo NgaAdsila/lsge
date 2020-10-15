@@ -32,14 +32,16 @@
                         setTimeout(async (self = this) => {
                             await self.$router.push('/');
                             this.isSubmit = false;
-                        }, 1000);
-                        return;
+                        }, 1000)
+                    } else {
+                        this.isSubmit = false
+                        const message = res.code === RESPONSE.CODE.NOT_FOUND ? res.message : this.$t('login.message.error')
+                        ToastHelper.message(message, VARIANT.DANGER)
                     }
                 } catch (e) {
-                    console.log('Login ERROR: ', e);
+                    this.isSubmit = false
+                    ToastHelper.message(this.$t('login.message.error'), VARIANT.DANGER)
                 }
-                this.isSubmit = false;
-                ToastHelper.message(this.$t('login.message.error'), VARIANT.DANGER)
             }
         }
     }
