@@ -3,6 +3,7 @@
         <b-breadcrumb :items="crumbItems"></b-breadcrumb>
         <b-overlay :show="isLoading" rounded="sm" spinner-variant="primary">
             <ChatDetailComponent
+                    ref="chatDetailRef"
                     :chatroomName="chatroomName"
                     :messages="messages"
                     :users="users"
@@ -24,7 +25,7 @@
       findById, createMessage, isReadMessage,
       updateChatroom, setNickname, pushAutoReadMessageEvent
     } from "@/services/chatroom_service";
-    import {ECHO_EVENT, RESPONSE, VARIANT} from "@/services/constants";
+    import {ECHO_EVENT, PAGINATION, RESPONSE, VARIANT} from "@/services/constants";
     import {initEcho} from "@/helper/EchoClientHelper";
     import ToastHelper from "@/helper/ToastHelper";
     import {decode} from "@/utils/encrypt";
@@ -61,6 +62,8 @@
                 isLoading: false,
                 chatroomName: '',
                 messages: [],
+                allMessages: [],
+                indexMessage: 0,
                 users: [],
                 isSubmitting: false,
                 echoConnect: null,
@@ -68,13 +71,24 @@
             }
         },
         created() {
-            this.initData();
+            this.initData()
+            this.$nextTick(() => {
+                this.$refs.chatDetailRef
+                    .$refs.chatDetailList.addEventListener('scroll', this.handleChannelListScroll)
+            })
+        },
+        updated() {
+            if (this.$refs.chatDetailRef.$refs.chatDetailList.scrollTop === 0 && !this.isLoading) {
+                this.scrollToBottom()
+            }
         },
         beforeDestroy() {
             if (this.echoConnect) {
-                this.echoConnect.leave(this.channelName);
-                this.echoConnect = null;
+                this.echoConnect.leave(this.channelName)
+                this.echoConnect = null
             }
+            this.$refs.chatDetailRef
+                .$refs.chatDetailList.removeEventListener('scroll', this.handleChannelListScroll)
         },
         methods: {
             async initData() {
@@ -85,7 +99,11 @@
                         if (res.data.name) {
                             this.chatroomName = this.crumbItems[1].text = res.data.name
                         }
-                        this.messages = res.data.messages || []
+                        this.allMessages = res.data.messages || []
+                        this.indexMessage = Math.max(0, this.allMessages.length - PAGINATION.MESSAGE_PER_PAGE)
+                        this.messages = this.indexMessage > 0
+                            ? this.allMessages.slice(this.indexMessage)
+                            : this.allMessages
                         this.users = res.data.users || []
                         this.pushAutoReadMessage()
                     } else {
@@ -141,19 +159,18 @@
                 try {
                     this.isSubmitting = true
                     if (!message || message.trim() === '') {
-                        return true
+                        return
                     }
                     await createMessage({
                         chatroomId: this.chatroomId,
                         message: message
                     });
-                    return true
+                    this.scrollToBottom()
                 } catch (e) {
                     console.log('Create message error: ', e)
                 } finally {
                     this.isSubmitting = false
                 }
-                return false
             },
             async handleCreatedMessage(message) {
                 try {
@@ -170,6 +187,7 @@
                             return s
                         })
                     }
+                    this.scrollToBottom()
                 } catch (e) {
                     console.log('Is read message error: ', e);
                 }
@@ -191,6 +209,7 @@
                         }
                     })
                 })
+                this.scrollToBottom()
             },
             handleJoiningMessage(user) {
                 this.messages.forEach(m => {
@@ -203,6 +222,7 @@
                         }
                     })
                 })
+                setTimeout((self = this) => { self.scrollToBottom() }, 1000)
             },
             async updateChatroom(name) {
                 try {
@@ -250,6 +270,26 @@
                 if (data.message) {
                     this.handleCreatedMessage(data.message)
                 }
+            },
+            handleChannelListScroll(e) {
+                if (e.target.scrollTop <= 0 && this.indexMessage > 0 && !this.isLoading) {
+                    this.isLoading = true
+                    setTimeout((self = this) => {
+                      const firstMessage = self.messages[0]
+                      const newIndex = Math.max(0, self.indexMessage - PAGINATION.MESSAGE_PER_PAGE)
+                      self.messages = self.allMessages
+                          .slice(newIndex, newIndex + Math.min(PAGINATION.MESSAGE_PER_PAGE, self.indexMessage))
+                          .concat(self.messages)
+                      self.indexMessage = newIndex
+                      e.target.scrollTop =
+                          document.getElementById('message-item-' + firstMessage.id).offsetTop - 35
+                      self.isLoading = false
+                    }, 500)
+                }
+            },
+            scrollToBottom() {
+              this.$refs.chatDetailRef.$refs.chatDetailList.scrollTop =
+                  this.$refs.chatDetailRef.$refs.chatDetailList.scrollHeight;
             }
         }
     }

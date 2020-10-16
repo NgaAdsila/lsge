@@ -29,7 +29,8 @@
                         {{ displayDate(message.createdAt) }}
                         <div class="is-default-line">&#8604;<small>&star;</small>&#128312;<small>&star;</small>&#8605;</div>
                     </div>
-                    <div :class="isDefaultMessage(message) ? 'is-default-message' : (message.createdBy === currentUserId ? 'is-right' : 'is-left')">
+                    <div :class="isDefaultMessage(message) ? 'is-default-message' : (message.createdBy === currentUserId ? 'is-right' : 'is-left')"
+                         :id="'message-item-' + message.id">
                         <div v-if="isDefaultMessage(message)" class="chat-detail-item chat-detail-list-left">
                             <div class="message-content text-break" v-linkified>
                                 {{ '&star; ' + message.message + ' &star;' }}
@@ -116,9 +117,6 @@
                 newMessage: ''
             }
         },
-        updated() {
-            this.scrollToBottom()
-        },
         methods: {
             displayUserName(userId) {
                 if (this.users.length <= 0) {
@@ -168,9 +166,6 @@
                 const nextMessage = this.messages[index + 1];
                 return message.statuses.some(s => s.userId !== this.currentUserId && s.seen)
                     && (!nextMessage || nextMessage.statuses.some(s => s.userId !== this.currentUserId && !s.seen));
-            },
-            scrollToBottom() {
-                this.$refs.chatDetailList.scrollTop = this.$refs.chatDetailList.scrollHeight;
             },
             isNextDay(message, index) {
                 if (index === 0) {

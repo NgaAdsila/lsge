@@ -1,5 +1,5 @@
 <template>
-    <footer class="bd-footer text-muted docs-border">
+    <footer class="bd-footer docs-border">
         <b-container>
             <b-row class="justify-content-center">
                 <b-col class="text-center text-sm-right col-sm order-sm-3 col-12">
@@ -89,7 +89,7 @@
         margin-top: 3rem;
         padding: 2rem 0;
         text-align: center;
-        background-color: #eee;
+        background-color: rgba(0,0,0,0.4);
         font-size: .875rem;
     }
     .bd-text-purple-bright {

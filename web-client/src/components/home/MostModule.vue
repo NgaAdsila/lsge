@@ -1,5 +1,8 @@
 <template>
     <div class="most-module-section">
+        <div class="text-center mb-4 text-uppercase font-weight-bold">
+          {{ $t('home.most_module.title') }}
+        </div>
         <div class="most-module-title">
             <b-iconstack>
                 <b-icon stacked icon="square-fill"
@@ -7,9 +10,6 @@
                         rotate="45" variant="success"></b-icon>
                 <b-icon stacked icon="union" scale="1.2" animation="throb"></b-icon>
             </b-iconstack>
-        </div>
-        <div class="text-center mt-4 text-uppercase font-weight-bold">
-            {{ $t('home.most_module.title') }}
         </div>
         <div class="most-module-content">
             <b-carousel controls>
@@ -63,7 +63,7 @@
         line-height: 13rem;
         display: inline-block;
         border: 1px solid #dbdbdb;
-        border-radius: 50%;
+        border-radius: 5%;
         text-align: center;
         margin: 0.5rem 0;
         &:hover {

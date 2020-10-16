@@ -15,7 +15,8 @@ export const RESPONSE = {
 
 export const PAGINATION = {
     LIMIT: 10,
-    DEFAULT_PAGE: 1
+    DEFAULT_PAGE: 1,
+    MESSAGE_PER_PAGE: 100
 };
 
 export const RELATION_STATUS = {
