@@ -5,7 +5,9 @@
     </div>
     <div class="file-list-content mt-2">
       <div v-if="chooseFile">
-        <VueDocPreview v-if="fileType !== ''" :value="chooseFile | json_pretty" :type="fileType" />
+        <b-img v-if="fileType === 'image'" :src="generatePdfFile('image/png')" class="image-viewer"></b-img>
+        <iframe v-else-if="fileType === 'pdf'" type="application/pdf" :src="generatePdfFile()" class="pdf-viewer"></iframe>
+        <VueDocPreview v-else-if="fileType !== ''" :value="chooseFile | json_pretty" :type="fileType" />
         <b-alert v-else variant="warning" show>{{ $t('manager.file.label.cant_read') }}</b-alert>
       </div>
     </div>
@@ -14,6 +16,7 @@
 
 <script>
 import VueDocPreview from 'vue-doc-preview';
+import {ALLOWED_IMAGE_FILE_EXTENSIONS} from "@/services/constants";
 export default {
   name: "ManagerFilePreviewComponent",
   components: { VueDocPreview },
@@ -28,10 +31,26 @@ export default {
         return 'text'
       }
       let extension = this.fileList.files[this.chooseFileId].extension
-      if (!extension || extension === '' || extension.toLowerCase() !== 'md') {
+      if (!extension || extension === '') {
         return 'text'
       }
-      return 'markdown'
+      extension = extension.toLowerCase()
+      if (extension === 'pdf') {
+        return 'pdf'
+      }
+      if (ALLOWED_IMAGE_FILE_EXTENSIONS.includes(extension)) {
+        return 'image'
+      }
+      if (extension === 'md') {
+        return 'markdown'
+      }
+      return 'text'
+    },
+
+  },
+  methods: {
+    generatePdfFile(type = 'application/pdf') {
+      return URL.createObjectURL(new Blob([this.chooseFile], {type: type}))
     }
   }
 }
@@ -66,6 +85,14 @@ export default {
 
     &:hover::-webkit-scrollbar-thumb {
       background-color: darkgrey;
+    }
+    .pdf-viewer {
+      width: 64vw;
+      height: calc(100vh - 250px);
+    }
+    .image-viewer {
+      background-color: rgba(0,0,0,0.4);
+      max-width: 50%;
     }
   }
 }

@@ -74,7 +74,7 @@ export default {
       try {
         this.chooseFileId = index
         this.chooseFileData = ''
-        const res = await readFile(this.fileList.files[index].path);
+        const res = await readFile(this.fileList.files[index].path, this.fileList.files[index].extension);
         if (res.status === RESPONSE.STATUS.SUCCESS) {
           this.chooseFileData = res.data
         }

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import my.lsge.application.dto.admin.file.FileListReq;
 import my.lsge.application.dto.admin.file.FileListRes;
 import my.lsge.domain.logic.FileLogic;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,7 @@ public class FileController extends BaseController {
     @PreAuthorize("hasRole('ADMIN')")
     public void readFile(String filePath, HttpServletResponse response) {
         try {
+            filePath = filePath.replaceAll("\\\\", "/");
             File file = new File(filePath);
             response.setContentType("application/octet-stream");
             response.setHeader("Pragma", "No-cache");

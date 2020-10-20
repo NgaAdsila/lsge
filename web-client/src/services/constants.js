@@ -121,12 +121,17 @@ export const FILE_UPLOAD = {
 
 export const TEXT_FILE_EXTENSIONS = [
     "txt", "md",
-    "csv", "ssh", "pem",
+    "csv", "ssh", "pem", "pdf",
     "yml", "yaml", "properties",
     "asp", "aspx", "cer", "cfm", "cgi", "pl", "css", "scss", "sass", "htm", "html", "phtml",
     "js", "jsp", "part", "py", "rss", "xhtml", "json", "ts",
     "php", "vue", "java", "c", "class", "cpp", "h", "sh", "swift", "vb",
-    "sql", "dat", "db", "dbf", "mdb", "log", "sav", "xml"
+    "sql", "dat", "db", "dbf", "mdb", "log", "sav", "xml",
+    "jpeg", "ico", "jpg", "png", "jpe", "jif", "jfif", "jfi", "gif"
+]
+
+export const ALLOWED_IMAGE_FILE_EXTENSIONS = [
+    "jpeg", "ico", "jpg", "png", "jpe", "jif", "jfif", "jfi", "gif"
 ]
 
 export const SELECTED_MODE = {

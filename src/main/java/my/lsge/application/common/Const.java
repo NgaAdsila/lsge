@@ -30,11 +30,12 @@ public class Const {
     public static final List<String> TEXT_FILE_EXTENSIONS = Arrays.asList(
             "txt", "md",
             "csv", "ssh", "pem",
-            "yml", "yaml", "properties",
+            "yml", "yaml", "properties", "pdf",
             "asp", "aspx", "cer", "cfm", "cgi", "pl", "css", "scss", "sass", "htm", "html", "phtml",
             "js", "jsp", "part", "py", "rss", "xhtml", "json", "ts",
             "php", "vue", "java", "c", "class", "cpp", "h", "sh", "swift", "vb",
-            "sql", "dat", "db", "dbf", "mdb", "log", "sav", "xml"
+            "sql", "dat", "db", "dbf", "mdb", "log", "sav", "xml",
+            "jpeg", "ico", "jpg", "png", "jpe", "jif", "jfif", "jfi", "gif"
     );
 
     public static final long ONE_DAY_TIME_IN_MS = 86400000;
