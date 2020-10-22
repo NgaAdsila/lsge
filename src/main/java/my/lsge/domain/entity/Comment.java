@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import my.lsge.domain.enums.CommentReferenceTypeEnum;
 import my.lsge.domain.enums.CommentStatusEnum;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -30,10 +29,7 @@ public class Comment extends BaseEntity {
     @NotBlank
     private String message;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    @Nullable
-    private Comment commentParent;
+    private Long parentId;
 
     @NotBlank
     @Enumerated(EnumType.STRING)
@@ -41,17 +37,16 @@ public class Comment extends BaseEntity {
     private CommentStatusEnum status;
 
     public Comment() {
-        this.commentParent = null;
         this.status = CommentStatusEnum.CREATED;
     }
 
     public Comment(Long id, CommentReferenceTypeEnum referenceType, long referenceId,
-                   String message, Comment commentParent, CommentStatusEnum status) {
+                   String message, Long parentId, CommentStatusEnum status) {
         this.id = id;
         this.referenceType = referenceType;
         this.referenceId = referenceId;
         this.message = message;
-        this.commentParent = commentParent;
+        this.parentId = parentId;
         this.status = status;
     }
 }
