@@ -30,7 +30,8 @@
       "display_username": "{name} và {count} người khác",
       "collapse_all": "Thu gọn toàn bộ",
       "color": "Màu ảnh đại diện",
-      "avatar": "Ảnh đại diện"
+      "avatar": "Ảnh đại diện",
+      "comment": "Nhập bình luận"
     },
     "validation": {
       "required": "Trường {name} bắt buộc nhập.",

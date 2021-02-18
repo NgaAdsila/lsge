@@ -4,14 +4,22 @@
             <MostModule
                     :modules="mostModules" />
         </section>
+        <section id="post-list">
+            <PostComponent
+                    :posts="posts"
+                    @createComment="createComment" />
+        </section>
     </div>
 </template>
 
 <script>
     import MostModule from "../components/home/MostModule";
+    import PostComponent from "../components/home/Post";
+    import { getList } from "../services/post_service";
+    import {RESPONSE} from "../services/constants";
     export default {
         name: "Home",
-        components: {MostModule},
+        components: {PostComponent, MostModule},
         data() {
             return {
                 mostModules: [
@@ -48,7 +56,36 @@
                     icon: 'puzzle',
                     link: '#'
                   }]
-                ]
+                ],
+                posts: [],
+                postReq: {
+                    lastId: null,
+                    keyword: null
+                }
+            }
+        },
+        async mounted() {
+            await this.getPosts();
+        },
+        methods: {
+            async getPosts() {
+                try {
+                    const res = await getList(this.postReq);
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        this.posts = res.data.responses;
+                    } else {
+                        console.log(res.message)
+                    }
+                } catch (e) {
+                    console.log(e)
+                }
+            },
+            async createComment(postId, comment) {
+                try {
+                    console.log('Comment: ', postId, comment)
+                } catch (e) {
+                    console.log(e)
+                }
             }
         }
     }

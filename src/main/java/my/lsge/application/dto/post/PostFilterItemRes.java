@@ -7,6 +7,7 @@ import my.lsge.application.dto.user.UserSummary;
 import my.lsge.domain.entity.Comment;
 import my.lsge.domain.entity.Post;
 import my.lsge.domain.entity.User;
+import my.lsge.domain.enums.PostShareModeEnum;
 import my.lsge.domain.enums.PostStatusEnum;
 import my.lsge.util.Utils;
 
@@ -20,6 +21,7 @@ public class PostFilterItemRes {
     private Long id;
     private String title;
     private String content;
+    private PostShareModeEnum shareMode;
     private PostRootRes root;
     private String shareTitle;
     private Set<UserSummary> likedUsers = new HashSet<>();
@@ -34,6 +36,7 @@ public class PostFilterItemRes {
         res.setId(post.getId());
         res.setTitle(post.getTitle());
         res.setContent(post.getContent());
+        res.setShareMode(post.getShareMode());
         if (!post.getLikedUsers().isEmpty()) {
             res.setLikedUsers(post.getLikedUsers().stream()
                     .map(u -> new UserSummary(u.getId(), u.getUsername(), u.getName(),

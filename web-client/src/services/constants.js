@@ -72,7 +72,8 @@ export const API_PATH = {
     ECHO_CREATE_MESSAGE: '/api/create-message',
     ECHO_AUTH_LOGIN: '/api/login',
     FILE_GET_LIST: '/api/files/get-list',
-    FILE_READ: '/api/files/read'
+    FILE_READ: '/api/files/read',
+    POST_GET_LIST: '/api/posts/filter',
 };
 
 export const ECHO_API_URL = process.env.LARAVEL_ECHO_SERVER_API_URL || 'http://localhost:8000';
@@ -138,4 +139,12 @@ export const SELECTED_MODE = {
     NONE: 'none',
     SOME: 'some',
     ALL: 'all'
+}
+
+export const POST = {
+    SHARE_MODE: {
+        PRIVATE: 'PRIVATE',
+        PUBLIC: 'PUBLIC',
+        FRIEND: 'FRIEND'
+    }
 }
