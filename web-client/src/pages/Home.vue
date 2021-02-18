@@ -5,9 +5,19 @@
                     :modules="mostModules" />
         </section>
         <section id="post-list">
-            <PostComponent
-                    :posts="posts"
-                    @createComment="createComment" />
+            <b-overlay :show="isLoading" rounded="sm" spinner-variant="primary">
+                <PostComponent
+                        :posts="posts"
+                        @createComment="createComment" />
+                <div class="text-center mt-4">
+                    <b-button v-show="!isLastPost"
+                              type="submit" variant="primary"
+                              @click="loadMore"
+                    >
+                        Load More
+                    </b-button>
+                </div>
+            </b-overlay>
         </section>
     </div>
 </template>
@@ -60,32 +70,68 @@
                 posts: [],
                 postReq: {
                     lastId: null,
-                    keyword: null
-                }
+                    keyword: null,
+                    limit: 2
+                },
+                isLastPost: false,
+                isLoading: false
             }
         },
         async mounted() {
+            this.posts = []
+            this.isLastPost = false
+            this.postReq.lastId = null
             await this.getPosts();
         },
         methods: {
             async getPosts() {
                 try {
-                    const res = await getList(this.postReq);
+                    this.isLoading = true
+                    const res = await getList(this.postReq)
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
-                        this.posts = res.data.responses;
+                        if (res.data.responses && res.data.responses.length) {
+                            res.data.responses.forEach(post => {
+                                this.posts.push(post)
+                            })
+                            this.postReq.lastId = res.data.responses[res.data.responses.length - 1].id
+                            this.isLastPost = res.data.paging.number < res.data.paging.limit
+                                || res.data.paging.total <= this.posts.length
+                        } else {
+                            this.isLastPost = true
+                        }
                     } else {
                         console.log(res.message)
                     }
                 } catch (e) {
                     console.log(e)
+                } finally {
+                    this.isLoading = false
                 }
             },
-            async createComment(postId, comment) {
+            async createComment(postId, comment, index) {
                 try {
+                    this.isLoading = true
                     console.log('Comment: ', postId, comment)
+                    this.posts[index].comments.push({
+                        id: 0,
+                        message: comment,
+                        user: {
+                            id: this.$store.getters.id,
+                            name: this.$store.getters.name,
+                            color: this.$store.getters.color,
+                            avatar: this.$store.getters.avatar
+                        },
+                        createdAt: new Date()
+                    })
+                    this.posts[index].newComment = null
                 } catch (e) {
                     console.log(e)
+                } finally {
+                    this.isLoading = false
                 }
+            },
+            async loadMore() {
+                await this.getPosts();
             }
         }
     }

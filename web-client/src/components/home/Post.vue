@@ -23,10 +23,10 @@
                     </span>
                 </div>
                 <div class="post-title-content mt-1">
-                    <div class="post-title font-italic">
+                    <div class="post-title font-italic text-break">
                         {{ post.title }}
                     </div>
-                    <div class="post-content">
+                    <div class="post-content text-break">
                         {{ post.content }}
                     </div>
                     <div class="post-react-comments">
@@ -59,11 +59,11 @@
                                               type="text"
                                               :placeholder="$t('common.label.comment')"
                                               max="2000"
-                                              @keypress.enter.exact="createComment(post)"
+                                              @keypress.enter.exact="createComment(post, index)"
                                 ></b-form-input>
                                 <b-button class="position-absolute button-send-comment"
                                           type="submit" variant="light"
-                                          @click="createComment(post)"
+                                          @click="createComment(post, index)"
                                           :disabled="!post.newComment || post.newComment.trim() === ''"
                                 >
                                     <b-icon icon="cursor-fill" rotate="45"
@@ -94,7 +94,7 @@
                                             {{ formatTime(comment.createdAt) }}
                                         </div>
                                     </div>
-                                    <div class="post-comment-content">
+                                    <div class="post-comment-content text-break">
                                         {{ comment.message }}
                                     </div>
                                 </div>
@@ -133,8 +133,8 @@
                         return ''
                 }
             },
-            createComment(post) {
-                this.$emit('createComment', post.id, post.newComment)
+            createComment(post, index) {
+                this.$emit('createComment', post.id, post.newComment, index)
             }
         }
     }
