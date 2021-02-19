@@ -18,5 +18,7 @@ class ChannelEnum
     const EVENT_UPDATE_ROLE_USER = 'update-role';
     const EVENT_RESET_PASSWORD = 'reset-password';
 
+    const EVENT_CREATE_POST_COMMENT = 'created-post-comment';
+
     const EVENT_MAIN_MESSAGE = 'message';
 }
