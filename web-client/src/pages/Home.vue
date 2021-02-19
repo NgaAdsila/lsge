@@ -25,7 +25,7 @@
 <script>
     import MostModule from "../components/home/MostModule";
     import PostComponent from "../components/home/Post";
-    import { getList } from "../services/post_service";
+    import { getList, createComment } from "../services/post_service";
     import {RESPONSE} from "../services/constants";
     export default {
         name: "Home",
@@ -71,7 +71,7 @@
                 postReq: {
                     lastId: null,
                     keyword: null,
-                    limit: 2
+                    limit: 50
                 },
                 isLastPost: false,
                 isLoading: false
@@ -112,17 +112,24 @@
                 try {
                     this.isLoading = true
                     console.log('Comment: ', postId, comment)
-                    this.posts[index].comments.push({
-                        id: 0,
-                        message: comment,
-                        user: {
-                            id: this.$store.getters.id,
-                            name: this.$store.getters.name,
-                            color: this.$store.getters.color,
-                            avatar: this.$store.getters.avatar
-                        },
-                        createdAt: new Date()
+                    const res = await createComment(postId, {
+                        message: comment
                     })
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        this.posts[index].comments.push({
+                            id: 0,
+                            message: comment,
+                            user: {
+                                id: this.$store.getters.id,
+                                name: this.$store.getters.name,
+                                color: this.$store.getters.color,
+                                avatar: this.$store.getters.avatar
+                            },
+                            createdAt: new Date()
+                        })
+                    } else {
+                        console.log(res.message)
+                    }
                     this.posts[index].newComment = null
                 } catch (e) {
                     console.log(e)

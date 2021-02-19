@@ -254,5 +254,10 @@
       "reset_password": "The system manager has reset your account password. Please check your email for a new password",
       "update_role": "The system manager has updated your account's role"
     }
+  },
+  "post": {
+    "message": {
+      "new_comment": "{name} just commented in one of your posts"
+    }
   }
 }

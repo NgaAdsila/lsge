@@ -1,9 +1,7 @@
 package my.lsge.controller;
 
-import my.lsge.application.dto.post.AddingPostReq;
-import my.lsge.application.dto.post.PostFilterReq;
-import my.lsge.application.dto.post.PostFilterRes;
-import my.lsge.application.dto.post.UpdatingPostReq;
+import my.lsge.application.dto.post.*;
+import my.lsge.domain.entity.Comment;
 import my.lsge.domain.entity.Post;
 import my.lsge.domain.logic.PostLogic;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +20,17 @@ public class PostController extends BaseController {
     }
 
     @PostMapping("")
-    public Post add(@RequestBody AddingPostReq req) {
+    public PostRes add(@RequestBody AddingPostReq req) {
         return postLogic.add(req, getUserId());
     }
 
     @PutMapping("")
-    public Post update(@RequestBody UpdatingPostReq req) {
+    public PostRes update(@RequestBody UpdatingPostReq req) {
         return postLogic.update(req, getUserId());
+    }
+
+    @PostMapping("/{id}/create-comment")
+    public PostRes addComment(@PathVariable("id") Long id, @RequestBody AddingCommentReq req) {
+        return postLogic.addComment(id, req, getUserId());
     }
 }

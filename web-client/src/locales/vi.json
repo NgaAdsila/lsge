@@ -238,5 +238,10 @@
       "reset_password": "Quản lý hệ thống đã đặt lại mật khẩu tài khoản của bạn. Vui lòng kiểm tra email để lấy mật khẩu mới",
       "update_role": "Quản lý hệ thống đã cập nhật quyền tài khoản của bạn"
     }
+  },
+  "post": {
+    "message": {
+      "new_comment": "{name} vừa bình luận trong một bài viết của bạn"
+    }
   }
 }

@@ -268,6 +268,8 @@
                         return this.handleResetPasswordUser(res.data)
                     case ECHO_EVENT.UPDATE_ROLE_USER:
                         return this.handleUpdateRoleUser(res.data)
+                    case ECHO_EVENT.CREATE_POST_COMMENT:
+                        return this.handleCreatePostComment(res.data)
                     default:
                         return
                 }
@@ -304,6 +306,12 @@
                 }
                 if (res.reqUserId === this.currentUserId || res.recUserId === this.currentUserId) {
                     this.getFriendList();
+                }
+            },
+            handleCreatePostComment(res) {
+                if (res.commentedUserId !== this.currentUserId && res.createdBy === this.currentUserId) {
+                    ToastHelper.notify(
+                        this.$t('post.message.new_comment', { name: res.name }), VARIANT.PRIMARY, `/post/${res.id}`)
                 }
             }
         },

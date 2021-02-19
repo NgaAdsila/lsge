@@ -1,10 +1,17 @@
 <template>
-    
+    <div>
+        {{ postId }}
+    </div>
 </template>
 
 <script>
     export default {
-        name: "index"
+        name: "index",
+        computed: {
+            postId: function () {
+                return this.$route.params.id
+            }
+        }
     }
 </script>
 

@@ -7,9 +7,7 @@ import my.lsge.application.exception.ForbiddenException;
 import my.lsge.application.exception.NotFoundException;
 import my.lsge.domain.dao.PostDao;
 import my.lsge.domain.entity.*;
-import my.lsge.domain.enums.CommentReferenceTypeEnum;
-import my.lsge.domain.enums.PostStatusEnum;
-import my.lsge.domain.enums.RelationShipStatusEnum;
+import my.lsge.domain.enums.*;
 import my.lsge.domain.repository.CommentRepository;
 import my.lsge.domain.repository.PostRepository;
 import my.lsge.domain.repository.RelationshipRepository;
@@ -92,16 +90,16 @@ public class PostLogic extends BaseLogic {
         return friendIds;
     }
 
-    public Post add(AddingPostReq req, Long userId) {
+    public PostRes add(AddingPostReq req, Long userId) {
         validateUser(userId);
 
         Post post = new Post(0L, req.getTitle(), req.getContent(), req.isHasImage(),
                 req.getShareMode(), PostStatusEnum.CREATED, null, null);
         postRepository.save(post);
-        return post;
+        return PostRes.by(post);
     }
 
-    public Post update(UpdatingPostReq req, Long userId) {
+    public PostRes update(UpdatingPostReq req, Long userId) {
         validateUser(userId);
 
         Post post = postRepository.findById(req.getId()).orElse(null);
@@ -114,7 +112,7 @@ public class PostLogic extends BaseLogic {
         req.normalize();
         mapUpdatingReqToEntity(post, req);
         postRepository.save(post);
-        return post;
+        return PostRes.by(post);
     }
 
     private void mapUpdatingReqToEntity(Post post, UpdatingPostReq req) {
@@ -125,5 +123,32 @@ public class PostLogic extends BaseLogic {
             post.setShareTitle(req.getShareTitle());
         }
         post.setStatus(PostStatusEnum.MODIFIED);
+    }
+
+    public PostRes addComment(Long postId, AddingCommentReq req, Long userId) {
+        validateUser(userId);
+
+        Post post = postRepository.findById(postId).orElse(null);
+        if (post == null || post.isDeleted() || !hasViewRole(post, userId)) {
+            throw new NotFoundException(language.getString("post.is_not_existed"));
+        }
+        Comment comment = new Comment(
+                0L, CommentReferenceTypeEnum.POST, postId,
+                req.getMessage(), 0L, CommentStatusEnum.CREATED);
+        commentRepository.save(comment);
+        return PostRes.by(post);
+    }
+
+    private boolean hasViewRole(Post post, long userId) {
+        if (post.getShareMode().equals(PostShareModeEnum.PUBLIC) || post.getCreatedBy().equals(userId)) {
+            return true;
+        }
+        if (post.getShareMode().equals(PostShareModeEnum.PRIVATE)) {
+            return post.getCreatedBy().equals(userId);
+        }
+        Relationship relationship = relationshipRepository
+                .findByUserIdsAndStatus(RelationShipStatusEnum.APPROVED, userId, post.getCreatedBy())
+                .orElse(null);
+        return relationship != null;
     }
 }

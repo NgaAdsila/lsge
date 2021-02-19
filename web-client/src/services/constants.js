@@ -74,6 +74,7 @@ export const API_PATH = {
     FILE_GET_LIST: '/api/files/get-list',
     FILE_READ: '/api/files/read',
     POST_GET_LIST: '/api/posts/filter',
+    POST_API: '/api/posts',
 };
 
 export const ECHO_API_URL = process.env.LARAVEL_ECHO_SERVER_API_URL || 'http://localhost:8000';
@@ -95,7 +96,8 @@ export const ECHO_EVENT = {
     BAND_USER: 'band-user',
     RESET_PASSWORD_USER: 'reset-password',
     UPDATE_ROLE_USER: 'update-role',
-    MESSAGE: 'message'
+    MESSAGE: 'message',
+    CREATE_POST_COMMENT: 'created-post-comment'
 }
 
 export const VARIANT = {
