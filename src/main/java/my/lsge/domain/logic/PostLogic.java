@@ -9,6 +9,7 @@ import my.lsge.domain.dao.PostDao;
 import my.lsge.domain.entity.*;
 import my.lsge.domain.enums.*;
 import my.lsge.domain.repository.CommentRepository;
+import my.lsge.domain.repository.PostReactiveUserRepository;
 import my.lsge.domain.repository.PostRepository;
 import my.lsge.domain.repository.RelationshipRepository;
 import my.lsge.util.Utils;
@@ -36,6 +37,9 @@ public class PostLogic extends BaseLogic {
 
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private PostReactiveUserRepository postReactiveUserRepository;
 
     @Autowired
     private MapperFacade mapper;
@@ -150,5 +154,62 @@ public class PostLogic extends BaseLogic {
                 .findByUserIdsAndStatus(RelationShipStatusEnum.APPROVED, userId, post.getCreatedBy())
                 .orElse(null);
         return relationship != null;
+    }
+
+    public PostDetailRes getById(Long id, Long userId) {
+        validateUser(userId);
+
+        Post post = postRepository.findById(id).orElse(null);
+        if (post == null || post.isDeleted() || !hasViewRole(post, userId)) {
+            throw new NotFoundException(language.getString("post.is_not_existed"));
+        }
+
+        List<Comment> comments = commentRepository.findByReferenceTypeAndReferenceId(CommentReferenceTypeEnum.POST, id);
+        List<Long> userIds = new ArrayList<>();
+        if (!Utils.isNullOrEmpty(comments)) {
+            userIds = comments.stream().map(BaseEntity::getCreatedBy).collect(Collectors.toList());
+        }
+        userIds.add(post.getCreatedBy());
+        List<User> userList = userRepository.findAllByIdIn(userIds);
+        Post root = null;
+        if (post.getRootId() != null) {
+            root = postRepository.findById(post.getRootId()).orElse(null);
+        }
+        return PostDetailRes.by(post, comments, userList, root);
+    }
+
+    public PostRes like(long id, Long userId) {
+        User user = userRepository.getOne(userId);
+        validateUser(user);
+
+        Post post = postRepository.findById(id).orElse(null);
+        if (post == null || post.isDeleted() || !hasViewRole(post, userId)) {
+            throw new NotFoundException(language.getString("post.is_not_existed"));
+        }
+
+        if (post.getLikedUsers().isEmpty() || post.getLikedUsers().stream().noneMatch(u -> u.getId().equals(userId))) {
+            PostReactiveUser reactiveUser = new PostReactiveUser(
+                    new PostReactiveUserId(id, userId), post, user, PostReactiveUserTypeEnum.LIKE
+            );
+            postReactiveUserRepository.save(reactiveUser);
+        }
+
+        return PostRes.by(post);
+    }
+
+    public PostRes dislike(long id, Long userId) {
+        User user = userRepository.getOne(userId);
+        validateUser(user);
+
+        Post post = postRepository.findById(id).orElse(null);
+        if (post == null || post.isDeleted() || !hasViewRole(post, userId)) {
+            throw new NotFoundException(language.getString("post.is_not_existed"));
+        }
+
+        postReactiveUserRepository
+                .findById(new PostReactiveUserId(id, userId))
+                .ifPresent(reactiveUser -> postReactiveUserRepository.delete(reactiveUser));
+
+        return PostRes.by(post);
     }
 }

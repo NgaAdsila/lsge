@@ -97,7 +97,9 @@ export const ECHO_EVENT = {
     RESET_PASSWORD_USER: 'reset-password',
     UPDATE_ROLE_USER: 'update-role',
     MESSAGE: 'message',
-    CREATE_POST_COMMENT: 'created-post-comment'
+    CREATE_POST_COMMENT: 'created-post-comment',
+    LIKE_POST: 'liked-post',
+    DISLIKE_POST: 'disliked-post',
 }
 
 export const VARIANT = {

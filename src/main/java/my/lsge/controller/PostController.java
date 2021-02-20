@@ -30,7 +30,22 @@ public class PostController extends BaseController {
     }
 
     @PostMapping("/{id}/create-comment")
-    public PostRes addComment(@PathVariable("id") Long id, @RequestBody AddingCommentReq req) {
+    public PostRes addComment(@PathVariable("id") long id, @RequestBody AddingCommentReq req) {
         return postLogic.addComment(id, req, getUserId());
+    }
+
+    @GetMapping("/{id}")
+    public PostDetailRes getById(@PathVariable("id") long id) {
+        return postLogic.getById(id, getUserId());
+    }
+
+    @PostMapping("/{id}/like")
+    public PostRes like(@PathVariable("id") long id) {
+        return postLogic.like(id, getUserId());
+    }
+
+    @PostMapping("/{id}/dislike")
+    public PostRes dislike(@PathVariable("id") long id) {
+        return postLogic.dislike(id, getUserId());
     }
 }

@@ -11,4 +11,6 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findByReferenceTypeAndReferenceIdIn(CommentReferenceTypeEnum referenceType, List<Long> referenceIds);
+
+    List<Comment> findByReferenceTypeAndReferenceId(CommentReferenceTypeEnum referenceType, Long referenceId);
 }

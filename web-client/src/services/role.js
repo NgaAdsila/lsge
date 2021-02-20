@@ -11,7 +11,8 @@ export const USER_ROLES = {
             'AboutMe',
             'ContactUs',
             'FindFriend',
-            'ChatDetail'
+            'ChatDetail',
+            'PostDetail'
         ]
     },
     ADMIN: {

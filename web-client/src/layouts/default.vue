@@ -270,6 +270,10 @@
                         return this.handleUpdateRoleUser(res.data)
                     case ECHO_EVENT.CREATE_POST_COMMENT:
                         return this.handleCreatePostComment(res.data)
+                    case ECHO_EVENT.LIKE_POST:
+                        return this.handleLikePost(res.data)
+                    case ECHO_EVENT.DISLIKE_POST:
+                        return this.handleDislikePost(res.data)
                     default:
                         return
                 }
@@ -312,6 +316,18 @@
                 if (res.commentedUserId !== this.currentUserId && res.createdBy === this.currentUserId) {
                     ToastHelper.notify(
                         this.$t('post.message.new_comment', { name: res.name }), VARIANT.PRIMARY, `/post/${res.id}`)
+                }
+            },
+            handleLikePost(res) {
+                if (res.likedUserId !== this.currentUserId && res.createdBy === this.currentUserId) {
+                    ToastHelper.notify(
+                        this.$t('post.message.like', { name: res.name }), VARIANT.PRIMARY, `/post/${res.id}`)
+                }
+            },
+            handleDislikePost(res) {
+                if (res.dislikedUserId !== this.currentUserId && res.createdBy === this.currentUserId) {
+                    ToastHelper.notify(
+                        this.$t('post.message.dislike', { name: res.name }), VARIANT.PRIMARY, `/post/${res.id}`)
                 }
             }
         },

@@ -1,6 +1,6 @@
 <template>
-    <div class="container post-component">
-        <div v-for="(post, index) of posts" :key="'post-' + index" class="post-items mt-3 d-flex flex-row">
+    <div class="container post-detail-component">
+        <div class="post-items mt-3 d-flex flex-row">
             <div class="post-avatar pr-2">
                 <Avatar
                         :avatar="post.user.avatar"
@@ -24,7 +24,7 @@
                 </div>
                 <div class="post-title-content mt-1">
                     <div class="post-title font-italic text-break">
-                        <router-link :to="`/post/${post.id}`">{{ post.title }}</router-link>
+                        {{ post.title }}
                     </div>
                     <div class="post-content text-break">
                         {{ post.content }}
@@ -35,12 +35,12 @@
                                 <b-icon v-show="isLikedPost(post.likedUsers)"
                                         icon="heart-fill"
                                         scale="1.2"
-                                        @click="dislikePost(post.id, index)"
+                                        @click="dislikePost"
                                         class="pr-1 has-link" variant="danger"></b-icon>
                                 <b-icon v-show="!isLikedPost(post.likedUsers)"
                                         icon="heart"
                                         scale="1.2"
-                                        @click="likePost(post.id, index)"
+                                        @click="likePost"
                                         class="pr-1 has-link" variant="danger"></b-icon>
                                 <span class="small">{{ post.likedUsers.length }}</span>
                             </div>
@@ -66,11 +66,11 @@
                                               type="text"
                                               :placeholder="$t('common.label.comment')"
                                               max="2000"
-                                              @keypress.enter.exact="createComment(post, index)"
+                                              @keypress.enter.exact="createComment()"
                                 ></b-form-input>
                                 <b-button class="position-absolute button-send-comment"
                                           type="submit" variant="light"
-                                          @click="createComment(post, index)"
+                                          @click="createComment()"
                                           :disabled="!post.newComment || post.newComment.trim() === ''"
                                 >
                                     <b-icon icon="cursor-fill" rotate="45"
@@ -82,19 +82,19 @@
                         <div v-if="post.comments.length" class="post-comment-list container mt-1">
                             <div class="button-show-comment mt-1 mb-1 small">
                                 <b-link v-show="post.commentIndex > 0"
-                                        variant="success"
-                                        @click="showMoreComment(index)">
+                                          variant="success"
+                                          @click="showMoreComment">
                                     {{ $t('post.label.show_more_comment') }}
                                 </b-link>
-                                <b-link v-show="post.commentIndex === 0 && post.comments.length > 3"
-                                        variant="success"
-                                        @click="showLessComment(index)">
+                                <b-link v-show="post.commentIndex === 0 && post.comments.length > 5"
+                                          variant="success"
+                                          @click="showLessComment">
                                     {{ $t('post.label.show_less_comment') }}
                                 </b-link>
                             </div>
                             <div v-for="(comment, i) of post.comments"
                                  v-show="i >= post.commentIndex"
-                                 :key="'post-' + index + '-comment-' + i">
+                                 :key="'post-comment-' + i">
                                 <div class="post-comment-item d-flex flex-row mb-1">
                                     <div class="post-comment-avatar pr-2">
                                         <Avatar
@@ -130,13 +130,14 @@
 
 <script>
     import Avatar from "../common/Avatar";
-    import { smartTime } from "../../utils/index";
     import {POST} from "../../services/constants";
+    import {smartTime} from "../../utils";
+
     export default {
-        name: "PostComponent",
+        name: "PostDetailComponent",
         components: {Avatar},
         props: [
-            'posts',
+            'post',
             'currentUserId',
             'currentUserName',
             'currentUserAvatar',
@@ -158,26 +159,26 @@
                         return ''
                 }
             },
-            createComment(post, index) {
-                this.$emit('createComment', post.id, post.newComment, index)
+            createComment() {
+                this.$emit('createComment', this.post.newComment)
             },
-            showMoreComment(index) {
-                this.$emit('showMoreComment', index)
+            showMoreComment() {
+                this.$emit('showMoreComment')
                 this.$forceUpdate()
             },
-            showLessComment(index) {
-                this.$emit('showLessComment', index)
+            showLessComment() {
+                this.$emit('showLessComment')
                 this.$forceUpdate()
             },
             isLikedPost(likedUsers) {
                 return likedUsers.length > 0 && likedUsers.some(u => u.id === this.currentUserId)
             },
-            likePost(id, index) {
-                this.$emit('likePost', id, index)
+            likePost() {
+                this.$emit('likePost')
                 this.$forceUpdate()
             },
-            dislikePost(id, index) {
-                this.$emit('dislikePost', id, index)
+            dislikePost() {
+                this.$emit('dislikePost')
                 this.$forceUpdate()
             }
         }
@@ -185,7 +186,7 @@
 </script>
 
 <style lang="scss" scoped>
-.post-component {
+.post-detail-component {
     .post-items {
         .post-details {
             width: calc(100% - 5rem);
@@ -202,6 +203,10 @@
                 padding: 0.5rem;
                 border-radius: 0.5rem;
                 box-shadow: 0 0.15rem 0.15rem rgba(0, 0, 0, 0.15), inset 0 -1px 3px rgba(0, 0, 0, 0.15);
+
+                .post-title {
+                    color: #279dff;
+                }
 
                 .post-react-comments {
                     .post-comment-input {
@@ -230,6 +235,9 @@
                         }
                     }
                     .post-comment-list {
+                        .button-show-comment {
+
+                        }
                         .post-comment-details {
                             width: calc(100% - 2rem);
                         }

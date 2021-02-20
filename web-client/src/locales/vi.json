@@ -31,7 +31,8 @@
       "collapse_all": "Thu gọn toàn bộ",
       "color": "Màu ảnh đại diện",
       "avatar": "Ảnh đại diện",
-      "comment": "Nhập bình luận"
+      "comment": "Nhập bình luận",
+      "post_detail": "Bài viết"
     },
     "validation": {
       "required": "Trường {name} bắt buộc nhập.",
@@ -242,6 +243,10 @@
   "post": {
     "message": {
       "new_comment": "{name} vừa bình luận trong một bài viết của bạn"
+    },
+    "label": {
+      "show_more_comment": "Hiện thêm bình luận cũ...",
+      "show_less_comment": "Ẩn bớt bình luận cũ..."
     }
   }
 }

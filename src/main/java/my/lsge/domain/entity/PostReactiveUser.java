@@ -7,6 +7,7 @@ import my.lsge.domain.enums.PostReactiveUserTypeEnum;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -36,8 +37,12 @@ public class PostReactiveUser extends BaseEntity {
         this.type = PostReactiveUserTypeEnum.LIKE;
     }
 
-    public PostReactiveUser(PostReactiveUserId id, PostReactiveUserTypeEnum type) {
+    public PostReactiveUser(PostReactiveUserId id, Post post, User user, PostReactiveUserTypeEnum type) {
         this.id = id;
+        this.post = post;
+        this.user = user;
         this.type = type;
+        this.setCreatedAt(LocalDateTime.now());
+        this.setModifiedAt(LocalDateTime.now());
     }
 }

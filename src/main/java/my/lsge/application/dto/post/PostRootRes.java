@@ -28,6 +28,10 @@ public class PostRootRes {
             return null;
         }
         Post root = rootOpt.get();
+        return by(root, userList);
+    }
+
+    public static PostRootRes by(Post root, List<User> userList) {
         PostRootRes res = new PostRootRes();
         res.setId(root.getId());
         res.setTitle(root.getTitle());

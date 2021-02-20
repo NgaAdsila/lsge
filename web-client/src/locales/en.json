@@ -32,7 +32,8 @@
       "color": "Avatar color",
       "avatar": "Avatar",
       "search_form": "Search Form",
-      "comment": "Your comment"
+      "comment": "Your comment",
+      "post_detail": "Post detail"
     },
     "validation": {
       "required": "Field {name} is required.",
@@ -257,7 +258,13 @@
   },
   "post": {
     "message": {
-      "new_comment": "{name} just commented in one of your posts"
+      "new_comment": "{name} just commented in one of your posts",
+      "like": "{name} just liked in one of your posts",
+      "dislike": "{name} just disliked in one of your posts"
+    },
+    "label": {
+      "show_more_comment": "Show more comments...",
+      "show_less_comment": "Show less comments..."
     }
   }
 }

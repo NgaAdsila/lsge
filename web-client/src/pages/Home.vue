@@ -8,7 +8,15 @@
             <b-overlay :show="isLoading" rounded="sm" spinner-variant="primary">
                 <PostComponent
                         :posts="posts"
-                        @createComment="createComment" />
+                        :currentUserId="currentUserId"
+                        :currentUserName="currentUserName"
+                        :currentUserAvatar="currentUserAvatar"
+                        :currentUserColor="currentUserColor"
+                        @createComment="createComment"
+                        @showMoreComment="showMoreComment"
+                        @showLessComment="showLessComment"
+                        @likePost="likePost"
+                        @dislikePost="dislikePost" />
                 <div class="text-center mt-4">
                     <b-button v-show="!isLastPost"
                               type="submit" variant="primary"
@@ -25,11 +33,26 @@
 <script>
     import MostModule from "../components/home/MostModule";
     import PostComponent from "../components/home/Post";
-    import { getList, createComment } from "../services/post_service";
-    import {RESPONSE} from "../services/constants";
+    import { getList, createComment, like, dislike } from "../services/post_service";
+    import {RESPONSE, VARIANT} from "../services/constants";
+    import ToastHelper from "../helper/ToastHelper";
     export default {
         name: "Home",
         components: {PostComponent, MostModule},
+        computed: {
+            currentUserId: function () {
+                return this.$store.getters.id
+            },
+            currentUserName: function () {
+                return this.$store.getters.name
+            },
+            currentUserAvatar: function () {
+                return this.$store.getters.avatar
+            },
+            currentUserColor: function () {
+                return this.$store.getters.color
+            }
+        },
         data() {
             return {
                 mostModules: [
@@ -91,6 +114,7 @@
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         if (res.data.responses && res.data.responses.length) {
                             res.data.responses.forEach(post => {
+                                post.commentIndex = Math.max(0, post.comments.length - 3)
                                 this.posts.push(post)
                             })
                             this.postReq.lastId = res.data.responses[res.data.responses.length - 1].id
@@ -120,13 +144,14 @@
                             id: 0,
                             message: comment,
                             user: {
-                                id: this.$store.getters.id,
-                                name: this.$store.getters.name,
-                                color: this.$store.getters.color,
-                                avatar: this.$store.getters.avatar
+                                id: this.currentUserId,
+                                name: this.currentUserName,
+                                color: this.currentUserColor,
+                                avatar: this.currentUserAvatar
                             },
                             createdAt: new Date()
                         })
+                        this.showLessComment(index)
                     } else {
                         console.log(res.message)
                     }
@@ -139,6 +164,50 @@
             },
             async loadMore() {
                 await this.getPosts();
+            },
+            showMoreComment(index) {
+                this.posts[index].commentIndex = Math.max(0, this.posts[index].commentIndex - 3)
+            },
+            showLessComment(index) {
+                this.posts[index].commentIndex = Math.max(0, this.posts[index].comments.length - 3)
+            },
+            async likePost(postId, index) {
+                try {
+                    this.isLoading = true
+                    const res = await like(postId)
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        this.posts[index].likedUsers.push({
+                            id: this.currentUserId,
+                            name: this.currentUserName,
+                            color: this.currentUserColor,
+                            avatar: this.currentUserAvatar
+                        })
+                    } else {
+                        ToastHelper.message(res.message, VARIANT.DANGER)
+                    }
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    this.isLoading = false
+                }
+            },
+            async dislikePost(postId, index) {
+                try {
+                    this.isLoading = true
+                    const res = await dislike(postId)
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        const deletedIndex = this.posts[index].likedUsers.findIndex(u => u.id === this.currentUserId)
+                        if (deletedIndex > -1) {
+                            this.posts[index].likedUsers.splice(deletedIndex, 1)
+                        }
+                    } else {
+                        ToastHelper.message(res.message, VARIANT.DANGER)
+                    }
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    this.isLoading = false
+                }
             }
         }
     }

@@ -46,4 +46,52 @@ class PostController extends Controller
             return ResponseHelper::fail(json_decode($e->getResponse()->getBody()->getContents()), $e->getCode());
         }
     }
+
+    public function like($id, Request $request)
+    {
+        try {
+            $response = $this->client->post(config('services.api.domain') . '/posts/' . $id . '/like', [
+                'headers' => [
+                    'Authorization' => $request->header('Base-Authorization'),
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json'
+                ],
+                'json' => []
+            ]);
+            if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
+                $body =  json_decode($response->getBody(), true);
+                $body['name'] = $request->user()->name;
+                $body['likedUserId'] = $request->user()->id;
+                event(new MainMessageEvent(EncryptHelper::encode(
+                    new ChannelEventReq(ChannelEnum::EVENT_LIKE_POST, $body))));
+                return ResponseHelper::success(['OK']);
+            }
+        } catch (ClientException $e) {
+            return ResponseHelper::fail(json_decode($e->getResponse()->getBody()->getContents()), $e->getCode());
+        }
+    }
+
+    public function dislike($id, Request $request)
+    {
+        try {
+            $response = $this->client->post(config('services.api.domain') . '/posts/' . $id . '/dislike', [
+                'headers' => [
+                    'Authorization' => $request->header('Base-Authorization'),
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json'
+                ],
+                'json' => []
+            ]);
+            if ($response->getStatusCode() == ResponseHelper::HTTP_STATUS_OK) {
+                $body =  json_decode($response->getBody(), true);
+                $body['name'] = $request->user()->name;
+                $body['dislikedUserId'] = $request->user()->id;
+                event(new MainMessageEvent(EncryptHelper::encode(
+                    new ChannelEventReq(ChannelEnum::EVENT_DISLIKE_POST, $body))));
+                return ResponseHelper::success(['OK']);
+            }
+        } catch (ClientException $e) {
+            return ResponseHelper::fail(json_decode($e->getResponse()->getBody()->getContents()), $e->getCode());
+        }
+    }
 }

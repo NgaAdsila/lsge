@@ -54,6 +54,8 @@ Route::group([
             'prefix' => 'posts',
         ], function () {
             Route::post('{id}/create-comment', 'PostController@createComment');
+            Route::post('{id}/like', 'PostController@like');
+            Route::post('{id}/dislike', 'PostController@dislike');
         });
     });
 });
