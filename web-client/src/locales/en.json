@@ -264,7 +264,8 @@
     },
     "label": {
       "show_more_comment": "Show more comments...",
-      "show_less_comment": "Show less comments..."
+      "show_less_comment": "Show less comments...",
+      "create_message": "Click here to create new Post..."
     }
   }
 }

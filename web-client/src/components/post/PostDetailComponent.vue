@@ -101,7 +101,7 @@
                                                 :avatar="comment.user.avatar"
                                                 :color="comment.user.color"
                                                 :name="comment.user.name"
-                                                size="1.5rem"
+                                                :size="'sm'"
                                                 default-color="#28a745"
                                         />
                                     </div>

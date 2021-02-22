@@ -1,5 +1,17 @@
 <template>
     <div class="container post-component">
+        <div class="post-create-new-post">
+            <b-alert show variant="success" class="has-link">
+                <Avatar :avatar="currentUserAvatar"
+                        :color="currentUserColor"
+                        :name="currentUserName"
+                        :size="'sm'"
+                        default-color="#28a745"
+                />
+                {{ $t('post.label.create_message') }}
+            </b-alert>
+        </div>
+
         <div v-for="(post, index) of posts" :key="'post-' + index" class="post-items mt-3 d-flex flex-row">
             <div class="post-avatar pr-2">
                 <Avatar
@@ -101,7 +113,7 @@
                                                 :avatar="comment.user.avatar"
                                                 :color="comment.user.color"
                                                 :name="comment.user.name"
-                                                size="1.5rem"
+                                                :size="'sm'"
                                                 default-color="#28a745"
                                         />
                                     </div>

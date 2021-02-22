@@ -246,7 +246,8 @@
     },
     "label": {
       "show_more_comment": "Hiện thêm bình luận cũ...",
-      "show_less_comment": "Ẩn bớt bình luận cũ..."
+      "show_less_comment": "Ẩn bớt bình luận cũ...",
+      "create_message": "Nhấn vào đấy để tạo bài viết mới..."
     }
   }
 }
