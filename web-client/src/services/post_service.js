@@ -21,3 +21,11 @@ export async function like(id) {
 export async function dislike(id) {
     return await ApiService.post(`${API_PATH.POST_API}/${id}/dislike`, {}, {}, ECHO_API_URL, store.getters.echoJwt)
 }
+
+export async function createPost(title, content, shareMode) {
+    return await ApiService.post(API_PATH.POST_API, {
+        title: title,
+        content: content,
+        shareMode: shareMode
+    }, {}, ECHO_API_URL, store.getters.echoJwt)
+}

@@ -20,7 +20,7 @@ class ChannelEnum
 
     const EVENT_CREATE_POST_COMMENT = 'created-post-comment';
     const EVENT_LIKE_POST = 'liked-post';
-    const EVENT_DISLIKE_POST = 'disliked-post';
+    const EVENT_NEW_POST = 'new-post';
 
     const EVENT_MAIN_MESSAGE = 'message';
 }

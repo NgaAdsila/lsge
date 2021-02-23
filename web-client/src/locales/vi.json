@@ -242,12 +242,24 @@
   },
   "post": {
     "message": {
-      "new_comment": "{name} vừa bình luận trong một bài viết của bạn"
+      "new_comment": "{name} vừa bình luận trong một bài viết của bạn",
+      "like": "{name} vừa thích một bài viết của bạn",
+      "new_post": "{name} tạo một bài viết mới"
     },
     "label": {
       "show_more_comment": "Hiện thêm bình luận cũ...",
       "show_less_comment": "Ẩn bớt bình luận cũ...",
-      "create_message": "Nhấn vào đấy để tạo bài viết mới..."
+      "create_message": "Tạo bài viết mới...",
+      "title": "Tiêu đề",
+      "content": "Nội dung",
+      "create_post": "Tạo bài viết mới",
+      "shareMode": "Chế độ chia sẻ",
+      "modified": "đã chỉnh sửa"
+    },
+    "shareMode": {
+      "PRIVATE": "Chỉ mình tôi",
+      "PUBLIC": "Công khai",
+      "FRIEND": "Bạn bè"
     }
   }
 }

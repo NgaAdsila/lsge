@@ -56,6 +56,7 @@ Route::group([
             Route::post('{id}/create-comment', 'PostController@createComment');
             Route::post('{id}/like', 'PostController@like');
             Route::post('{id}/dislike', 'PostController@dislike');
+            Route::post('', 'PostController@add');
         });
     });
 });

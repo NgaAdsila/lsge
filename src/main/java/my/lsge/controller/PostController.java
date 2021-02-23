@@ -20,7 +20,7 @@ public class PostController extends BaseController {
     }
 
     @PostMapping("")
-    public PostRes add(@RequestBody AddingPostReq req) {
+    public AddingPostRes add(@RequestBody AddingPostReq req) {
         return postLogic.add(req, getUserId());
     }
 

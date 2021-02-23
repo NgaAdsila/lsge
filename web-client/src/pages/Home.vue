@@ -12,6 +12,7 @@
                         :currentUserName="currentUserName"
                         :currentUserAvatar="currentUserAvatar"
                         :currentUserColor="currentUserColor"
+                        @createPost="createPost"
                         @createComment="createComment"
                         @showMoreComment="showMoreComment"
                         @showLessComment="showLessComment"
@@ -33,7 +34,7 @@
 <script>
     import MostModule from "../components/home/MostModule";
     import PostComponent from "../components/home/Post";
-    import { getList, createComment, like, dislike } from "../services/post_service";
+    import { getList, createComment, like, dislike, createPost } from "../services/post_service";
     import {RESPONSE, VARIANT} from "../services/constants";
     import ToastHelper from "../helper/ToastHelper";
     export default {
@@ -101,12 +102,15 @@
             }
         },
         async mounted() {
-            this.posts = []
-            this.isLastPost = false
-            this.postReq.lastId = null
-            await this.getPosts();
+            this.resetData()
+            await this.getPosts()
         },
         methods: {
+            resetData() {
+                this.posts = []
+                this.isLastPost = false
+                this.postReq.lastId = null
+            },
             async getPosts() {
                 try {
                     this.isLoading = true
@@ -200,6 +204,22 @@
                         if (deletedIndex > -1) {
                             this.posts[index].likedUsers.splice(deletedIndex, 1)
                         }
+                    } else {
+                        ToastHelper.message(res.message, VARIANT.DANGER)
+                    }
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    this.isLoading = false
+                }
+            },
+            async createPost(title, content, shareMode) {
+                try {
+                    this.isLoading = true
+                    const res = await createPost(title, content, shareMode)
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        this.resetData()
+                        this.getPosts()
                     } else {
                         ToastHelper.message(res.message, VARIANT.DANGER)
                     }

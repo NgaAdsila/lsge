@@ -52,7 +52,7 @@ public class PostFilterItemRes {
         if (post.getRootId() != null) {
             res.setRoot(PostRootRes.by(post.getRootId(), roots, userList));
         }
-        post.setStatus(post.getStatus());
+        res.setStatus(post.getStatus());
         res.setUser(UserSummary.byFromList(post.getCreatedBy(), userList));
         res.setCreatedAt(Utils.parseDateTimeToMilliSecond(post.getCreatedAt()));
         res.setModifiedAt(Utils.parseDateTimeToMilliSecond(post.getModifiedAt()));

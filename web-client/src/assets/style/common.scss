@@ -134,6 +134,9 @@ body::-webkit-scrollbar-thumb {
   &:hover {
     opacity: 0.7;
   }
+  &:focus {
+    outline: none !important;
+  }
 }
 
 a.linkified {
@@ -150,4 +153,8 @@ tr:focus {
 
 a:hover {
   text-decoration: none !important;
+}
+
+.text-pre {
+  white-space: pre-wrap;
 }

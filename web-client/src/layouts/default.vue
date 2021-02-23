@@ -38,6 +38,7 @@
     import {approveFriend, cancelFriend} from "@/services/relationship_service";
     import {decode} from "@/utils/encrypt";
     import {checkRole} from "@/services/role";
+    import {POST} from "../services/constants";
     export default {
         name: "default",
         components: {FriendList, ConfirmModal, Footer, Header},
@@ -272,8 +273,8 @@
                         return this.handleCreatePostComment(res.data)
                     case ECHO_EVENT.LIKE_POST:
                         return this.handleLikePost(res.data)
-                    case ECHO_EVENT.DISLIKE_POST:
-                        return this.handleDislikePost(res.data)
+                    case ECHO_EVENT.NEW_POST:
+                        return this.handleNewPost(res.data)
                     default:
                         return
                 }
@@ -324,10 +325,13 @@
                         this.$t('post.message.like', { name: res.name }), VARIANT.PRIMARY, `/post/${res.id}`)
                 }
             },
-            handleDislikePost(res) {
-                if (res.dislikedUserId !== this.currentUserId && res.createdBy === this.currentUserId) {
+            handleNewPost(res) {
+                console.log(res)
+                if (res.post.createdBy !== this.currentUserId
+                    && (res.post.shareMode === POST.SHARE_MODE.PUBLIC
+                        || (res.post.shareMode === POST.SHARE_MODE.FRIEND && res.friendIds.includes(this.currentUserId)))) {
                     ToastHelper.notify(
-                        this.$t('post.message.dislike', { name: res.name }), VARIANT.PRIMARY, `/post/${res.id}`)
+                        this.$t('post.message.new_post', { name: res.name }), VARIANT.PRIMARY, `/post/${res.post.id}`)
                 }
             }
         },

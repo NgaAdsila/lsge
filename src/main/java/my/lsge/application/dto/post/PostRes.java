@@ -28,7 +28,7 @@ public class PostRes {
         res.setContent(post.getContent());
         res.setShareMode(post.getShareMode());
         res.setRootId(post.getRootId());
-        post.setStatus(post.getStatus());
+        res.setStatus(post.getStatus());
         res.setCreatedBy(post.getCreatedBy());
         res.setCreatedAt(Utils.parseDateTimeToMilliSecond(post.getCreatedAt()));
         res.setModifiedAt(Utils.parseDateTimeToMilliSecond(post.getModifiedAt()));

@@ -99,7 +99,7 @@ export const ECHO_EVENT = {
     MESSAGE: 'message',
     CREATE_POST_COMMENT: 'created-post-comment',
     LIKE_POST: 'liked-post',
-    DISLIKE_POST: 'disliked-post',
+    NEW_POST: 'new-post',
 }
 
 export const VARIANT = {
@@ -150,5 +150,28 @@ export const POST = {
         PRIVATE: 'PRIVATE',
         PUBLIC: 'PUBLIC',
         FRIEND: 'FRIEND'
+    },
+    SHARE_MODE_ICON: {
+        PRIVATE: 'shield-lock-fill',
+        PUBLIC: 'globe',
+        FRIEND: 'people-fill'
+    },
+    SHARE_MODE_OPTIONS: [
+        {
+            id: 'PRIVATE',
+            icon: 'shield-lock-fill'
+        },
+        {
+            id: 'PUBLIC',
+            icon: 'globe'
+        },
+        {
+            id: 'FRIEND',
+            icon: 'people-fill'
+        }
+    ],
+    STATUS: {
+        CREATED: 'CREATED',
+        MODIFIED: 'MODIFIED'
     }
 }

@@ -26,7 +26,7 @@
                     <div class="post-title font-italic text-break">
                         {{ post.title }}
                     </div>
-                    <div class="post-content text-break">
+                    <div class="post-content text-break text-pre">
                         {{ post.content }}
                     </div>
                     <div class="post-react-comments">

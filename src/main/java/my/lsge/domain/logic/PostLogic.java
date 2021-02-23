@@ -13,6 +13,7 @@ import my.lsge.domain.repository.PostReactiveUserRepository;
 import my.lsge.domain.repository.PostRepository;
 import my.lsge.domain.repository.RelationshipRepository;
 import my.lsge.util.Utils;
+import org.apache.commons.math3.analysis.function.Add;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -94,13 +95,18 @@ public class PostLogic extends BaseLogic {
         return friendIds;
     }
 
-    public PostRes add(AddingPostReq req, Long userId) {
+    public AddingPostRes add(AddingPostReq req, Long userId) {
         validateUser(userId);
 
         Post post = new Post(0L, req.getTitle(), req.getContent(), req.isHasImage(),
                 req.getShareMode(), PostStatusEnum.CREATED, null, null);
         postRepository.save(post);
-        return PostRes.by(post);
+
+        List<Relationship> friends = new ArrayList<>();
+        if (post.getShareMode().equals(PostShareModeEnum.FRIEND)) {
+            friends = relationshipRepository.findFriends(RelationShipStatusEnum.APPROVED, userId);
+        }
+        return AddingPostRes.by(post, friends);
     }
 
     public PostRes update(UpdatingPostReq req, Long userId) {

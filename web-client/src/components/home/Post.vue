@@ -1,7 +1,7 @@
 <template>
     <div class="container post-component">
         <div class="post-create-new-post">
-            <b-alert show variant="success" class="has-link">
+            <b-alert show variant="success" class="has-link" v-b-modal.create-post-modal>
                 <Avatar :avatar="currentUserAvatar"
                         :color="currentUserColor"
                         :name="currentUserName"
@@ -11,6 +11,7 @@
                 {{ $t('post.label.create_message') }}
             </b-alert>
         </div>
+        <CreatePostModal @createPost="createPost" />
 
         <div v-for="(post, index) of posts" :key="'post-' + index" class="post-items mt-3 d-flex flex-row">
             <div class="post-avatar pr-2">
@@ -26,7 +27,9 @@
                     {{ post.user.name }}
                 </div>
                 <div class="post-time-status pr-2">
-                    <span class="small time">{{ formatTime(post.modifiedAt) }}</span>
+                    <span class="small time">
+                        {{ formatTime(post.modifiedAt) }}<i>{{ isModified(post.status) ? ' (' + $t('post.label.modified') + ') ' : '' }}</i>
+                    </span>
                     <span class="pl-1">
                         <b-icon
                                 :icon="getIconShareMode(post.shareMode)"
@@ -38,7 +41,7 @@
                     <div class="post-title font-italic text-break">
                         <router-link :to="`/post/${post.id}`">{{ post.title }}</router-link>
                     </div>
-                    <div class="post-content text-break">
+                    <div class="post-content text-break text-pre">
                         {{ post.content }}
                     </div>
                     <div class="post-react-comments">
@@ -144,9 +147,10 @@
     import Avatar from "../common/Avatar";
     import { smartTime } from "../../utils/index";
     import {POST} from "../../services/constants";
+    import CreatePostModal from "../modal/CreatePostModal";
     export default {
         name: "PostComponent",
-        components: {Avatar},
+        components: {CreatePostModal, Avatar},
         props: [
             'posts',
             'currentUserId',
@@ -154,21 +158,17 @@
             'currentUserAvatar',
             'currentUserColor',
         ],
+        computed: {
+            getIconShareMode() {
+                return shareMode => POST.SHARE_MODE_ICON[shareMode]
+            },
+            isModified() {
+                return status => POST.STATUS.MODIFIED === status
+            }
+        },
         methods: {
             formatTime(time) {
                 return smartTime(time)
-            },
-            getIconShareMode(shareMode) {
-                switch (shareMode) {
-                    case POST.SHARE_MODE.PRIVATE:
-                        return 'shield-lock-fill'
-                    case POST.SHARE_MODE.PUBLIC:
-                        return 'globe'
-                    case POST.SHARE_MODE.FRIEND:
-                        return 'people-fill'
-                    default:
-                        return ''
-                }
             },
             createComment(post, index) {
                 this.$emit('createComment', post.id, post.newComment, index)
@@ -191,6 +191,9 @@
             dislikePost(id, index) {
                 this.$emit('dislikePost', id, index)
                 this.$forceUpdate()
+            },
+            createPost(title, content, shareMode) {
+                this.$emit('createPost', title, content, shareMode);
             }
         }
     }
@@ -214,6 +217,20 @@
                 padding: 0.5rem;
                 border-radius: 0.5rem;
                 box-shadow: 0 0.15rem 0.15rem rgba(0, 0, 0, 0.15), inset 0 -1px 3px rgba(0, 0, 0, 0.15);
+
+                &:hover {
+                    box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.45), inset 0 -1px 5px rgba(0, 0, 0, 0.45);
+                }
+
+                .post-content {
+                    max-width: 100%;
+                    display: block;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 5;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
 
                 .post-react-comments {
                     .post-comment-input {

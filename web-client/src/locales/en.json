@@ -260,12 +260,22 @@
     "message": {
       "new_comment": "{name} just commented in one of your posts",
       "like": "{name} just liked in one of your posts",
-      "dislike": "{name} just disliked in one of your posts"
+      "new_post": "{name} just created a new post"
     },
     "label": {
       "show_more_comment": "Show more comments...",
       "show_less_comment": "Show less comments...",
-      "create_message": "Click here to create new Post..."
+      "create_message": "What are you thinking? Please share your feelings with everyone...",
+      "title": "Title",
+      "content": "Content",
+      "create_post": "Create Post",
+      "shareMode": "Share Mode",
+      "modified": "modified"
+    },
+    "shareMode": {
+      "PRIVATE": "PRIVATE",
+      "PUBLIC": "PUBLIC",
+      "FRIEND": "FRIEND"
     }
   }
 }
