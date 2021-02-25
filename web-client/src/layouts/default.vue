@@ -17,6 +17,13 @@
                     @createChatRoom="createChatRoom"
                     @approveFriend="approveFriend"
                     @cancelFriend="cancelFriend" />
+            <b-button class="back-top-button"
+                      :class="isTop ? 'd-none' : ''"
+                      @click="backTop"
+                      variant="primary"
+                      id="back-top-button">
+                <b-icon icon="arrow-up-short" scale="1.75" animation="cylon-vertical"></b-icon>
+            </b-button>
         </b-container>
         <Footer />
         <ConfirmModal :message="confirmMessage" @onOk="onOk" />
@@ -51,7 +58,8 @@
                 chatWithUserId: null,
                 echoConnect: null,
                 onlineUserIds: [],
-                isLoading: false
+                isLoading: false,
+                isTop: true
             }
         },
         computed: {
@@ -73,6 +81,8 @@
             }, 1000)
             this.getFriendList()
             this.registerEchoConnection()
+            window.addEventListener('scroll', this.handlePageScroll)
+            this.handlePageScroll()
         },
         methods: {
             async logout() {
@@ -333,6 +343,19 @@
                     ToastHelper.notify(
                         this.$t('post.message.new_post', { name: res.name }), VARIANT.PRIMARY, `/post/${res.post.id}`)
                 }
+            },
+            handlePageScroll() {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop,
+                    height = document.documentElement.scrollHeight - document.documentElement.clientHeight,
+                    scrolled = (winScroll / height) * 100
+                document.getElementById('header-progress-bar').style.width = scrolled + '%'
+                this.isTop = scrolled <= 0
+            },
+            backTop() {
+                document.documentElement.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                })
             }
         },
         beforeDestroy() {
@@ -343,10 +366,19 @@
                 this.echoConnect.leave(ECHO_CHANNEL.CHANNEL_MAIN);
                 this.echoConnect = null;
             }
+            window.removeEventListener('scroll', this.handlePageScroll)
         }
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.back-top-button {
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    position: fixed;
+    bottom: 10%;
+    right: 2.2%;
+}
 </style>
