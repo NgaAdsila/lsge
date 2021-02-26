@@ -218,4 +218,21 @@ public class PostLogic extends BaseLogic {
 
         return PostRes.by(post);
     }
+
+    public PostRes delete(long id, Long userId) {
+        validateUser(userId);
+
+        Post post = postRepository.findById(id).orElse(null);
+        if (post == null || post.isDeleted()) {
+            throw new NotFoundException(language.getString("post.is_not_existed"));
+        }
+
+        if (!post.getCreatedBy().equals(userId)) {
+            throw new ForbiddenException();
+        }
+
+        post.setDeleted(true);
+        postRepository.save(post);
+        return PostRes.by(post);
+    }
 }

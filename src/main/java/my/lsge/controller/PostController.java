@@ -48,4 +48,9 @@ public class PostController extends BaseController {
     public PostRes dislike(@PathVariable("id") long id) {
         return postLogic.dislike(id, getUserId());
     }
+
+    @PutMapping("/{id}")
+    public PostRes delete(@PathVariable("id") long id) {
+        return postLogic.delete(id, getUserId());
+    }
 }

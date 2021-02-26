@@ -1,5 +1,5 @@
 <template>
-    <b-modal id="modal-confirm"
+    <b-modal :id="id || 'modal-confirm'"
              centered
              :title="$t('common.modal.confirm_title')"
              @ok="onOk"
@@ -12,6 +12,7 @@
     export default {
         name: "ConfirmModal",
         props: [
+            'id',
             'message',
             'data'
         ],

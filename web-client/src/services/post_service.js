@@ -29,3 +29,16 @@ export async function createPost(title, content, shareMode) {
         shareMode: shareMode
     }, {}, ECHO_API_URL, store.getters.echoJwt)
 }
+
+export async function updatePost(id, title, content, shareMode) {
+    return await ApiService.put(API_PATH.POST_API, {
+        id: id,
+        title: title,
+        content: content,
+        shareMode: shareMode
+    }, {})
+}
+
+export async function deletePost(id) {
+    return await ApiService.put(`${API_PATH.POST_API}/${id}`, {}, {})
+}

@@ -61,7 +61,7 @@
 <script>
     import { validationMixin } from 'vuelidate';
     import { required, maxLength } from 'vuelidate/lib/validators';
-    import {POST} from "../../services/constants";
+    import {POST} from "../../../services/constants";
 
     export default {
         name: "CreatePostModal",
@@ -102,9 +102,9 @@
             },
             handleOk(bvModelEvt) {
                 bvModelEvt.preventDefault()
-                this.onCreatePost()
+                this.onUpdatePost()
             },
-            onCreatePost() {
+            onUpdatePost() {
                 this.$v.$touch();
                 if (this.$v.$anyError) {
                     this.focusFirstError();

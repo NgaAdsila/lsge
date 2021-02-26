@@ -37,7 +37,7 @@
                         ></b-icon>
                     </span>
                 </div>
-                <div class="post-title-content mt-1">
+                <div class="post-title-content mt-1 position-relative">
                     <div class="post-title font-italic text-break">
                         <router-link :to="`/post/${post.id}`">{{ post.title }}</router-link>
                     </div>
@@ -137,6 +137,22 @@
                             </div>
                         </div>
                     </div>
+                    <div v-if="post.user.id === currentUserId" class="post-item-actions position-absolute">
+                        <b-icon icon="pencil"
+                                class="mr-2 has-link"
+                                v-b-tooltip.hover="$t('post.label.edit')"
+                                v-b-modal="'edit-post-modal-' + post.id"
+                                variant="primary"></b-icon>
+                        <b-icon icon="trash"
+                                class="has-link"
+                                v-b-tooltip.hover="$t('post.label.remove')"
+                                v-b-modal="'post-delete-' + post.id"
+                                variant="danger"></b-icon>
+                    </div>
+                    <EditPostModal :post="post" @updatePost="updatePost" />
+                    <ConfirmModal :id="'post-delete-' + post.id"
+                                  :message="$t('post.message.delete_confirm')"
+                                  @onOk="deletePost(post.id)" />
                 </div>
             </div>
         </div>
@@ -147,10 +163,12 @@
     import Avatar from "../common/Avatar";
     import { smartTime } from "../../utils/index";
     import {POST} from "../../services/constants";
-    import CreatePostModal from "../modal/CreatePostModal";
+    import CreatePostModal from "../modal/posts/CreatePostModal";
+    import EditPostModal from "../modal/posts/EditPostModal";
+    import ConfirmModal from "../modal/ConfirmModal";
     export default {
         name: "PostComponent",
-        components: {CreatePostModal, Avatar},
+        components: {ConfirmModal, EditPostModal, CreatePostModal, Avatar},
         props: [
             'posts',
             'currentUserId',
@@ -194,6 +212,14 @@
             },
             createPost(title, content, shareMode) {
                 this.$emit('createPost', title, content, shareMode);
+            },
+            updatePost(id, title, content, shareMode) {
+                this.$emit('updatePost', id, title, content, shareMode)
+            },
+            deletePost(id) {
+                console.log(id)
+                this.$bvModal.hide('post-delete-' + id)
+                this.$emit('deletePost', id)
             }
         }
     }
@@ -218,8 +244,18 @@
                 border-radius: 0.5rem;
                 box-shadow: 0 0.15rem 0.15rem rgba(0, 0, 0, 0.15), inset 0 -1px 3px rgba(0, 0, 0, 0.15);
 
+                .post-item-actions {
+                    top: 0;
+                    right: 0;
+                    padding: 0.5rem;
+                    display: none;
+                }
+
                 &:hover {
                     box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.45), inset 0 -1px 5px rgba(0, 0, 0, 0.45);
+                    .post-item-actions {
+                        display: block;
+                    }
                 }
 
                 .post-content {

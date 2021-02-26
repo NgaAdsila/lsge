@@ -13,13 +13,15 @@
                         :currentUserAvatar="currentUserAvatar"
                         :currentUserColor="currentUserColor"
                         @createPost="createPost"
+                        @updatePost="updatePost"
+                        @deletePost="deletePost"
                         @createComment="createComment"
                         @showMoreComment="showMoreComment"
                         @showLessComment="showLessComment"
                         @likePost="likePost"
                         @dislikePost="dislikePost" />
                 <div class="text-center mt-4">
-                    <b-button v-show="!isLastPost"
+                    <b-button v-show="!isLoading && !isLastPost"
                               type="submit" variant="primary"
                               @click="loadMore"
                     >
@@ -34,7 +36,7 @@
 <script>
     import MostModule from "../components/home/MostModule";
     import PostComponent from "../components/home/Post";
-    import { getList, createComment, like, dislike, createPost } from "../services/post_service";
+    import {getList, createComment, like, dislike, createPost, updatePost, deletePost} from "../services/post_service";
     import {RESPONSE, VARIANT} from "../services/constants";
     import ToastHelper from "../helper/ToastHelper";
     export default {
@@ -222,10 +224,44 @@
                         this.getPosts()
                     } else {
                         ToastHelper.message(res.message, VARIANT.DANGER)
+                        this.isLoading = false
                     }
                 } catch (e) {
                     console.log(e)
-                } finally {
+                    this.isLoading = false
+                }
+            },
+            async updatePost(id, title, content, shareMode) {
+                try {
+                    this.isLoading = true
+                    const res = await updatePost(id, title, content, shareMode)
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        ToastHelper.message(this.$t('post.message.update_success'))
+                        this.resetData()
+                        this.getPosts()
+                    } else {
+                        ToastHelper.message(res.message, VARIANT.DANGER)
+                        this.isLoading = false
+                    }
+                } catch (e) {
+                    console.log(e)
+                    this.isLoading = false
+                }
+            },
+            async deletePost(id) {
+                try {
+                    this.isLoading = true
+                    const res = await deletePost(id)
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        ToastHelper.message(this.$t('post.message.delete_success'))
+                        this.resetData()
+                        this.getPosts()
+                    } else {
+                        ToastHelper.message(res.message, VARIANT.DANGER)
+                        this.isLoading = false
+                    }
+                } catch (e) {
+                    console.log(e)
                     this.isLoading = false
                 }
             }
