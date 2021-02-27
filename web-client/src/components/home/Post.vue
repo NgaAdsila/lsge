@@ -42,7 +42,7 @@
                         <router-link :to="`/post/${post.id}`">{{ post.title }}</router-link>
                     </div>
                     <div class="post-content text-break text-pre">
-                        {{ post.content }}
+                        <span v-html="post.content"></span>
                     </div>
                     <div class="post-react-comments">
                         <div class="post-react-comment-icon d-flex flex-row">
@@ -242,7 +242,7 @@
                 text-align: justify;
                 padding: 0.5rem;
                 border-radius: 0.5rem;
-                box-shadow: 0 0.15rem 0.15rem rgba(0, 0, 0, 0.15), inset 0 -1px 3px rgba(0, 0, 0, 0.15);
+                box-shadow: 0 0.15rem 0.15rem rgba(0, 0, 0, 0.15);
 
                 .post-item-actions {
                     top: 0;
@@ -252,7 +252,7 @@
                 }
 
                 &:hover {
-                    box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.45), inset 0 -1px 5px rgba(0, 0, 0, 0.45);
+                    box-shadow: 0 0.25rem 0.15rem rgba(0, 0, 0, 0.45);
                     .post-item-actions {
                         display: block;
                     }

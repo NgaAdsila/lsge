@@ -1,11 +1,11 @@
 <template>
     <div class="home-page">
-        <section id="most-module">
-            <MostModule
-                    :modules="mostModules" />
-        </section>
-        <section id="post-list">
-            <b-overlay :show="isLoading" rounded="sm" spinner-variant="primary">
+        <b-overlay :show="isLoading" rounded="sm" spinner-variant="primary">
+            <section id="most-module">
+                <MostModule
+                        :modules="mostModules" />
+            </section>
+            <section id="post-list">
                 <PostComponent
                         :posts="posts"
                         :currentUserId="currentUserId"
@@ -28,8 +28,8 @@
                         Load More
                     </b-button>
                 </div>
-            </b-overlay>
-        </section>
+            </section>
+        </b-overlay>
     </div>
 </template>
 

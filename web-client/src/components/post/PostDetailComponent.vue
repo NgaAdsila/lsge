@@ -27,7 +27,7 @@
                         {{ post.title }}
                     </div>
                     <div class="post-content text-break text-pre">
-                        {{ post.content }}
+                        <span v-html="post.content"></span>
                     </div>
                     <div class="post-react-comments">
                         <div class="post-react-comment-icon d-flex flex-row">
@@ -201,8 +201,6 @@
                 width: 100%;
                 text-align: justify;
                 padding: 0.5rem;
-                border-radius: 0.5rem;
-                box-shadow: 0 0.15rem 0.15rem rgba(0, 0, 0, 0.15), inset 0 -1px 3px rgba(0, 0, 0, 0.15);
 
                 .post-title {
                     color: #279dff;
