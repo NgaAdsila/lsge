@@ -27,7 +27,7 @@
                         {{ post.title }}
                     </div>
                     <div class="post-content text-break text-pre">
-                        <span v-html="post.content"></span>
+                        {{ post.content }}
                     </div>
                     <div class="post-react-comments">
                         <div class="post-react-comment-icon d-flex flex-row">

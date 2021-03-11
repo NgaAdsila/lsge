@@ -4,7 +4,7 @@
               class="header-container">
       <b-navbar-nav>
         <b-nav-item @click="toggleSidebar">
-          <b-icon v-show="sidebarToggle" icon="arrow-left-circle" animation="cylon"></b-icon>
+          <b-icon v-show="!mobileToggle && sidebarToggle" icon="arrow-left-circle" animation="cylon"></b-icon>
           <b-icon v-show="!sidebarToggle" icon="arrow-right-circle" animation="cylon"></b-icon>
         </b-nav-item>
         <b-nav-item to="/">
@@ -29,7 +29,7 @@ import Avatar from "@/components/common/Avatar";
 export default {
   name: "ManagerHeader",
   components: {Avatar},
-  props: ['sidebarToggle'],
+  props: ['sidebarToggle', 'mobileToggle'],
   methods: {
     toggleSidebar() {
       this.$emit('toggleSideBar');
