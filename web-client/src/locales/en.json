@@ -275,7 +275,8 @@
       "shareMode": "Share Mode",
       "modified": "modified",
       "edit": "Edit",
-      "remove": "Delete"
+      "remove": "Delete",
+      "reply": "Reply"
     },
     "shareMode": {
       "PRIVATE": "PRIVATE",

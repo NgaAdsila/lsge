@@ -132,6 +132,19 @@
                                         <div class="post-comment-content text-break">
                                             {{ comment.message }}
                                         </div>
+                                        <div class="post-comment-action">
+                                            <span class="post-comment-action-item action-reply has-link"
+                                                  @click="replyComment(post.id, comment.id)"
+                                            >{{ $t('post.label.reply') }}</span>
+                                            <span v-if="currentUserId === post.user.id"
+                                                  class="post-comment-action-item action-edit has-link"
+                                                  @click="editComment(post.id, comment.id)"
+                                            >{{ $t('post.label.edit') }}</span>
+                                            <span v-if="currentUserId === post.user.id"
+                                                  class="post-comment-action-item action-delete has-link"
+                                                  @click="deleteComment(post.id, comment.id)"
+                                            >{{ $t('post.label.remove') }}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -217,10 +230,19 @@
                 this.$emit('updatePost', id, title, content, shareMode)
             },
             deletePost(id) {
-                console.log(id)
                 this.$bvModal.hide('post-delete-' + id)
                 this.$emit('deletePost', id)
-            }
+            },
+            replyComment(postId, commentId) {
+                console.log('REPLY COMMENT: ', postId, commentId)
+            },
+            editComment(postId, commentId) {
+                console.log('EDIT COMMENT: ', postId, commentId)
+            },
+            deleteComment(postId, commentId) {
+                console.log('DELETE COMMENT: ', postId, commentId)
+            },
+
         }
     }
 </script>
@@ -297,6 +319,18 @@
                     .post-comment-list {
                         .post-comment-details {
                             width: calc(100% - 2rem);
+                        }
+                    }
+                }
+                .post-comment-action {
+                    color: #007bff;
+                    font-size: 90%;
+                    font-weight: bold;
+                    .post-comment-action-item {
+                        margin-right: 0.5rem;
+
+                        &.action-delete {
+                            color: red;
                         }
                     }
                 }

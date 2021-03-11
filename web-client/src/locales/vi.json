@@ -258,8 +258,9 @@
       "create_post": "Tạo bài viết mới",
       "shareMode": "Chế độ chia sẻ",
       "modified": "đã chỉnh sửa",
-      "edit": "Chỉnh sửa bài viết",
-      "remove": "Xóa bài viết"
+      "edit": "Chỉnh sửa",
+      "remove": "Xóa",
+      "reply": "Trả lời"
     },
     "shareMode": {
       "PRIVATE": "Chỉ mình tôi",
