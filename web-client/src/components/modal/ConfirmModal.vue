@@ -3,7 +3,8 @@
              centered
              :title="$t('common.modal.confirm_title')"
              @ok="onOk"
-             @cancel="cancel">
+             @cancel="cancel"
+             @hide="hide">
         <p class="my-4 text-center">{{ message }}</p>
     </b-modal>
 </template>
@@ -22,6 +23,9 @@
             },
             cancel() {
                 this.$emit('cancel');
+            },
+            hide() {
+                this.$emit('hide');
             }
         }
     }

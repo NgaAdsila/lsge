@@ -32,7 +32,10 @@
       "color": "Màu ảnh đại diện",
       "avatar": "Ảnh đại diện",
       "comment": "Nhập bình luận",
-      "post_detail": "Bài viết"
+      "post_detail": "Bài viết",
+      "cancel": "Hủy",
+      "go_top": "Về đầu trang",
+      "reply_at": "Trả lời "
     },
     "validation": {
       "required": "Trường {name} bắt buộc nhập.",
@@ -247,11 +250,15 @@
       "new_post": "{name} tạo một bài viết mới",
       "update_success": "Cập nhật thành công thông tin bài viết",
       "delete_success": "Xóa thành công bài viết",
-      "delete_confirm": "Bạn có muốn xóa bài viết này không?"
+      "delete_confirm": "Bạn có muốn xóa bài viết này không?",
+      "delete_comment_confirm": "Bạn có muốn xóa bình luận này không?",
+      "delete_reply_confirm": "Bạn có muốn xóa trả lời này không?"
     },
     "label": {
       "show_more_comment": "Hiện thêm bình luận cũ...",
       "show_less_comment": "Ẩn bớt bình luận cũ...",
+      "show_more_reply": "Hiện thêm trả lời cũ...",
+      "show_less_reply": "Ẩn bớt trả lời cũ...",
       "create_message": "Tạo bài viết mới...",
       "title": "Tiêu đề",
       "content": "Nội dung",

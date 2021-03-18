@@ -21,7 +21,7 @@ class PostController extends Controller
         $this->client = $client;
     }
 
-    public function createComment($id, CreatingCommentRequest $request)
+    public function createComment(CreatingCommentRequest $request, $id)
     {
         try {
             $data = $request->only('message');
@@ -41,14 +41,14 @@ class PostController extends Controller
                 $body['commentedUserId'] = $request->user()->id;
                 event(new MainMessageEvent(EncryptHelper::encode(
                     new ChannelEventReq(ChannelEnum::EVENT_CREATE_POST_COMMENT, $body))));
-                return ResponseHelper::success(['OK']);
+                return ResponseHelper::success($body);
             }
         } catch (ClientException $e) {
             return ResponseHelper::fail(json_decode($e->getResponse()->getBody()->getContents()), $e->getCode());
         }
     }
 
-    public function like($id, Request $request)
+    public function like(Request $request, $id)
     {
         try {
             $response = $this->client->post(config('services.api.domain') . '/posts/' . $id . '/like', [
@@ -72,7 +72,7 @@ class PostController extends Controller
         }
     }
 
-    public function dislike($id, Request $request)
+    public function dislike(Request $request, $id)
     {
         try {
             $response = $this->client->post(config('services.api.domain') . '/posts/' . $id . '/dislike', [

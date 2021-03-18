@@ -22,7 +22,9 @@
                       @click="backTop"
                       variant="primary"
                       id="back-top-button">
-                <b-icon icon="arrow-up-short" scale="1.75" animation="cylon-vertical"></b-icon>
+                <b-icon icon="arrow-up-short"
+                        scale="1.75"
+                        v-b-tooltip.hover="$t('common.label.go_top')"></b-icon>
             </b-button>
         </b-container>
         <Footer />

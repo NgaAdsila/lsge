@@ -159,3 +159,8 @@ a:hover {
 .text-pre {
   white-space: pre-wrap;
 }
+
+.disabled-link {
+  pointer-events: none;
+  opacity: 0.4;
+}

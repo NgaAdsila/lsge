@@ -53,4 +53,19 @@ public class PostController extends BaseController {
     public PostRes delete(@PathVariable("id") long id) {
         return postLogic.delete(id, getUserId());
     }
+
+    @PostMapping("/{id}/reply-comment")
+    public ReplyCommentRes replyComment(@PathVariable("id") long id, @RequestBody ReplyCommentReq req) {
+        return postLogic.replyComment(id, req, getUserId());
+    }
+
+    @PostMapping("/{id}/edit-comment")
+    public ReplyCommentRes editComment(@PathVariable("id") long id, @RequestBody ReplyCommentReq req) {
+        return postLogic.editComment(id, req, getUserId());
+    }
+
+    @DeleteMapping("/{id}/comments/{commentId}")
+    public ReplyCommentRes deleteComment(@PathVariable("id") long id, @PathVariable("commentId") long commentId) {
+        return postLogic.deleteComment(id, commentId, getUserId());
+    }
 }

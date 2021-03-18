@@ -49,4 +49,8 @@ public class Comment extends BaseEntity {
         this.parentId = parentId;
         this.status = status;
     }
+
+    public boolean isRootComment() {
+        return this.parentId == null || this.parentId.equals(0L);
+    }
 }

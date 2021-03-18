@@ -11,16 +11,31 @@
                     @showMoreComment="showMoreComment"
                     @showLessComment="showLessComment"
                     @createComment="createComment"
+                    @showMoreRepliedComment="showMoreRepliedComment"
+                    @showLessRepliedComment="showLessRepliedComment"
                     @likePost="likePost"
                     @dislikePost="dislikePost"
+                    @replyComment="replyComment"
+                    @editComment="editComment"
+                    @deleteComment="deleteComment"
+                    @editRepliedComment="editRepliedComment"
+                    @deleteRepliedComment="deleteRepliedComment"
             />
         </b-overlay>
     </div>
 </template>
 
 <script>
-    import { getById, createComment, like, dislike } from '../../services/post_service';
-    import {RESPONSE, VARIANT} from "../../services/constants";
+    import {
+        getById,
+        createComment,
+        like,
+        dislike,
+        replyComment,
+        editComment,
+        deleteComment
+    } from '../../services/post_service';
+    import {POST, RESPONSE, VARIANT} from "../../services/constants";
     import ToastHelper from "../../helper/ToastHelper";
     import PostDetailComponent from "../../components/post/PostDetailComponent";
     export default {
@@ -41,6 +56,12 @@
             },
             currentUserColor: function () {
                 return this.$store.getters.color
+            },
+            commentLimit: function () {
+                return POST.COMMENT_PER_PAGE.DETAIL
+            },
+            repliedCommentLimit: function () {
+                return POST.REPLIED_COMMENT_PER_PAGE.DETAIL
             }
         },
         data() {
@@ -96,7 +117,7 @@
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         this.post.newComment = null
                         this.post.comments.push({
-                            id: 0,
+                            id: res.data.newComment.id || 0,
                             message: comment,
                             user: {
                                 id: this.currentUserId,
@@ -104,6 +125,7 @@
                                 color: this.currentUserColor,
                                 avatar: this.currentUserAvatar
                             },
+                            repliedComments: [],
                             createdAt: new Date()
                         })
                         this.showLessComment()
@@ -117,10 +139,23 @@
                 }
             },
             showMoreComment() {
-                this.post.commentIndex = Math.max(0, this.post.commentIndex - 5)
+                this.post.commentIndex = Math.max(0, this.post.commentIndex - this.commentLimit)
             },
             showLessComment() {
-                this.post.commentIndex = Math.max(0, this.post.comments.length - 5)
+                this.post.commentIndex = Math.max(0, this.post.comments.length - this.commentLimit)
+                if (this.post.comments.length) {
+                    this.post.comments.forEach(comment => {
+                        if (comment.repliedComments) {
+                            comment.repliedIndex = Math.max(0, comment.repliedComments.length - this.repliedCommentLimit)
+                        }
+                    })
+                }
+            },
+            showMoreRepliedComment(commentIndex) {
+                this.post.comments[commentIndex].repliedIndex = Math.max(0, this.post.comments[commentIndex].repliedIndex - this.repliedCommentLimit)
+            },
+            showLessRepliedComment(commentIndex) {
+                this.post.comments[commentIndex].repliedIndex = Math.max(0, this.post.comments[commentIndex].repliedComments.length - this.repliedCommentLimit)
             },
             async likePost() {
                 try {
@@ -151,6 +186,96 @@
                         if (index > -1) {
                             this.post.likedUsers.splice(index, 1)
                         }
+                    } else {
+                        ToastHelper.message(res.message, VARIANT.DANGER)
+                    }
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    this.isLoading = false
+                }
+            },
+            async replyComment(postId, commentIndex, commentId, message) {
+                try {
+                    this.isLoading = true
+                    const res = await replyComment(postId, commentId, message)
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        this.post.comments[commentIndex].repliedComments.push({
+                            id: res.data.comment.id || 0,
+                            message: message,
+                            user: {
+                                id: this.currentUserId,
+                                name: this.currentUserName,
+                                color: this.currentUserColor,
+                                avatar: this.currentUserAvatar
+                            },
+                            createdAt: new Date()
+                        })
+                        this.showLessRepliedComment(commentIndex)
+                    } else {
+                        ToastHelper.message(res.message, VARIANT.DANGER)
+                    }
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    this.isLoading = false
+                }
+            },
+            async editComment(postId, commentIndex, commentId, message) {
+                try {
+                    this.isLoading = true
+                    const res = await editComment(postId, commentId, message)
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        this.post.comments[commentIndex].message = message
+                        this.post.comments[commentIndex].status = POST.STATUS.MODIFIED
+                    } else {
+                        ToastHelper.message(res.message, VARIANT.DANGER)
+                    }
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    this.isLoading = false
+                }
+            },
+            async deleteComment(postId, commentIndex, commentId) {
+                try {
+                    this.isLoading = true
+                    const res = await deleteComment(postId, commentId)
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        this.post.comments.splice(commentIndex, 1)
+                        this.showLessComment()
+                    } else {
+                        ToastHelper.message(res.message, VARIANT.DANGER)
+                    }
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    this.isLoading = false
+                }
+            },
+            async editRepliedComment(postId, commentIndex, repliedCommentIndex, repliedCommentId, message) {
+                try {
+                    this.isLoading = true
+                    const res = await editComment(postId, repliedCommentId, message)
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        this.post.comments[commentIndex].repliedComments[repliedCommentIndex].message = message
+                        this.post.comments[commentIndex].repliedComments[repliedCommentIndex].status = POST.STATUS.MODIFIED
+                    } else {
+                        ToastHelper.message(res.message, VARIANT.DANGER)
+                    }
+                } catch (e) {
+                    console.log(e)
+                } finally {
+                    this.isLoading = false
+                }
+            },
+            async deleteRepliedComment(postId, commentIndex, repliedCommentIndex, repliedCommentId) {
+                try {
+                    this.isLoading = true
+                    const res = await deleteComment(postId, repliedCommentId)
+                    if (res.status === RESPONSE.STATUS.SUCCESS) {
+                        this.post.comments[commentIndex].repliedComments.splice(repliedCommentIndex, 1)
+                        this.showLessRepliedComment(commentIndex)
                     } else {
                         ToastHelper.message(res.message, VARIANT.DANGER)
                     }

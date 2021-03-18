@@ -173,5 +173,20 @@ export const POST = {
     STATUS: {
         CREATED: 'CREATED',
         MODIFIED: 'MODIFIED'
+    },
+    COMMENT_ACTIONS: {
+        REPLY: 'REPLY',
+        EDIT: 'EDIT',
+        DELETE: 'DELETE',
+        REPLIED_EDIT: 'REPLIED_EDIT',
+        REPLIED_DELETE: 'REPLIED_DELETE'
+    },
+    COMMENT_PER_PAGE: {
+        LIST: 3,
+        DETAIL: 5
+    },
+    REPLIED_COMMENT_PER_PAGE: {
+        LIST: 3,
+        DETAIL: 3
     }
 }

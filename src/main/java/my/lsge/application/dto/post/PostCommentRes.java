@@ -8,7 +8,10 @@ import my.lsge.domain.entity.User;
 import my.lsge.domain.enums.CommentStatusEnum;
 import my.lsge.util.Utils;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -20,7 +23,22 @@ public class PostCommentRes {
     private Long createdAt;
     private Long modifiedAt;
 
-    public static PostCommentRes by(Comment comment, List<User> commentUsers) {
+    private List<PostCommentRes> repliedComments = new ArrayList<>();
+
+    public static PostCommentRes by(Comment comment, List<Comment> comments, List<User> commentUsers) {
+        List<PostCommentRes> repliedComments = comments.stream()
+                .filter(c -> comment.getId().equals(c.getParentId()))
+                .sorted(Comparator.comparingLong(Comment::getId))
+                .map(c -> by(c, commentUsers))
+                .collect(Collectors.toList());
+        PostCommentRes res = by(comment, commentUsers);
+        if (!Utils.isNullOrEmpty(repliedComments)) {
+            res.setRepliedComments(repliedComments);
+        }
+        return res;
+    }
+
+    private static PostCommentRes by(Comment comment, List<User> commentUsers) {
         PostCommentRes res = new PostCommentRes();
         res.setId(comment.getId());
         res.setMessage(comment.getMessage());

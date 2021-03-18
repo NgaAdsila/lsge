@@ -42,3 +42,21 @@ export async function updatePost(id, title, content, shareMode) {
 export async function deletePost(id) {
     return await ApiService.put(`${API_PATH.POST_API}/${id}`, {}, {})
 }
+
+export async function replyComment(postId, commentId, message) {
+    return await ApiService.post(`${API_PATH.POST_API}/${postId}/reply-comment`, {
+        commentId: commentId,
+        message: message
+    })
+}
+
+export async function editComment(postId, commentId, message) {
+    return await ApiService.post(`${API_PATH.POST_API}/${postId}/edit-comment`, {
+        commentId: commentId,
+        message: message
+    })
+}
+
+export async function deleteComment(postId, commentId) {
+    return await ApiService.remove(`${API_PATH.POST_API}/${postId}/comments/${commentId}`)
+}

@@ -135,7 +135,7 @@ public class PostLogic extends BaseLogic {
         post.setStatus(PostStatusEnum.MODIFIED);
     }
 
-    public PostRes addComment(Long postId, AddingCommentReq req, Long userId) {
+    public AddCommentRes addComment(Long postId, AddingCommentReq req, Long userId) {
         validateUser(userId);
 
         Post post = postRepository.findById(postId).orElse(null);
@@ -146,7 +146,7 @@ public class PostLogic extends BaseLogic {
                 0L, CommentReferenceTypeEnum.POST, postId,
                 req.getMessage(), 0L, CommentStatusEnum.CREATED);
         commentRepository.save(comment);
-        return PostRes.by(post);
+        return new AddCommentRes(post, comment);
     }
 
     private boolean hasViewRole(Post post, long userId) {
@@ -204,8 +204,7 @@ public class PostLogic extends BaseLogic {
     }
 
     public PostRes dislike(long id, Long userId) {
-        User user = userRepository.getOne(userId);
-        validateUser(user);
+        validateUser(userId);
 
         Post post = postRepository.findById(id).orElse(null);
         if (post == null || post.isDeleted() || !hasViewRole(post, userId)) {
@@ -234,5 +233,65 @@ public class PostLogic extends BaseLogic {
         post.setDeleted(true);
         postRepository.save(post);
         return PostRes.by(post);
+    }
+
+    public ReplyCommentRes replyComment(long postId, ReplyCommentReq req, Long userId) {
+        validateUser(userId);
+
+        Post post = postRepository.findById(postId).orElse(null);
+        if (post == null || post.isDeleted() || !hasViewRole(post, userId)) {
+            throw new NotFoundException(language.getString("post.is_not_existed"));
+        }
+
+        Comment comment = commentRepository.findById(req.getCommentId()).orElse(null);
+        if (comment == null || comment.isDeleted()) {
+            throw new NotFoundException(language.getString("comment.is_not_existed"));
+        }
+        Comment replyComment = new Comment(
+                0L, CommentReferenceTypeEnum.POST, postId,
+                req.getMessage(), comment.getId(), CommentStatusEnum.CREATED);
+        commentRepository.save(replyComment);
+
+        return new ReplyCommentRes(post, replyComment);
+    }
+
+    public ReplyCommentRes editComment(long postId, ReplyCommentReq req, Long userId) {
+        validateUser(userId);
+
+        Post post = postRepository.findById(postId).orElse(null);
+        if (post == null || post.isDeleted() || !hasViewRole(post, userId)) {
+            throw new NotFoundException(language.getString("post.is_not_existed"));
+        }
+
+        Comment comment = commentRepository.findById(req.getCommentId()).orElse(null);
+        if (comment == null || comment.isDeleted() || !comment.getCreatedBy().equals(userId)) {
+            throw new NotFoundException(language.getString("comment.is_not_existed"));
+        }
+        comment.setMessage(req.getMessage());
+        comment.setStatus(CommentStatusEnum.MODIFIED);
+        commentRepository.save(comment);
+        return new ReplyCommentRes(post, comment);
+    }
+
+    public ReplyCommentRes deleteComment(long postId, long commentId, Long userId) {
+        validateUser(userId);
+
+        Post post = postRepository.findById(postId).orElse(null);
+        if (post == null || post.isDeleted() || !hasViewRole(post, userId)) {
+            throw new NotFoundException(language.getString("post.is_not_existed"));
+        }
+
+        Comment comment = commentRepository.findById(commentId).orElse(null);
+        if (comment == null || comment.isDeleted() || !comment.getCreatedBy().equals(userId)) {
+            throw new NotFoundException(language.getString("comment.is_not_existed"));
+        }
+        if (comment.isRootComment()) {
+            List<Comment> repliedComments = commentRepository.findByParentId(commentId);
+            if (!Utils.isNullOrEmpty(repliedComments)) {
+                commentRepository.deleteAll(repliedComments);
+            }
+        }
+        commentRepository.delete(comment);
+        return new ReplyCommentRes(post, comment);
     }
 }

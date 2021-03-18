@@ -46,7 +46,8 @@ public class PostDetailRes {
         }
         if (!Utils.isNullOrEmpty(comments)) {
             res.setComments(comments.stream()
-                    .map(c -> PostCommentRes.by(c, userList))
+                    .filter(Comment::isRootComment)
+                    .map(c -> PostCommentRes.by(c, comments, userList))
                     .collect(Collectors.toList()));
         }
         if (post.getRootId() != null) {

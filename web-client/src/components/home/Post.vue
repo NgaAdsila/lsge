@@ -101,7 +101,7 @@
                                         @click="showMoreComment(index)">
                                     {{ $t('post.label.show_more_comment') }}
                                 </b-link>
-                                <b-link v-show="post.commentIndex === 0 && post.comments.length > 3"
+                                <b-link v-show="post.commentIndex === 0 && post.comments.length > commentLimit"
                                         variant="success"
                                         @click="showLessComment(index)">
                                     {{ $t('post.label.show_less_comment') }}
@@ -130,20 +130,141 @@
                                             </div>
                                         </div>
                                         <div class="post-comment-content text-break">
-                                            {{ comment.message }}
+                                            {{ comment.message }} <i class="small">{{ isModified(comment.status) ? ' (' + $t('post.label.modified') + ') ' : '' }}</i>
                                         </div>
                                         <div class="post-comment-action">
                                             <span class="post-comment-action-item action-reply has-link"
+                                                  :class="{ 'disabled-link': postId === post.id && commentId === comment.id && action === COMMENT_ACTIONS.REPLY }"
                                                   @click="replyComment(post.id, comment.id)"
                                             >{{ $t('post.label.reply') }}</span>
-                                            <span v-if="currentUserId === post.user.id"
+                                            <span v-if="currentUserId === comment.user.id"
                                                   class="post-comment-action-item action-edit has-link"
-                                                  @click="editComment(post.id, comment.id)"
+                                                  :class="{ 'disabled-link': postId === post.id && commentId === comment.id && action === COMMENT_ACTIONS.EDIT }"
+                                                  @click="editComment(post.id, comment)"
                                             >{{ $t('post.label.edit') }}</span>
-                                            <span v-if="currentUserId === post.user.id"
+                                            <span v-if="currentUserId === comment.user.id"
                                                   class="post-comment-action-item action-delete has-link"
+                                                  :class="{ 'disabled-link': postId === post.id && commentId === comment.id && action === COMMENT_ACTIONS.DELETE }"
                                                   @click="deleteComment(post.id, comment.id)"
                                             >{{ $t('post.label.remove') }}</span>
+                                        </div>
+                                        <div class="post-comment-action-form">
+                                            <div v-if="postId === post.id && commentId === comment.id && action === COMMENT_ACTIONS.REPLY">
+                                                <b-form-input class="post-action-comment-input"
+                                                              v-model="commentActionMessage"
+                                                              required
+                                                              type="text"
+                                                              max="2000"
+                                                              @keypress.enter.exact="submitReplyComment(index, i)"
+                                                ></b-form-input>
+                                                <b-button class="btn btn-success button-action-comment-submit"
+                                                          type="submit"
+                                                          @click="submitReplyComment(index, i)"
+                                                          :disabled="!commentActionMessage || commentActionMessage.trim() === ''"
+                                                >{{ $t('post.label.reply') }}</b-button>
+                                                <b-button class="btn btn-secondary button-action-comment-submit"
+                                                          @click="resetActionComment"
+                                                >{{ $t('common.label.cancel') }}</b-button>
+                                            </div>
+                                            <div v-if="postId === post.id && commentId === comment.id && action === COMMENT_ACTIONS.EDIT">
+                                                <b-form-input class="post-action-comment-input"
+                                                              v-model="commentActionMessage"
+                                                              required
+                                                              type="text"
+                                                              max="2000"
+                                                              @keypress.enter.exact="submitEditComment(index, i)"
+                                                ></b-form-input>
+                                                <b-button class="btn btn-success button-action-comment-submit"
+                                                          type="submit"
+                                                          @click="submitEditComment(index, i)"
+                                                          :disabled="!commentActionMessage || commentActionMessage.trim() === ''"
+                                                >{{ $t('post.label.edit') }}</b-button>
+                                                <b-button class="btn btn-secondary button-action-comment-submit"
+                                                          @click="resetActionComment"
+                                                >{{ $t('common.label.cancel') }}</b-button>
+                                            </div>
+                                            <ConfirmModal :id="`post-comment-delete-${post.id}-${comment.id}`"
+                                                          :message="$t('post.message.delete_comment_confirm')"
+                                                          @onOk="submitDeleteComment(index, i)"
+                                                          @hide="resetActionComment" />
+                                        </div>
+                                        <div v-if="comment.repliedComments && comment.repliedComments.length"
+                                             class="post-comment-replied-list mt-1">
+                                            <div class="button-show-comment mt-1 mb-1">
+                                                <b-link v-show="comment.repliedIndex > 0"
+                                                        variant="success"
+                                                        @click="showMoreRepliedComment(index, i)">
+                                                    {{ $t('post.label.show_more_reply') }}
+                                                </b-link>
+                                                <b-link v-show="comment.repliedIndex === 0 && comment.repliedComments.length > repliedCommentLimit"
+                                                        variant="success"
+                                                        @click="showLessRepliedComment(index, i)">
+                                                    {{ $t('post.label.show_less_reply') }}
+                                                </b-link>
+                                            </div>
+                                            <div v-for="(repliedComment, ri) of comment.repliedComments"
+                                                 v-show="ri >= comment.repliedIndex"
+                                                 :key="'post-' + index + '-comment-' + i + '-replied-' + ri">
+                                                <div class="post-comment-item d-flex flex-row mb-1">
+                                                    <div class="post-comment-avatar pr-2">
+                                                        <Avatar
+                                                                :avatar="repliedComment.user.avatar"
+                                                                :color="repliedComment.user.color"
+                                                                :name="repliedComment.user.name"
+                                                                :size="'sm'"
+                                                                default-color="#28a745"
+                                                        />
+                                                    </div>
+                                                    <div class="post-comment-details">
+                                                        <div class="post-comment-header d-flex flex-row justify-content-between">
+                                                            <div class="post-comment-username font-weight-bold">
+                                                                {{ repliedComment.user.name }}
+                                                            </div>
+                                                            <div class="post-comment-time small">
+                                                                {{ $t('common.label.reply_at') + formatTime(repliedComment.createdAt) }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="post-comment-content text-break">
+                                                            {{ repliedComment.message }} <i class="small">{{ isModified(repliedComment.status) ? ' (' + $t('post.label.modified') + ') ' : '' }}</i>
+                                                        </div>
+                                                        <div class="post-comment-action">
+                                                            <span v-if="currentUserId === repliedComment.user.id"
+                                                                  class="post-comment-action-item action-edit has-link"
+                                                                  :class="{ 'disabled-link': postId === post.id && commentId === comment.id && repliedCommentId === repliedComment.id && action === COMMENT_ACTIONS.REPLIED_EDIT }"
+                                                                  @click="editRepliedComment(post.id, comment.id, repliedComment)"
+                                                            >{{ $t('post.label.edit') }}</span>
+                                                            <span v-if="currentUserId === repliedComment.user.id"
+                                                                  class="post-comment-action-item action-delete has-link"
+                                                                  :class="{ 'disabled-link': postId === post.id && commentId === comment.id && repliedCommentId === repliedComment.id && action === COMMENT_ACTIONS.REPLIED_DELETE }"
+                                                                  @click="deleteRepliedComment(post.id, comment.id, repliedComment.id)"
+                                                            >{{ $t('post.label.remove') }}</span>
+                                                        </div>
+                                                        <div class="post-comment-action-form">
+                                                            <div v-if="postId === post.id && commentId === comment.id && repliedCommentId === repliedComment.id && action === COMMENT_ACTIONS.REPLIED_EDIT">
+                                                                <b-form-input class="post-action-comment-input"
+                                                                              v-model="commentActionMessage"
+                                                                              required
+                                                                              type="text"
+                                                                              max="2000"
+                                                                              @keypress.enter.exact="submitEditRepliedComment(index, i, ri)"
+                                                                ></b-form-input>
+                                                                <b-button class="btn btn-success button-action-comment-submit"
+                                                                          type="submit"
+                                                                          @click="submitEditRepliedComment(index, i, ri)"
+                                                                          :disabled="!commentActionMessage || commentActionMessage.trim() === ''"
+                                                                >{{ $t('post.label.edit') }}</b-button>
+                                                                <b-button class="btn btn-secondary button-action-comment-submit"
+                                                                          @click="resetActionComment"
+                                                                >{{ $t('common.label.cancel') }}</b-button>
+                                                            </div>
+                                                            <ConfirmModal :id="`post-comment-delete-${post.id}-${comment.id}-${repliedComment.id}`"
+                                                                          :message="$t('post.message.delete_reply_confirm')"
+                                                                          @onOk="submitDeleteRepliedComment(index, i, ri)"
+                                                                          @hide="resetActionComment" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -195,6 +316,22 @@
             },
             isModified() {
                 return status => POST.STATUS.MODIFIED === status
+            },
+            commentLimit: function () {
+                return POST.COMMENT_PER_PAGE.LIST
+            },
+            repliedCommentLimit: function () {
+                return POST.REPLIED_COMMENT_PER_PAGE.LIST
+            }
+        },
+        data() {
+            return {
+                repliedCommentId: null,
+                commentId: null,
+                postId: null,
+                action: null,
+                commentActionMessage: null,
+                COMMENT_ACTIONS: POST.COMMENT_ACTIONS
             }
         },
         methods: {
@@ -210,6 +347,14 @@
             },
             showLessComment(index) {
                 this.$emit('showLessComment', index)
+                this.$forceUpdate()
+            },
+            showMoreRepliedComment(index, i) {
+                this.$emit('showMoreRepliedComment', index, i)
+                this.$forceUpdate()
+            },
+            showLessRepliedComment(index, i) {
+                this.$emit('showLessRepliedComment', index, i)
                 this.$forceUpdate()
             },
             isLikedPost(likedUsers) {
@@ -234,15 +379,68 @@
                 this.$emit('deletePost', id)
             },
             replyComment(postId, commentId) {
-                console.log('REPLY COMMENT: ', postId, commentId)
+                this.postId = postId
+                this.commentId = commentId
+                this.action = POST.COMMENT_ACTIONS.REPLY
+                this.commentActionMessage = null
             },
-            editComment(postId, commentId) {
-                console.log('EDIT COMMENT: ', postId, commentId)
+            editComment(postId, comment) {
+                this.postId = postId
+                this.commentId = comment.id
+                this.action = POST.COMMENT_ACTIONS.EDIT
+                this.commentActionMessage = comment.message
             },
             deleteComment(postId, commentId) {
-                console.log('DELETE COMMENT: ', postId, commentId)
+                this.postId = postId
+                this.commentId = commentId
+                this.action = POST.COMMENT_ACTIONS.DELETE
+                this.commentActionMessage = null
+                this.$bvModal.show(`post-comment-delete-${postId}-${commentId}`)
             },
-
+            submitReplyComment(postIndex, commentIndex) {
+                this.$emit('replyComment', this.postId, postIndex, commentIndex, this.commentId, this.commentActionMessage)
+                this.resetActionComment()
+            },
+            submitEditComment(postIndex, commentIndex) {
+                this.$emit('editComment', this.postId, postIndex, commentIndex, this.commentId, this.commentActionMessage)
+                this.resetActionComment()
+            },
+            resetActionComment() {
+                this.postId = null
+                this.commentId = null
+                this.repliedCommentId = null
+                this.action = null
+                this.commentActionMessage = null
+            },
+            submitDeleteComment(postIndex, commentIndex) {
+                this.$bvModal.hide(`post-comment-delete-${this.postId}-${this.commentId}`)
+                this.$emit('deleteComment', this.postId, postIndex, commentIndex, this.commentId)
+                this.resetActionComment()
+            },
+            editRepliedComment(postId, commentId, repliedComment) {
+                this.postId = postId
+                this.commentId = commentId
+                this.repliedCommentId = repliedComment.id
+                this.action = POST.COMMENT_ACTIONS.REPLIED_EDIT
+                this.commentActionMessage = repliedComment.message
+            },
+            deleteRepliedComment(postId, commentId, repliedCommentId) {
+                this.postId = postId
+                this.commentId = commentId
+                this.repliedCommentId = repliedCommentId
+                this.action = POST.COMMENT_ACTIONS.REPLIED_DELETE
+                this.commentActionMessage = null
+                this.$bvModal.show(`post-comment-delete-${postId}-${commentId}-${repliedCommentId}`)
+            },
+            submitEditRepliedComment(postIndex, commentIndex, repliedCommentIndex) {
+                this.$emit('editRepliedComment', this.postId, postIndex, commentIndex, repliedCommentIndex, this.repliedCommentId, this.commentActionMessage)
+                this.resetActionComment()
+            },
+            submitDeleteRepliedComment(postIndex, commentIndex, repliedCommentIndex) {
+                this.$bvModal.hide(`post-comment-delete-${this.postId}-${this.commentId}-${this.repliedCommentId}`)
+                this.$emit('deleteRepliedComment', this.postId, postIndex, commentIndex, repliedCommentIndex, this.repliedCommentId)
+                this.resetActionComment()
+            }
         }
     }
 </script>
@@ -332,6 +530,20 @@
                         &.action-delete {
                             color: red;
                         }
+                    }
+                }
+                .post-comment-action-form {
+                    .post-action-comment-input {
+                        height: 1.75rem;
+                        line-height: 1.75rem;
+                        font-size: 0.85rem;
+                        padding: 0.25rem;
+                    }
+                    .button-action-comment-submit {
+                        font-size: 0.75rem ;
+                        padding: 0.15rem;
+                        margin-top: 0.25rem;
+                        margin-right: 0.25rem;
                     }
                 }
             }

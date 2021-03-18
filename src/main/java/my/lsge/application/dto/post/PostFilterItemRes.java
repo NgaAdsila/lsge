@@ -45,8 +45,8 @@ public class PostFilterItemRes {
         }
         if (!Utils.isNullOrEmpty(comments)) {
             res.setComments(comments.stream()
-                    .filter(c -> post.getId().equals(c.getReferenceId()))
-                    .map(c -> PostCommentRes.by(c, userList))
+                    .filter(c -> post.getId().equals(c.getReferenceId()) && c.isRootComment())
+                    .map(c -> PostCommentRes.by(c, comments, userList))
                     .collect(Collectors.toList()));
         }
         if (post.getRootId() != null) {
