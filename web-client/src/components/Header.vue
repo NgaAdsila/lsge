@@ -85,6 +85,9 @@
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
+        <div class="header-progress-bar">
+            <div class="progress-bar" id="header-progress-bar"></div>
+        </div>
         <div v-if="isNavbarCollapseOpen" @click="isNavbarCollapseOpen = false" class="navbar-backdrop"></div>
     </div>
 </template>
@@ -133,6 +136,20 @@
 
 <style lang="scss" scoped>
 .navbar-header-wrapper {
+    .header-progress-bar {
+        width: 100%;
+        height: 5px;
+        background-color: #CCC;
+        position: fixed;
+        top: 75px;
+        z-index: 10;
+
+        .progress-bar {
+            height: 5px;
+            background: #4caf50;
+            width: 0%;
+        }
+    }
     .navbar-backdrop {
         z-index: 1029;
         position: fixed;

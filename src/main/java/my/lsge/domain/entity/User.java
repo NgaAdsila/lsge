@@ -1,5 +1,6 @@
 package my.lsge.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import my.lsge.util.Utils;
 import org.hibernate.annotations.NaturalId;
@@ -66,6 +67,10 @@ public class User extends BaseEntity {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "likedUsers")
+    private Set<Post> likedPosts = new HashSet<>();
 
     public User() {
 

@@ -110,6 +110,7 @@ form {
 
 body::-webkit-scrollbar {
   width: 0.25rem;
+  height: 0.25rem;
 }
 
 body::-webkit-scrollbar-track {
@@ -134,6 +135,9 @@ body::-webkit-scrollbar-thumb {
   &:hover {
     opacity: 0.7;
   }
+  &:focus {
+    outline: none !important;
+  }
 }
 
 a.linkified {
@@ -146,4 +150,17 @@ a.linkified {
 
 tr:focus {
   outline: none !important;
+}
+
+a:hover {
+  text-decoration: none !important;
+}
+
+.text-pre {
+  white-space: pre-wrap;
+}
+
+.disabled-link {
+  pointer-events: none;
+  opacity: 0.4;
 }

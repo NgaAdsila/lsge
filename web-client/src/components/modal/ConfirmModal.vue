@@ -1,9 +1,10 @@
 <template>
-    <b-modal id="modal-confirm"
+    <b-modal :id="id || 'modal-confirm'"
              centered
              :title="$t('common.modal.confirm_title')"
              @ok="onOk"
-             @cancel="cancel">
+             @cancel="cancel"
+             @hide="hide">
         <p class="my-4 text-center">{{ message }}</p>
     </b-modal>
 </template>
@@ -12,6 +13,7 @@
     export default {
         name: "ConfirmModal",
         props: [
+            'id',
             'message',
             'data'
         ],
@@ -21,6 +23,9 @@
             },
             cancel() {
                 this.$emit('cancel');
+            },
+            hide() {
+                this.$emit('hide');
             }
         }
     }

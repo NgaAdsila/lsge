@@ -31,7 +31,12 @@
       "collapse_all": "Collapse all",
       "color": "Avatar color",
       "avatar": "Avatar",
-      "search_form": "Search Form"
+      "search_form": "Search Form",
+      "comment": "Your comment",
+      "post_detail": "Post detail",
+      "cancel": "Cancel",
+      "go_top": "Go To TOP",
+      "reply_at": "Replied at "
     },
     "validation": {
       "required": "Field {name} is required.",
@@ -252,6 +257,38 @@
       "band_user": "The system manager has banded your account",
       "reset_password": "The system manager has reset your account password. Please check your email for a new password",
       "update_role": "The system manager has updated your account's role"
+    }
+  },
+  "post": {
+    "message": {
+      "new_comment": "{name} just commented in one of your posts",
+      "like": "{name} just liked in one of your posts",
+      "new_post": "{name} just created a new post",
+      "update_success": "Successfully updated post",
+      "delete_success": "Successfully deleted post",
+      "delete_confirm": "Do you want to delete this post?",
+      "delete_comment_confirm": "Do you want to delete this comment?",
+      "delete_reply_confirm": "Do you want to delete this reply?"
+    },
+    "label": {
+      "show_more_comment": "Show more comments...",
+      "show_less_comment": "Show less comments...",
+      "show_more_reply": "Show more reply...",
+      "show_less_reply": "Show less reply...",
+      "create_message": "What are you thinking? Please share your feelings with everyone...",
+      "title": "Title",
+      "content": "Content",
+      "create_post": "Create Post",
+      "shareMode": "Share Mode",
+      "modified": "modified",
+      "edit": "Edit",
+      "remove": "Delete",
+      "reply": "Reply"
+    },
+    "shareMode": {
+      "PRIVATE": "PRIVATE",
+      "PUBLIC": "PUBLIC",
+      "FRIEND": "FRIEND"
     }
   }
 }

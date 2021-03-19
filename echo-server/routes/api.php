@@ -24,15 +24,39 @@ Route::group([
     ], function () {
         Route::post('broadcasting/auth', 'BroadcastAuthController@auth');
         Route::post('create-message', 'MessageController@createMessage');
-        Route::post('relationships', 'RelationshipController@addFriend');
-        Route::put('relationships/approve', 'RelationshipController@approveFriend');
-        Route::put('relationships/cancel', 'RelationshipController@cancelFriend');
-        Route::put('chatrooms/is-read-message/{id}', 'MessageController@readMessage');
-        Route::put('chatrooms', 'ChatroomController@update');
-        Route::put('chatrooms/set-nickname', 'ChatroomController@setNickname');
-        Route::put('chatrooms/auto-read-event', 'ChatroomController@autoReadMessageEvent');
-        Route::put('users/band', 'UserController@band');
-        Route::put('users/reset-password', 'UserController@resetPassword');
-        Route::put('users/update-role', 'UserController@updateRole');
+
+        Route::group([
+            'prefix' => 'relationships',
+        ], function () {
+            Route::post('', 'RelationshipController@addFriend');
+            Route::put('approve', 'RelationshipController@approveFriend');
+            Route::put('cancel', 'RelationshipController@cancelFriend');
+        });
+
+        Route::group([
+            'prefix' => 'chatrooms',
+        ], function () {
+            Route::put('is-read-message/{id}', 'MessageController@readMessage');
+            Route::put('', 'ChatroomController@update');
+            Route::put('set-nickname', 'ChatroomController@setNickname');
+            Route::put('auto-read-event', 'ChatroomController@autoReadMessageEvent');
+        });
+
+        Route::group([
+            'prefix' => 'users',
+        ], function () {
+            Route::put('band', 'UserController@band');
+            Route::put('reset-password', 'UserController@resetPassword');
+            Route::put('update-role', 'UserController@updateRole');
+        });
+
+        Route::group([
+            'prefix' => 'posts',
+        ], function () {
+            Route::post('{id}/create-comment', 'PostController@createComment');
+            Route::post('{id}/like', 'PostController@like');
+            Route::post('{id}/dislike', 'PostController@dislike');
+            Route::post('', 'PostController@add');
+        });
     });
 });
