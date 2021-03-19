@@ -17,6 +17,15 @@
                     @createChatRoom="createChatRoom"
                     @approveFriend="approveFriend"
                     @cancelFriend="cancelFriend" />
+            <b-button class="back-top-button"
+                      :class="isTop ? 'd-none' : ''"
+                      @click="backTop"
+                      variant="primary"
+                      id="back-top-button">
+                <b-icon icon="arrow-up-short"
+                        scale="1.75"
+                        v-b-tooltip.hover="$t('common.label.go_top')"></b-icon>
+            </b-button>
         </b-container>
         <Footer />
         <ConfirmModal :message="confirmMessage" @onOk="onOk" />
@@ -38,6 +47,7 @@
     import {approveFriend, cancelFriend} from "@/services/relationship_service";
     import {decode} from "@/utils/encrypt";
     import {checkRole} from "@/services/role";
+    import {POST} from "../services/constants";
     export default {
         name: "default",
         components: {FriendList, ConfirmModal, Footer, Header},
@@ -50,7 +60,8 @@
                 chatWithUserId: null,
                 echoConnect: null,
                 onlineUserIds: [],
-                isLoading: false
+                isLoading: false,
+                isTop: true
             }
         },
         computed: {
@@ -72,6 +83,8 @@
             }, 1000)
             this.getFriendList()
             this.registerEchoConnection()
+            window.addEventListener('scroll', this.handlePageScroll)
+            this.handlePageScroll()
         },
         methods: {
             async logout() {
@@ -268,6 +281,12 @@
                         return this.handleResetPasswordUser(res.data)
                     case ECHO_EVENT.UPDATE_ROLE_USER:
                         return this.handleUpdateRoleUser(res.data)
+                    case ECHO_EVENT.CREATE_POST_COMMENT:
+                        return this.handleCreatePostComment(res.data)
+                    case ECHO_EVENT.LIKE_POST:
+                        return this.handleLikePost(res.data)
+                    case ECHO_EVENT.NEW_POST:
+                        return this.handleNewPost(res.data)
                     default:
                         return
                 }
@@ -305,6 +324,40 @@
                 if (res.reqUserId === this.currentUserId || res.recUserId === this.currentUserId) {
                     this.getFriendList();
                 }
+            },
+            handleCreatePostComment(res) {
+                if (res.commentedUserId !== this.currentUserId && res.createdBy === this.currentUserId) {
+                    ToastHelper.notify(
+                        this.$t('post.message.new_comment', { name: res.name }), VARIANT.PRIMARY, `/post/${res.id}`)
+                }
+            },
+            handleLikePost(res) {
+                if (res.likedUserId !== this.currentUserId && res.createdBy === this.currentUserId) {
+                    ToastHelper.notify(
+                        this.$t('post.message.like', { name: res.name }), VARIANT.PRIMARY, `/post/${res.id}`)
+                }
+            },
+            handleNewPost(res) {
+                console.log(res)
+                if (res.post.createdBy !== this.currentUserId
+                    && (res.post.shareMode === POST.SHARE_MODE.PUBLIC
+                        || (res.post.shareMode === POST.SHARE_MODE.FRIEND && res.friendIds.includes(this.currentUserId)))) {
+                    ToastHelper.notify(
+                        this.$t('post.message.new_post', { name: res.name }), VARIANT.PRIMARY, `/post/${res.post.id}`)
+                }
+            },
+            handlePageScroll() {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop,
+                    height = document.documentElement.scrollHeight - document.documentElement.clientHeight,
+                    scrolled = (winScroll / height) * 100
+                document.getElementById('header-progress-bar').style.width = scrolled + '%'
+                this.isTop = scrolled <= 0
+            },
+            backTop() {
+                document.documentElement.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                })
             }
         },
         beforeDestroy() {
@@ -315,10 +368,19 @@
                 this.echoConnect.leave(ECHO_CHANNEL.CHANNEL_MAIN);
                 this.echoConnect = null;
             }
+            window.removeEventListener('scroll', this.handlePageScroll)
         }
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.back-top-button {
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    position: fixed;
+    bottom: 10%;
+    right: 2.2%;
+}
 </style>

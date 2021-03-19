@@ -72,7 +72,9 @@ export const API_PATH = {
     ECHO_CREATE_MESSAGE: '/api/create-message',
     ECHO_AUTH_LOGIN: '/api/login',
     FILE_GET_LIST: '/api/files/get-list',
-    FILE_READ: '/api/files/read'
+    FILE_READ: '/api/files/read',
+    POST_GET_LIST: '/api/posts/filter',
+    POST_API: '/api/posts',
 };
 
 export const ECHO_API_URL = process.env.LARAVEL_ECHO_SERVER_API_URL || 'http://localhost:8000';
@@ -94,7 +96,10 @@ export const ECHO_EVENT = {
     BAND_USER: 'band-user',
     RESET_PASSWORD_USER: 'reset-password',
     UPDATE_ROLE_USER: 'update-role',
-    MESSAGE: 'message'
+    MESSAGE: 'message',
+    CREATE_POST_COMMENT: 'created-post-comment',
+    LIKE_POST: 'liked-post',
+    NEW_POST: 'new-post',
 }
 
 export const VARIANT = {
@@ -138,4 +143,50 @@ export const SELECTED_MODE = {
     NONE: 'none',
     SOME: 'some',
     ALL: 'all'
+}
+
+export const POST = {
+    SHARE_MODE: {
+        PRIVATE: 'PRIVATE',
+        PUBLIC: 'PUBLIC',
+        FRIEND: 'FRIEND'
+    },
+    SHARE_MODE_ICON: {
+        PRIVATE: 'shield-lock-fill',
+        PUBLIC: 'globe',
+        FRIEND: 'people-fill'
+    },
+    SHARE_MODE_OPTIONS: [
+        {
+            id: 'PRIVATE',
+            icon: 'shield-lock-fill'
+        },
+        {
+            id: 'PUBLIC',
+            icon: 'globe'
+        },
+        {
+            id: 'FRIEND',
+            icon: 'people-fill'
+        }
+    ],
+    STATUS: {
+        CREATED: 'CREATED',
+        MODIFIED: 'MODIFIED'
+    },
+    COMMENT_ACTIONS: {
+        REPLY: 'REPLY',
+        EDIT: 'EDIT',
+        DELETE: 'DELETE',
+        REPLIED_EDIT: 'REPLIED_EDIT',
+        REPLIED_DELETE: 'REPLIED_DELETE'
+    },
+    COMMENT_PER_PAGE: {
+        LIST: 3,
+        DETAIL: 5
+    },
+    REPLIED_COMMENT_PER_PAGE: {
+        LIST: 3,
+        DETAIL: 3
+    }
 }

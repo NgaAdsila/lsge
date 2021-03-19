@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <div class="manager-user-list-component">
         <b-table
                 id="manager-user-table"

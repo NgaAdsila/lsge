@@ -1,10 +1,14 @@
 <template>
-  <div id="manager-layout" :class="sidebarToggle ? 'sidebar-open' : 'sidebar-close'">
-    <div id="manager-layout-left" @mouseover="sidebarToggle = true" @mouseout="sidebarToggle = isToggle">
+  <div id="manager-layout" :class="(sidebarToggle ? 'sidebar-open' : 'sidebar-close') + (mobileToggle ? ' sidebar-mobile' : '')">
+    <div id="manager-layout-left"
+         class="bg-dark"
+         @mouseover="sidebarToggle = true"
+         @mouseout="sidebarToggle = isToggle">
       <LeftSideBar :sidebarToggle="sidebarToggle" />
     </div>
     <div id="manager-layout-right">
       <Header
+          :mobileToggle="mobileToggle"
           :sidebarToggle="sidebarToggle"
           @toggleSideBar="toggleSideBar"
       />
@@ -14,6 +18,7 @@
       </b-container>
       <Footer />
     </div>
+    <div v-if="mobileToggle && isToggle" class="manager-layout-mobile-toggle" @click="toggleSideBar"></div>
   </div>
 </template>
 
@@ -30,12 +35,15 @@ export default {
     return {
       sidebarToggle: true,
       isToggle: true,
+      mobileToggle: false,
       onlineUsers: [],
       echoConnect: null
     }
   },
   mounted() {
     this.registerChannel()
+    this.handlePageChangeSize()
+    window.addEventListener('resize', this.handlePageChangeSize)
   },
   methods: {
     toggleSideBar() {
@@ -59,6 +67,19 @@ export default {
             this.onlineUsers.splice(index, 1);
           }
         })
+    },
+    handlePageChangeSize() {
+      if (window.innerWidth <= 768) {
+        this.mobileToggle = true
+        this.sidebarToggle = false
+        this.isToggle = false
+      } else {
+        if (this.mobileToggle) {
+          this.sidebarToggle = true
+          this.isToggle = true
+        }
+        this.mobileToggle = false
+      }
     }
   },
   beforeDestroy() {
@@ -66,6 +87,7 @@ export default {
       this.echoConnect.leave(ECHO_CHANNEL.CHANNEL_MAIN);
       this.echoConnect = null;
     }
+    window.removeEventListener('resize', this.handlePageChangeSize)
   }
 }
 </script>
@@ -78,10 +100,10 @@ export default {
     left: 0;
     bottom: 0;
     z-index: 1031;
-    background-color: rgba(0,0,0,0.7);
+    /*background-color: rgba(0,0,0,0.7);*/
     box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25), inset 0 -1px 5px rgba(0, 0, 0, 0.25);
   }
-  &.sidebar-open {
+  &.sidebar-open:not(.sidebar-mobile) {
     display: flex;
     flex-direction: row;
     #manager-layout-left {
@@ -94,7 +116,15 @@ export default {
       width: calc(100% - 250px);
     }
   }
-  &.sidebar-close {
+  &.sidebar-open.sidebar-mobile {
+    display: flex;
+    flex-direction: row;
+    #manager-layout-left {
+      transition: 0.5s;
+      width: 250px;
+    }
+  }
+  &.sidebar-close:not(.sidebar-mobile) {
     #manager-layout-left {
       transition: 0.5s;
       width: 3.5rem;
@@ -105,20 +135,40 @@ export default {
       width: calc(100% - 3.5rem);
     }
   }
+  &.sidebar-close.sidebar-mobile {
+    #manager-layout-left {
+      transition: 0.5s;
+      margin-left: -250px;
+    }
+  }
+  .manager-layout-mobile-toggle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1030;
+  }
 }
 </style>
 <style lang="scss">
 #manager-layout {
-  &.sidebar-open {
+  &.sidebar-open:not(.sidebar-mobile) {
     .fixed-top {
       transition: 0.5s;
       left: 250px !important;
     }
   }
-  &.sidebar-close {
+  &.sidebar-close:not(.sidebar-mobile) {
     .fixed-top {
       transition: 0.5s;
       left: 3.5rem;
+    }
+  }
+  &.sidebar-close.sidebar-mobile {
+    .fixed-top {
+      transition: 0.5s;
+      left: 0;
     }
   }
 }

@@ -35,7 +35,7 @@ public class Relationship extends BaseEntity {
         this.status = RelationShipStatusEnum.PENDING;
     }
 
-    public Relationship(RelationshipId id, User reqUser, User recUser, RelationShipStatusEnum status) {
+    public Relationship(RelationshipId id, RelationShipStatusEnum status) {
         this.id = id;
         this.status = status;
     }
