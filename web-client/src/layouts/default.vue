@@ -29,6 +29,7 @@
         </b-container>
         <Footer />
         <ConfirmModal :message="confirmMessage" @onOk="onOk" />
+        <Chatbox v-if="!!chatId" ref="lsge_chat_box" />
     </div>
 </template>
 
@@ -48,9 +49,10 @@
     import {decode} from "@/utils/encrypt";
     import {checkRole} from "@/services/role";
     import {POST} from "../services/constants";
+    import Chatbox from "../components/modal/Chatbox";
     export default {
         name: "default",
-        components: {FriendList, ConfirmModal, Footer, Header},
+        components: {Chatbox, FriendList, ConfirmModal, Footer, Header},
         data() {
             return {
                 confirmMessage: '',
@@ -70,6 +72,9 @@
             },
             currentUserRole: function () {
                 return this.$store.getters.role
+            },
+            chatId: function () {
+                return this.$store.getters.chatId
             }
         },
         mounted() {
@@ -118,16 +123,18 @@
                     this.isLoading = true
                     if (this.$route.name === 'ChatDetail' && this.chatWithUserId === user.id) {
                         this.$refs.friendList.$refs.friendListButton.click()
+                        this.$store.commit('removeChatId')
                         this.isLoading = false
                         return
                     }
                     const res = await initNormalChatroom({ userId: user.id });
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         this.chatWithUserId = user.id;
+                        this.$store.commit('removeChatId')
                         ToastHelper.message(this.$t('chatroom.message.init_normal_success', {name: user.name}))
-                        setTimeout(async (self = this) => {
+                        setTimeout(() => {
                             this.$refs.friendList.$refs.friendListButton.click()
-                            await self.$router.push({ name: 'ChatDetail', params: { id: res.data.id } })
+                            this.$store.commit('setChatId', res.data.id)
                         }, 500);
                     } else {
                         ToastHelper.message(res.message, VARIANT.DANGER)

@@ -7,7 +7,7 @@
       "username": "Username",
       "password": "Password",
       "email": "Email",
-      "login": "login",
+      "login": "sign in",
       "register": "register",
       "sign_out": "Sign Out",
       "search": "Search",
@@ -74,7 +74,7 @@
       "title": "SIGN IN",
       "username": "Username/Email",
       "remember_me": "Remember me",
-      "submit": "Login",
+      "submit": "Sign in",
       "register_link": "If you have not account. Please ",
       "register_link2": " now!",
       "forget_password": "Forgot password?"

@@ -1,7 +1,7 @@
 <template>
     <div class="login-form">
         <b-form @submit.stop.prevent="onLogin">
-            <p class="h4 text-center mb-4 login-label">{{ $t('login.label.title') }}</p>
+            <p class="h5 text-center mb-4 login-label">{{ $t('login.label.title') }}</p>
             <b-form-group label-size="sm"
                           :label="$t('login.label.username')"
                           label-for="input-username">
@@ -115,17 +115,21 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .login-form {
-    margin: 20vh auto;
-    max-width: 700px;
+    margin: 20vh auto 0;
+    max-width: 400px;
     padding: 0.5rem 1rem;
     border: 1px solid lightgray;
-    border-radius: 0.5rem;
+    border-radius: 0.15rem;
     box-shadow: 5px 5px lightgray;
 
     .login-label {
         font-weight: bold;
+        background: green;
+        padding: 1rem 0;
+        margin: -2rem 5% 0;
+        color: white;
     }
 }
 </style>

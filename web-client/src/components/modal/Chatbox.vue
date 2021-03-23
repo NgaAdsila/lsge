@@ -1,30 +1,27 @@
 <template>
-    <div class="chat-detail-page">
-        <b-breadcrumb :items="crumbItems"></b-breadcrumb>
-        <b-overlay :show="isLoading" rounded="sm" spinner-variant="primary">
-            <ChatDetailComponent
-                    ref="chatDetailRef"
-                    :chatroomName="chatroomName"
-                    :messages="messages"
-                    :users="users"
-                    :currentUserId="currentUserId"
-                    :isSubmitting="isSubmitting"
-                    :currentUserColor="currentUserColor"
-                    :currentUserAvatar="currentUserAvatar"
-                    :isChatBox="false"
-                    @createMessage="createMessage"
-                    @updateChatroom="updateChatroom"
-                    @setNickname="setNickname"
-            />
-        </b-overlay>
+    <div class="lsge-chat-box">
+        <ChatDetailComponent
+                ref="chatDetailRef"
+                :chatroomName="chatroomName"
+                :messages="messages"
+                :users="users"
+                :currentUserId="currentUserId"
+                :isSubmitting="isSubmitting"
+                :currentUserColor="currentUserColor"
+                :currentUserAvatar="currentUserAvatar"
+                :isChatBox="true"
+                @createMessage="createMessage"
+                @updateChatroom="updateChatroom"
+                @setNickname="setNickname"
+        />
     </div>
 </template>
 
 <script>
-    import ChatDetailComponent from "../../../components/chat/detail/ChatDetailComponent";
+    import ChatDetailComponent from "../chat/detail/ChatDetailComponent";
     import {
-      findById, createMessage, isReadMessage,
-      updateChatroom, setNickname, pushAutoReadMessageEvent
+        findById, createMessage, isReadMessage,
+        updateChatroom, setNickname, pushAutoReadMessageEvent
     } from "@/services/chatroom_service";
     import {ECHO_EVENT, PAGINATION, RESPONSE, VARIANT} from "@/services/constants";
     import {initEcho} from "@/helper/EchoClientHelper";
@@ -32,11 +29,11 @@
     import {decode} from "@/utils/encrypt";
 
     export default {
-        name: "ChatDetail",
+        name: "Chatbox",
         components: {ChatDetailComponent},
         computed: {
             chatroomId: function () {
-                return this.$route.params.id
+                return this.$store.getters.chatId
             },
             currentUserId: function () {
                 return this.$store.getters.id
@@ -50,16 +47,6 @@
         },
         data() {
             return {
-                crumbItems: [
-                    {
-                        text: this.$t('common.label.home'),
-                        to: { name: 'Home' }
-                    },
-                    {
-                        text: this.$t('common.label.chat_detail'),
-                        active: true
-                    }
-                ],
                 isLoading: false,
                 chatroomName: '',
                 messages: [],
@@ -68,7 +55,7 @@
                 users: [],
                 isSubmitting: false,
                 echoConnect: null,
-                channelName: `channel-message-${this.$route.params.id}`
+                channelName: `channel-message-${this.$store.getters.chatId}`
             }
         },
         created() {
@@ -98,7 +85,7 @@
                     const res = await findById(this.chatroomId);
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         if (res.data.name) {
-                            this.chatroomName = this.crumbItems[1].text = res.data.name
+                            this.chatroomName = res.data.name
                         }
                         this.allMessages = res.data.messages || []
                         this.indexMessage = Math.max(0, this.allMessages.length - PAGINATION.MESSAGE_PER_PAGE)
@@ -144,16 +131,16 @@
                     return
                 }
                 switch (res.type) {
-                  case ECHO_EVENT.CREATE_MESSAGE:
-                      return this.handleCreatedMessage(res.data)
-                  case ECHO_EVENT.IS_READ_MESSAGE:
-                      return this.handleIsReadMessage(res.data)
-                  case ECHO_EVENT.UPDATE_CHATROOM:
-                      return this.handleUpdateChatroom(res.data)
-                  case ECHO_EVENT.SET_NICKNAME:
-                      return this.handleSetNickname(res.data)
-                  default:
-                    return
+                    case ECHO_EVENT.CREATE_MESSAGE:
+                        return this.handleCreatedMessage(res.data)
+                    case ECHO_EVENT.IS_READ_MESSAGE:
+                        return this.handleIsReadMessage(res.data)
+                    case ECHO_EVENT.UPDATE_CHATROOM:
+                        return this.handleUpdateChatroom(res.data)
+                    case ECHO_EVENT.SET_NICKNAME:
+                        return this.handleSetNickname(res.data)
+                    default:
+                        return
                 }
             },
             async createMessage(message) {
@@ -276,26 +263,60 @@
                 if (e.target.scrollTop <= 0 && this.indexMessage > 0 && !this.isLoading) {
                     this.isLoading = true
                     setTimeout((self = this) => {
-                      const firstMessage = self.messages[0]
-                      const newIndex = Math.max(0, self.indexMessage - PAGINATION.MESSAGE_PER_PAGE)
-                      self.messages = self.allMessages
-                          .slice(newIndex, newIndex + Math.min(PAGINATION.MESSAGE_PER_PAGE, self.indexMessage))
-                          .concat(self.messages)
-                      self.indexMessage = newIndex
-                      e.target.scrollTop =
-                          document.getElementById('message-item-' + firstMessage.id).offsetTop - 35
-                      self.isLoading = false
+                        const firstMessage = self.messages[0]
+                        const newIndex = Math.max(0, self.indexMessage - PAGINATION.MESSAGE_PER_PAGE)
+                        self.messages = self.allMessages
+                            .slice(newIndex, newIndex + Math.min(PAGINATION.MESSAGE_PER_PAGE, self.indexMessage))
+                            .concat(self.messages)
+                        self.indexMessage = newIndex
+                        e.target.scrollTop =
+                            document.getElementById('message-item-' + firstMessage.id).offsetTop - 35
+                        self.isLoading = false
                     }, 500)
                 }
             },
             scrollToBottom() {
-              this.$refs.chatDetailRef.$refs.chatDetailList.scrollTop =
-                  this.$refs.chatDetailRef.$refs.chatDetailList.scrollHeight;
+                this.$refs.chatDetailRef.$refs.chatDetailList.scrollTop =
+                    this.$refs.chatDetailRef.$refs.chatDetailList.scrollHeight;
             }
         }
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.lsge-chat-box {
+    width: min(300px, 100vw);
+    height: min(450px, 80vh);
+    border-radius: 2px;
+    background-color: rgba(255,255,255,0.9);
+    box-shadow: 0 12px 28px 0 rgba(0,0,0,0.2),0 2px 4px 0 rgba(0,0,0,0.1);
+    position: fixed;
+    bottom: 0.5vh;
+    right: calc(3% + 50px);
+    z-index: 1000;
+    padding: 0.25rem;
+}
+</style>
+<style lang="scss">
+.lsge-chat-box {
+    .chat-detail-component {
+        height: 100%;
 
+        .chat-detail-header {
+            margin: 0.5rem 0;
+
+            .chat-detail-title {
+                width: calc(100% - 40px);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-align: left;
+                font-weight: bold;
+            }
+        }
+        .message-time {
+            font-size: 0.75rem;
+        }
+    }
+}
 </style>

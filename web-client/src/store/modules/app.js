@@ -2,7 +2,8 @@ const app = {
     state: {
         friendRequestedIds: [],
         friendApprovedIds: [],
-        friendCancelledIds: []
+        friendCancelledIds: [],
+        chatId: null
     },
     mutations: {
         addFriendRequestedId: (state, userId) => {
@@ -31,6 +32,12 @@ const app = {
             if (index > -1) {
                 state.friendCancelledIds.splice(index, 1)
             }
+        },
+        setChatId: (state, chatId) => {
+            state.chatId = chatId
+        },
+        removeChatId: (state) => {
+            state.chatId = null
         }
     }
 }

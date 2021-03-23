@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <div class="chat-detail-component">
         <div class="chat-detail-header">
             <div class="chat-detail-title">
@@ -20,12 +20,15 @@
                 </b-dropdown>
                 <ChatDetailUpdateChatroom :currentName="chatroomName" @onOk="updateChatroom" />
                 <ChatDetailSetNickname :currentUsers="users" @onOk="setNickname" />
+                <b-link v-if="!!isChatBox" class="chat-detail-close" @click="closeChatBox">
+                    <b-icon icon="x" font-scale="1.25" variant="danger"></b-icon>
+                </b-link>
             </div>
         </div>
         <div class="chat-detail-list" ref="chatDetailList">
             <div v-if="messages.length > 0">
                 <div v-for="(message, index) in messages" :key="message.id">
-                    <div v-if="isNextDay(message, index)" class="is-default">
+                    <div v-if="isNextDay(message, index)" class="is-default noselect">
                         {{ displayDate(message.createdAt) }}
                         <div class="is-default-line">&#8604;<small>&star;</small>&#128312;<small>&star;</small>&#8605;</div>
                     </div>
@@ -110,7 +113,8 @@
             'users',
             'isSubmitting',
             'currentUserColor',
-            'currentUserAvatar'
+            'currentUserAvatar',
+            'isChatBox'
         ],
         data() {
             return {
@@ -202,6 +206,9 @@
             },
             isDefaultMessage(message) {
                 return message.type === MESSAGE_TYPE.DEFAULT
+            },
+            closeChatBox() {
+                this.$store.commit('removeChatId')
             }
         }
     }
@@ -225,6 +232,10 @@
             position: absolute;
             right: 0;
             top: -0.5rem;
+
+            .chat-detail-close {
+                margin-left: -0.5rem;
+            }
         }
     }
 
@@ -281,15 +292,14 @@
             }
             .chat-detail-list-left {
                 background-color: #E4E6EB;
-                border-top-right-radius: 0.75rem;
-                border-bottom-right-radius: 0.75rem;
+                border-radius: 0 0.75rem;
             }
         }
         .is-default-message {
             display: flex;
             justify-content: flex-start;
             .chat-detail-list-left {
-                border-radius: 0.75rem;
+                border-radius: 0 0.65rem;
                 font-style: italic;
                 background-color: rgba(0,0,0, 0.5);
                 color: #FFFFFF;
@@ -331,8 +341,7 @@
         }
         .chat-detail-list-right {
             background-color: green;
-            border-top-left-radius: 0.75rem;
-            border-bottom-left-radius: 0.75rem;
+            border-radius: 0.75rem 0;
             color: white;
             .message-time {
                 position: absolute;

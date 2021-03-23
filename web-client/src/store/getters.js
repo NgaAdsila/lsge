@@ -10,7 +10,8 @@ const getters = {
 
     friendRequestedIds: state => state.app.friendRequestedIds,
     friendApprovedIds: state => state.app.friendApprovedIds,
-    friendCancelledIds: state => state.app.friendCancelledIds
+    friendCancelledIds: state => state.app.friendCancelledIds,
+    chatId: state => state.app.chatId
 }
 
 export default getters

@@ -1,7 +1,7 @@
 <template>
     <div class="register-form">
         <b-form @submit.stop.prevent="register">
-            <p class="h4 text-center mb-4 register-label">{{ $t('register.label.title') }}</p>
+            <p class="h5 text-center mb-4 register-label">{{ $t('register.label.title') }}</p>
             <b-form-group label-size="sm"
                           :label="$t('common.label.name')"
                           label-for="input-name">
@@ -173,15 +173,19 @@
 
 <style lang="scss" scoped>
 .register-form {
-    margin: 20vh auto;
-    max-width: 700px;
+    margin: 20vh auto 0;
+    max-width: 400px;
     padding: 0.5rem 1rem;
     border: 1px solid lightgray;
-    border-radius: 0.5rem;
+    border-radius: 0.15rem;
     box-shadow: 5px 5px lightgray;
 
     .register-label {
         font-weight: bold;
+        background: green;
+        padding: 1rem 0;
+        margin: -2rem 5% 0;
+        color: white;
     }
 }
 </style>

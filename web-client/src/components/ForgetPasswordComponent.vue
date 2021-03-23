@@ -1,7 +1,7 @@
 <template>
     <div class="forget-password-form">
         <b-form @submit.stop.prevent="onSubmit">
-            <p class="h4 text-center mb-4 login-label">{{ $t('forget_password.label.title') }}</p>
+            <p class="h5 text-center mb-4 login-label">{{ $t('forget_password.label.title') }}</p>
             <b-form-group label-size="sm"
                           :label="$t('forget_password.label.email')"
                           label-for="input-email">
@@ -82,14 +82,18 @@
 <style lang="scss" scoped>
     .forget-password-form {
         margin: 20vh auto;
-        max-width: 700px;
+        max-width: 400px;
         padding: 0.5rem 1rem;
         border: 1px solid lightgray;
-        border-radius: 0.5rem;
+        border-radius: 0.15rem;
         box-shadow: 5px 5px lightgray;
 
-        .register-label {
+        .login-label {
             font-weight: bold;
+            background: green;
+            padding: 1rem 0;
+            margin: -2rem 5% 0;
+            color: white;
         }
     }
 </style>

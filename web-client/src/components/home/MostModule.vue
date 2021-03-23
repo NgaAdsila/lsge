@@ -63,7 +63,7 @@
         line-height: 13rem;
         display: inline-block;
         border: 1px solid #dbdbdb;
-        border-radius: 5%;
+        border-radius: 30% 10%;
         text-align: center;
         margin: 0.5rem 0;
         &:hover {

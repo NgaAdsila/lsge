@@ -2,7 +2,7 @@
   <div class="reset-password-form">
     <div v-if="isValidLink">
       <b-form @submit.stop.prevent="resetPassword">
-        <p class="h4 text-center mb-4 reset-password-label">{{ $t('reset_password.label.title') }}</p>
+        <p class="h5 text-center mb-4 reset-password-label">{{ $t('reset_password.label.title') }}</p>
         <b-form-group label-size="sm"
                       :label="$t('common.label.password')"
                       label-for="input-password">
@@ -117,14 +117,18 @@ export default {
 <style lang="scss" scoped>
 .reset-password-form {
   margin: 20vh auto;
-  max-width: 700px;
+  max-width: 400px;
   padding: 0.5rem 1rem;
   border: 1px solid lightgray;
-  border-radius: 0.5rem;
+  border-radius: 0.15rem;
   box-shadow: 5px 5px lightgray;
 
   .reset-password-label {
     font-weight: bold;
+    background: green;
+    padding: 1rem 0;
+    margin: -2rem 5% 0;
+    color: white;
   }
   .reset-password-invalid {
     text-align: center;
