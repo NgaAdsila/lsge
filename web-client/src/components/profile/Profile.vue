@@ -1,6 +1,12 @@
 <template>
     <div class="profile-component">
-        <div class="page-header header-filter" data-parallax="true"></div>
+        <div class="page-header header-filter" data-parallax="true">
+            <MeteorShower />
+            <b-button class="cover-update-btn"
+                      size="sm" variant="primary">
+                <b-icon icon="camera"></b-icon>
+            </b-button>
+        </div>
         <div class="main main-raised">
             <div class="profile-content">
                 <div class="container">
@@ -19,7 +25,6 @@
                                         />
                                     </div>
                                     <b-button class="avatar-update-btn"
-                                              v-b-tooltip.hover="$t('profile.label.change_avatar')"
                                               size="sm" variant="primary">
                                         <b-icon icon="camera"></b-icon>
                                     </b-button>
@@ -54,9 +59,10 @@
 <script>
     import EditProfileModal from "../modal/profile/EditProfile";
     import Avatar from "../common/Avatar";
+    import MeteorShower from "../common/MeteorShower";
     export default {
         name: "UserProfile",
-        components: {Avatar, EditProfileModal},
+        components: {MeteorShower, Avatar, EditProfileModal},
         props: [
             'profile',
             'isLoading'
@@ -113,6 +119,16 @@
             border: 0;
             display: flex;
             align-items: center;
+
+            .cover-update-btn {
+                position: absolute;
+                top: 0.5rem;
+                right: 0.5rem;
+                z-index: 2;
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 50%;
+            }
         }
 
         .header-filter {
@@ -127,7 +143,13 @@
                 content: "";
             }
             &:before {
-                background: rgba(0,0,0,.5);
+                /*background: linear-gradient(rgba(255,255,255,.3), rgba(255,255,255,.3)), url(/card/profile-cover.png) no-repeat center center;*/
+                /*background-size: cover;*/
+                /*background-blend-mode: darken;*/
+                /*-ms-background-size: cover;*/
+                /*-o-background-size: cover;*/
+                /*-moz-background-size: cover;*/
+                /*-webkit-background-size: cover;*/
             }
         }
 

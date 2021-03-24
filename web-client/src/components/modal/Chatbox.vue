@@ -13,6 +13,7 @@
                 @createMessage="createMessage"
                 @updateChatroom="updateChatroom"
                 @setNickname="setNickname"
+                @openChatDetail="openChatDetail"
         />
     </div>
 </template>
@@ -246,7 +247,6 @@
             },
             handleUpdateChatroom(data) {
                 this.chatroomName = data.chatroomName
-                this.crumbItems[1].text = data.chatroomName || this.$t('common.label.chat_detail')
                 if (data.message) {
                     this.handleCreatedMessage(data.message)
                 }
@@ -278,6 +278,11 @@
             scrollToBottom() {
                 this.$refs.chatDetailRef.$refs.chatDetailList.scrollTop =
                     this.$refs.chatDetailRef.$refs.chatDetailList.scrollHeight;
+            },
+            async openChatDetail() {
+                if (this.chatroomId) {
+                    await this.$router.push({ name: 'ChatDetail', params: { id: '' + this.chatroomId } })
+                }
             }
         }
     }
@@ -311,7 +316,6 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 text-align: left;
-                font-weight: bold;
             }
         }
         .message-time {

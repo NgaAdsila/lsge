@@ -127,7 +127,8 @@
       "old_password": "Mật khẩu cũ",
       "new_password": "Mật khẩu mới",
       "change_avatar": "Thay đổi ảnh đại diện",
-      "edit_profile": "Cập nhật thông tin cá nhân"
+      "edit_profile": "Cập nhật thông tin cá nhân",
+      "change_cover": "Thay đổi ảnh nền"
     },
     "message": {
       "change_password_success": "Mật khẩu đã được cập nhật thành công. Vui lòng đăng nhập lại"
@@ -171,7 +172,8 @@
       "update_chatroom": "Cập nhật tên cuộc trò chuyện",
       "set_nickname": "Thiết lập biệt danh",
       "name": "Tên cuộc trò chuyện",
-      "nickname": "Biệt danh"
+      "nickname": "Biệt danh",
+      "open_chat_detail": "Mở chi tiết trò chuyện"
     }
   },
   "friend-list": {

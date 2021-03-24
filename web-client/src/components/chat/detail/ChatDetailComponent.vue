@@ -17,6 +17,10 @@
                         <b-icon icon="plus" scale="0.8" variant="success"
                                 animation="fade"></b-icon> {{ $t('chatroom.label.set_nickname') }}
                     </b-dropdown-item>
+                    <b-dropdown-item v-if="!!isChatBox" @click="openChatDetail">
+                        <b-icon icon="plus" scale="0.8" variant="success"
+                                animation="fade"></b-icon> {{ $t('chatroom.label.open_chat_detail') }}
+                    </b-dropdown-item>
                 </b-dropdown>
                 <ChatDetailUpdateChatroom :currentName="chatroomName" @onOk="updateChatroom" />
                 <ChatDetailSetNickname :currentUsers="users" @onOk="setNickname" />
@@ -209,6 +213,9 @@
             },
             closeChatBox() {
                 this.$store.commit('removeChatId')
+            },
+            openChatDetail() {
+                this.$emit('openChatDetail')
             }
         }
     }
@@ -227,6 +234,10 @@
         font-size: 1rem;
         position: relative;
         margin-bottom: 1rem;
+
+        .chat-detail-title {
+            font-weight: bold;
+        }
 
         .chat-detail-action {
             position: absolute;

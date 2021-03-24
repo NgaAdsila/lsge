@@ -127,7 +127,8 @@
       "old_password": "Old password",
       "new_password": "New password",
       "change_avatar": "Change avatar",
-      "edit_profile": "Edit Profile"
+      "edit_profile": "Edit Profile",
+      "change_cover": "Change cover"
     },
     "message": {
       "change_password_success": "Password has been successfully updated. Please login again"
@@ -187,7 +188,8 @@
       "update_chatroom": "Update chatroom's name",
       "set_nickname": "Set nickname",
       "name": "Name",
-      "nickname": "Nickname"
+      "nickname": "Nickname",
+      "open_chat_detail": "Open chatroom detail"
     }
   },
   "friend-list": {

@@ -209,7 +209,7 @@
                     this.$router.replace({ ...this.$route, query })
                 }
             },
-            handleChangeMessage(message) {
+            handleChangeMessage(message, type) {
                 if (!message || message.type === MESSAGE_TYPE.DEFAULT ||
                     message.statuses.every(s => s.userId !== this.currentUserId) || !this.friendList) {
                     return
@@ -220,6 +220,13 @@
                         f.lastMessage = message
                         break
                     }
+                }
+                if (type === ECHO_EVENT.CREATE_MESSAGE
+                    && (!this.chatId || this.chatId !== message.chatroomId)
+                    && message.statuses.some(s => s.userId === this.currentUserId)
+                    && this.$route.name !== 'ChatDetail'
+                ) {
+                    this.$store.commit('setChatId', message.chatroomId)
                 }
             },
             handleAutoReadMessage(data) {
@@ -283,7 +290,7 @@
                       return this.handleCancelFriend(res.data)
                     case ECHO_EVENT.CREATE_MESSAGE:
                     case ECHO_EVENT.IS_READ_MESSAGE:
-                        return this.handleChangeMessage(res.data)
+                        return this.handleChangeMessage(res.data, res.type)
                     case ECHO_EVENT.AUTO_READ:
                         return this.handleAutoReadMessage(res.data)
                     case ECHO_EVENT.BAND_USER:

@@ -15,6 +15,7 @@
                     @createMessage="createMessage"
                     @updateChatroom="updateChatroom"
                     @setNickname="setNickname"
+                    @openChatDetail="openChatDetail"
             />
         </b-overlay>
     </div>
@@ -292,6 +293,9 @@
             scrollToBottom() {
               this.$refs.chatDetailRef.$refs.chatDetailList.scrollTop =
                   this.$refs.chatDetailRef.$refs.chatDetailList.scrollHeight;
+            },
+            openChatDetail() {
+
             }
         }
     }
