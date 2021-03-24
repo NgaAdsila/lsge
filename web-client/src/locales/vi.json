@@ -125,7 +125,9 @@
       "generation": "Thông tin chung",
       "change_password": "Thay đổi mật khẩu",
       "old_password": "Mật khẩu cũ",
-      "new_password": "Mật khẩu mới"
+      "new_password": "Mật khẩu mới",
+      "change_avatar": "Thay đổi ảnh đại diện",
+      "edit_profile": "Cập nhật thông tin cá nhân"
     },
     "message": {
       "change_password_success": "Mật khẩu đã được cập nhật thành công. Vui lòng đăng nhập lại"

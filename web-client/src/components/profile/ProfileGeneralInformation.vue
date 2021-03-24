@@ -4,7 +4,7 @@
                       :label="$t('common.label.username')"
                       label-for="input-username">
             <b-form-input id="input-username" size="sm"
-                          v-model="$v.profile.username.$model"
+                          v-model="$v.profileModel.username.$model"
                           maxlength="40"
                           readonly
                           disabled></b-form-input>
@@ -13,7 +13,7 @@
                       :label="$t('common.label.name')"
                       label-for="input-name">
             <b-form-input id="input-name" size="sm"
-                          v-model="$v.profile.name.$model"
+                          v-model="$v.profileModel.name.$model"
                           maxlength="40"
                           :state="validateState('name')"
                           aria-describedby="name-live-feedback"
@@ -26,12 +26,12 @@
                       :label="$t('common.label.email')"
                       label-for="input-email">
             <b-form-input type="email" id="input-email" size="sm"
-                          v-model="$v.profile.email.$model"
+                          v-model="$v.profileModel.email.$model"
                           :state="validateState('email')"
                           aria-describedby="email-live-feedback"
                           ref="email"></b-form-input>
             <b-form-invalid-feedback id="email-live-feedback">
-                {{ !$v.profile.email.required
+                {{ !$v.profileModel.email.required
                 ? $t('common.validation.required', { name: $t('common.label.email') })
                 : $t('common.validation.invalid_email') }}
             </b-form-invalid-feedback>
@@ -40,14 +40,14 @@
                       :label="$t('common.label.color')"
                       label-for="input-color">
             <b-form-input type="color" id="input-color" size="sm"
-                          v-model="$v.profile.color.$model"
+                          v-model="$v.profileModel.color.$model"
                           ref="color"></b-form-input>
         </b-form-group>
         <b-form-group label-size="sm"
                       :label="$t('common.label.avatar')"
                       label-for="input-avatarFile">
             <b-form-file id="input-avatarFile"
-                         v-model="$v.profile.avatarFile.$model"
+                         v-model="$v.profileModel.avatarFile.$model"
                          :placeholder="$t('common.placeholder.image', { types: allowedExtensionTypes })"
                          @change="onAvatarFileChange"
                          :state="validateStateAvatar"
@@ -58,8 +58,8 @@
                     ? $t('common.validation.invalid_image_type', {types: allowedExtensionTypes})
                     : $t('common.validation.invalid_image_size', {name: $t('common.label.avatar'), max: maxFileSize}) }}
             </b-form-invalid-feedback>
-            <div v-show="profile && profile.avatar" id="avatar-preview">
-                <b-img :src="profile ? profile.avatar : ''" />
+            <div v-show="profileModel.avatar" id="avatar-preview">
+                <b-img :src="profileModel.avatar || ''" />
             </div>
         </b-form-group>
         <div class="text-center mt-4">
@@ -82,10 +82,11 @@
         mixins: [validationMixin],
         props: [
             'profile',
-            'isLoading'
+            'isLoading',
+            'profileModel'
         ],
         validations: {
-            profile: {
+            profileModel: {
                 name: {
                     required
                 },
@@ -122,7 +123,7 @@
         },
         methods: {
             validateState(name) {
-                const { $dirty, $error } = this.$v.profile[name];
+                const { $dirty, $error } = this.$v.profileModel[name];
                 return $dirty ? !$error : null;
             },
             save() {
@@ -134,7 +135,7 @@
             },
             onAvatarFileChange(e) {
                 const file = e.target.files[0]
-                this.profile.avatarFile = file
+                this.$emit('addFileToModel', file)
                 if (!this.imageType(file)) {
                     this.validateStateAvatar = false
                     this.avatarFileError.imageType = true
@@ -150,9 +151,7 @@
                 this.validateStateAvatar = true
                 this.avatarFileError.imageType = false
                 this.avatarFileError.imageSize = false
-                if (file) {
-                    this.profile.avatar = URL.createObjectURL(file)
-                }
+                this.$emit('updateAvatarLinkToModel', file)
             },
             imageType(value) {
                 return !value || FILE_UPLOAD.ALLOWED_EXTENSION_REGEX.test(value.name.toLowerCase())

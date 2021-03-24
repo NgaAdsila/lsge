@@ -132,9 +132,13 @@
                         this.chatWithUserId = user.id;
                         this.$store.commit('removeChatId')
                         ToastHelper.message(this.$t('chatroom.message.init_normal_success', {name: user.name}))
-                        setTimeout(() => {
+                        setTimeout(async (self = this) => {
                             this.$refs.friendList.$refs.friendListButton.click()
-                            this.$store.commit('setChatId', res.data.id)
+                            if (this.$route.name === 'ChatDetail') {
+                                await self.$router.push({ name: 'ChatDetail', params: { id: res.data.id } })
+                            } else {
+                                this.$store.commit('setChatId', res.data.id)
+                            }
                         }, 500);
                     } else {
                         ToastHelper.message(res.message, VARIANT.DANGER)
@@ -389,5 +393,6 @@
     position: fixed;
     bottom: 10%;
     right: 2.2%;
+    z-index: 4;
 }
 </style>

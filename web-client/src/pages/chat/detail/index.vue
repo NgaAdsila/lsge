@@ -72,6 +72,7 @@
             }
         },
         created() {
+            this.$store.commit('removeChatId')
             this.initData()
             this.$nextTick(() => {
                 this.$refs.chatDetailRef

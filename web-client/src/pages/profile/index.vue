@@ -1,8 +1,7 @@
 <template>
     <div class="profile-page">
-        <b-breadcrumb :items="crumbItems"></b-breadcrumb>
         <b-overlay :show="isLoading" rounded="sm" spinner-variant="primary">
-            <ProfileComponent
+            <UserProfile
                     :profile="profile"
                     :isLoading="isLoading"
                     @save="save"
@@ -14,27 +13,16 @@
 <script>
     import {changePassword, getCurrentUser, signOut} from "../../services/user_service";
     import {RESPONSE, VARIANT} from "../../services/constants";
-    import ProfileComponent from "../../components/profile/ProfileComponent";
     import { update } from "../../services/user_service";
     import ToastHelper from "@/helper/ToastHelper";
+    import UserProfile from "../../components/profile/Profile";
 
     export default {
         name: "Profile",
-        components: {ProfileComponent},
+        components: {UserProfile},
         data() {
             return {
-                oldProfile: {},
                 profile: null,
-                crumbItems: [
-                    {
-                        text: this.$t('common.label.home'),
-                        to: { name: 'Home' }
-                    },
-                    {
-                        text: this.$t('common.label.profile'),
-                        active: true
-                    }
-                ],
                 isLoading: true
             }
         },
@@ -49,7 +37,6 @@
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
                         this.profile = res.data;
                         this.profile.avatarFile = null
-                        this.oldProfile = {...res.data};
                     } else {
                         console.log('Get profile error: ', res.message);
                     }
@@ -59,18 +46,18 @@
                     this.isLoading = false;
                 }
             },
-            async save() {
+            async save(profileModel) {
                 try {
                     this.isLoading = true;
-                    if (JSON.stringify(this.profile) === JSON.stringify(this.oldProfile)) {
+                    if (this.isNotChangeProfile(profileModel)) {
+                        this.$bvModal.hide('edit-profile-modal');
                         ToastHelper.message(this.$t('common.message.update_success'))
                         return;
                     }
-
-                    const res = await update(this.profile);
+                    const res = await update(profileModel);
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
-                        this.oldProfile = {...this.profile};
-                        this.profile.avatarFile = null
+                        this.profile = {...this.profile, ...profileModel}
+                        this.$bvModal.hide('edit-profile-modal');
                         ToastHelper.message(this.$t('common.message.update_success'))
                     } else {
                         ToastHelper.message(res.message, VARIANT.DANGER)
@@ -82,13 +69,20 @@
                 }
             },
 
+            isNotChangeProfile(profileModel) {
+                return this.profile.name === profileModel.name.trim()
+                    && this.profile.email === profileModel.email.trim()
+                    && this.profile.color === profileModel.color
+                    && this.profile.username === profileModel.username.trim()
+                    && !profileModel.avatarFile
+            },
+
             async changePassword(data) {
                 try {
                     this.isLoading = true;
                     data.id = this.profile.id;
                     const res = await changePassword(data);
                     if (res.status === RESPONSE.STATUS.SUCCESS) {
-                        this.oldProfile = {...this.profile};
                         await signOut();
                         await ToastHelper.message(this.$t('profile.message.change_password_success'))
                         setTimeout(async (self = this) => {

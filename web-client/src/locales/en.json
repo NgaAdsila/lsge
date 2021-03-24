@@ -125,7 +125,9 @@
       "generation": "General information",
       "change_password": "Change password",
       "old_password": "Old password",
-      "new_password": "New password"
+      "new_password": "New password",
+      "change_avatar": "Change avatar",
+      "edit_profile": "Edit Profile"
     },
     "message": {
       "change_password_success": "Password has been successfully updated. Please login again"
