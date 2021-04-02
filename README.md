@@ -28,3 +28,9 @@
     Echo server: http://localhost:6001  
     Laravel API server: http://localhost:8000  
     Redis: http://localhost:6379
+    
+8. Build:  
+    >`mvn -N io.takari:maven:wrapper`: add .mvn folder for build.  
+    `git add -f .mvn`  
+    `./mvnw clean package`: Build project  
+    `java -jar target/lsge.war`: run war file.
